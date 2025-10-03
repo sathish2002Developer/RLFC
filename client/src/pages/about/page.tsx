@@ -362,7 +362,7 @@ const About = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["journey", "vision", "leadership", "management"];
-      const scrollPos = 100; // Adjust offset if needed
+      const scrollPos = window.scrollY+200; // Adjust offset if needed
 
       for (const sec of sections) {
         const section = document.getElementById(sec);
@@ -580,7 +580,7 @@ const About = () => {
             </div>
 
             <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
-              <div className="max-w-7xl w-full">
+              <div className="max-w-6xl w-full">
                 <img
                   src={journeyImage}
                   alt="Refex Group Milestones Timeline"
@@ -593,7 +593,7 @@ const About = () => {
       </section>
 
       {/* Vision Section */}
-      <section id="vision" className="py-2 bg-white relative overflow-hidden">
+      <section id="vision" className=" bg-white relative overflow-hidden">
          <h2 className="text-3xl py-3 text-center md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
          Our Vision & Our Mission
         </h2>
