@@ -351,6 +351,36 @@ const About = () => {
     return colorMap[color as keyof typeof colorMap] || colorMap['refex-blue'];
   };
 
+   const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  // Highlight tab on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["journey", "vision", "leadership", "management"];
+      const scrollPos = window.scrollY; // Adjust offset if needed
+
+      for (const sec of sections) {
+        const section = document.getElementById(sec);
+        if (section) {
+          if (
+            scrollPos >= section.offsetTop &&
+            scrollPos < section.offsetTop + section.offsetHeight
+          ) {
+            setActiveTab(sec);
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -474,124 +504,96 @@ const About = () => {
  
 
       {/* About RLS Section */}
-    
 
-      {/* Tab Navigation */}
-       <section className="py-8 bg-white border-b border-gray-200 sticky top-20 z-40 tab-content-section">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-center overflow-x-auto pb-2"
-                   data-aos="fade-in"
-                   data-aos-duration="800">
-                <div className="flex space-x-3 md:space-x-6 min-w-max px-4 md:px-0">
-                  <button
-                    onClick={() => handleTabChange('journey')}
-                    className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                      activeTab === 'journey'
-                        ? 'bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110'
-                        : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
-                    }`}
-                    data-aos="zoom-in"
-                    data-aos-duration="600"
-                    data-aos-delay="100"
-                  >
-                    <i className="ri-roadmap-line mr-1 md:mr-2"></i>
-                    <span className="hidden sm:inline">Our Journey</span>
-                    <span className="sm:hidden">Journey</span>
-                  </button>
-                  <button
-                    onClick={() => handleTabChange('vision')}
-                    className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                      activeTab === 'vision'
-                        ? 'bg-gradient-to-r from-[#7dc244] to-[#7dc244] text-white shadow-xl transform scale-110'
-                        : 'text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20'
-                    }`}
-                    data-aos="zoom-in"
-                    data-aos-duration="600"
-                    data-aos-delay="200"
-                  >
-                    <i className="ri-eye-line mr-1 md:mr-2"></i>
-                    <span className="hidden sm:inline">Our Vision &amp; Mission</span>
-                    <span className="sm:hidden">Vision</span>
-                  </button>
-                  <button
-                    onClick={() => handleTabChange('leadership')}
-                    className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                      activeTab === 'leadership'
-                        ? 'bg-gradient-to-r from-[#ee6a31] to-[#ee6a31] text-white shadow-xl transform scale-110'
-                        : 'text-gray-600 hover:text-[#ee6a31] hover:bg-orange-50 hover:shadow-lg border border-[#ee6a31]/20'
-                    }`}
-                    data-aos="zoom-in"
-                    data-aos-duration="600"
-                    data-aos-delay="300"
-                  >
-                    <i className="ri-team-line mr-1 md:mr-2"></i>
-                    <span className="hidden sm:inline">Leadership Team</span>
-                    <span className="sm:hidden">Leadership</span>
-                  </button>
-                  <button
-                    onClick={() => handleTabChange('management')}
-                    className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                      activeTab === 'management'
-                        ? 'bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110'
-                        : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
-                    }`}
-                    data-aos="zoom-in"
-                    data-aos-duration="600"
-                    data-aos-delay="400"
-                  >
-                    <i className="ri-user-star-line mr-1 md:mr-2"></i>
-                    <span className="hidden sm:inline">Management Team</span>
-                    <span className="sm:hidden">Management</span>
-                  </button>
-                </div>
+         <section className="py-8 bg-white border-b border-gray-200 sticky top-20 z-40 tab-content-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center overflow-x-auto pb-2" data-aos="fade-in" data-aos-duration="800">
+            <div className="flex space-x-3 md:space-x-6 min-w-max px-4 md:px-0">
+              <button
+                onClick={() => scrollToSection("journey")}
+                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+                  activeTab === "journey"
+                    ? "bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110"
+                    : "text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20"
+                }`}
+              >
+                <i className="ri-roadmap-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">Our Journey</span>
+                <span className="sm:hidden">Journey</span>
+              </button>
+
+              <button
+                onClick={() => scrollToSection("vision")}
+                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+                  activeTab === "vision"
+                    ? "bg-gradient-to-r from-[#7dc244] to-[#7dc244] text-white shadow-xl transform scale-110"
+                    : "text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20"
+                }`}
+              >
+                <i className="ri-eye-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">Our Vision & Mission</span>
+                <span className="sm:hidden">Vision</span>
+              </button>
+
+              <button
+                onClick={() => scrollToSection("leadership")}
+                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+                  activeTab === "leadership"
+                    ? "bg-gradient-to-r from-[#ee6a31] to-[#ee6a31] text-white shadow-xl transform scale-110"
+                    : "text-gray-600 hover:text-[#ee6a31] hover:bg-orange-50 hover:shadow-lg border border-[#ee6a31]/20"
+                }`}
+              >
+                <i className="ri-team-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">Leadership Team</span>
+                <span className="sm:hidden">Leadership</span>
+              </button>
+
+              <button
+                onClick={() => scrollToSection("management")}
+                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+                  activeTab === "management"
+                    ? "bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110"
+                    : "text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20"
+                }`}
+              >
+                <i className="ri-user-star-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">Management Team</span>
+                <span className="sm:hidden">Management</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Journey Section */}
+      <section id="journey" className="py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-12">
+            <div className="text-center mb-12" data-aos="fade-down" data-aos-duration="1000">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 hover:scale-105 transition-transform duration-500 text-gray-800 font-montserrat">
+                Our Journey
+              </h2>
+              <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
+                From pioneering refrigerants to transforming healthcare - a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence from 2022-23
+              </p>
+            </div>
+
+            <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
+              <div className="max-w-4xl w-full">
+                <img
+                  src={journeyImage}
+                  alt="Refex Group Milestones Timeline"
+                  className="w-full h-auto object-contain  hover:shadow-3xl transition-all duration-500 transform hover:scale-105"
+                />
               </div>
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
-          {/* Tab Content */}
-          {activeTab === 'journey' && (
-            <section className="py-16 bg-white">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="space-y-12">
-                  <div className="text-center mb-12"
-                       data-aos="fade-down"
-                       data-aos-duration="1000">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 hover:scale-105 transition-transform duration-500 text-gray-800 font-montserrat">
-                      Our Journey
-                    </h2>
-                    <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
-                      From pioneering refrigerants to transforming healthcare - a roadmap of innovation,
-                      growth, and strategic evolution with emphasis on pharmaceutical excellence from
-                      2022-23
-                    </p>
-                  </div>
-
-                  {/* Milestone Image */}
-                  <div className="flex justify-center mb-16"
-                       data-aos="fade-up"
-                       data-aos-duration="1200">
-                    <div className="max-w-4xl w-full">
-                      <img 
-                        src={journeyImage}
-                        alt="Refex Group Milestones Timeline"
-                        className="w-full h-auto object-contain rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-105"
-                      />
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Vision & Mission Tab */}
-          {activeTab === 'vision' && (
-            <>
-              {/* Vision & Mission Hero Section */}
-            
-
-              {/* Vision & Mission Content */}
-              <section className="py-20 bg-white relative overflow-hidden">
+      {/* Vision Section */}
+      <section id="vision" className="py-20 bg-white relative overflow-hidden">
+         <section className="py-20 bg-white relative overflow-hidden">
                 <div className="absolute inset-0">
                   <div 
                     className="absolute top-20 left-10 w-96 h-96 bg-[#2879b6]/10 rounded-full blur-3xl"
@@ -933,12 +935,13 @@ const About = () => {
                   </div>
                 </div>
               </section>
-            </>
-          )}
+              
+      </section>
 
-          {/* Leadership Tab */}
-        {activeTab === 'leadership' && (
-  <section className="py-16 bg-white">
+      {/* Leadership Section */}
+      <section id="leadership" className="bg-white">
+        {/* Add your full leadership content here, same as before */}
+        
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
         className="text-center mb-16"
@@ -1045,24 +1048,14 @@ const About = () => {
         </div>
       </div>
 
-      <div
-        className="text-center mt-16"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-delay="600"
-      >
-        <p className="text-gray-600 font-montserrat">
-          <i className="ri-cursor-line mr-2"></i>
-          Click on any leader to view their detailed profile
-        </p>
-      </div>
+     
     </div>
   </section>
-)}
+     
 
-{/* Management Tab */}
-{activeTab === "management" && (
-  <section className="py-16 bg-white">
+      {/* Management Section */}
+      <section id="management" className=" bg-white">
+   
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
         className="text-center mb-16"
@@ -1130,7 +1123,23 @@ const About = () => {
       </div>
     </div>
   </section>
-)}
+     
+    
+
+      {/* Tab Navigation */}
+     
+
+          {/* Tab Content */}
+      
+
+          {/* Vision & Mission Tab */}
+         
+
+          {/* Leadership Tab */}
+      
+
+{/* Management Tab */}
+
 
 
           {/* Leadership/Management Popup Modal */}

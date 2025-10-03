@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 
@@ -28,6 +28,29 @@ const Capabilities = () => {
     };
 
     initAOS();
+  }, []);
+
+  const manufacturingRef = useRef(null);
+  const researchRef = useRef(null);
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const manufacturingTop = manufacturingRef.current?.getBoundingClientRect().top || 0;
+      const researchTop = researchRef.current?.getBoundingClientRect().top || 0;
+
+      // Adjust offset if you have a sticky header
+      const offset = 150;
+
+      if (researchTop - offset <= 0) {
+        setActiveTab('research');
+      } else if (manufacturingTop - offset <= 0) {
+        setActiveTab('manufacturing');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleTabChange = (tab: string) => {
@@ -245,48 +268,35 @@ const Capabilities = () => {
       {/* Tab Navigation */}
       <section className="py-8 bg-white border-b border-gray-200 sticky top-20 z-40 tab-content-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center overflow-x-auto pb-2"
-               data-aos="fade-in"
-               data-aos-duration="800">
+          <div className="flex justify-center overflow-x-auto pb-2">
             <div className="flex space-x-3 md:space-x-6 min-w-max px-4 md:px-0">
               <button
-                onClick={() => handleTabChange('manufacturing')}
+                onClick={() => manufacturingRef.current.scrollIntoView({ behavior: 'smooth' })}
                 className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
                   activeTab === 'manufacturing'
                     ? 'bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110'
                     : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
                 }`}
-                data-aos="zoom-in"
-                data-aos-duration="600"
-                data-aos-delay="100"
               >
-                <i className="ri-factory-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Manufacturing Excellence</span>
-                <span className="sm:hidden">Manufacturing</span>
+                Manufacturing Excellence
               </button>
+
               <button
-                onClick={() => handleTabChange('research')}
+                onClick={() => researchRef.current.scrollIntoView({ behavior: 'smooth' })}
                 className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
                   activeTab === 'research'
                     ? 'bg-gradient-to-r from-[#7dc244] to-[#7dc244] text-white shadow-xl transform scale-110'
                     : 'text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20'
                 }`}
-                data-aos="zoom-in"
-                data-aos-duration="600"
-                data-aos-delay="200"
               >
-                <i className="ri-microscope-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Research & Development Excellence</span>
-                <span className="sm:hidden">R&D</span>
+                Research & Development Excellence
               </button>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Manufacturing Excellence Tab */}
-      {activeTab === 'manufacturing' && (
-        <section className="py-20 bg-white">
+        <section ref={manufacturingRef} className="py-5 bg-white">
+        
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16"
                  data-aos="fade-down"
@@ -359,18 +369,18 @@ const Capabilities = () => {
                         <div className="flex flex-wrap gap-1 mb-4">
                           {facility.approvals.slice(0, 3).map((approval, idx) => (
                             <div key={idx} className="flex items-center justify-center w-12 h-12 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-                              {approval === 'WHO' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO" className="w-12 h-12 object-contain" />}
-                              {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQqQxQqQxQqQxQ&q" alt="GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'WHO' && <img src="https://cdn.who.int/media/images/default-source/infographics/who-emblem.png?sfvrsn=877bb56a_2" alt="WHO" className="w-12 h-12 object-contain" />}
+                              {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" />}
                               {approval === 'WC' && <div className="text-xs font-bold text-blue-600">WC</div>}
-                              {approval === 'ISO 9001' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="ISO 9001" className="w-12 h-12 object-contain" />}
+                              {approval === 'ISO 9001' && <img src="https://png.pngtree.com/png-clipart/20250514/original/pngtree-iso-9001-certified-company-logo-badge-vector-png-image_20971536.png" alt="ISO 9001" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 18001' && <div className="text-xs font-bold text-green-600">18001</div>}
                               {approval === 'ISO 45001' && <div className="text-xs font-bold text-orange-600">45001</div>}
-                              {approval === 'USFDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'WHO GMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'USFDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'WHO GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9QbILJkoYoy1lqldp-rZ2agfRUer0fOkwQ&s" alt="WHO GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 14001' && <div className="text-xs font-bold text-green-600">14001</div>}
                               {approval === 'ISO 22301' && <div className="text-xs font-bold text-purple-600">22301</div>}
-                              {approval === 'USFDA inspection (2022, compliant)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'USFDA inspection (2022, compliant)' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'EUGMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'FDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="FDA" className="w-12 h-12 object-contain" />}
                               {approval === 'ANVISA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Anvisa_logo.svg/120px-Anvisa_logo.svg.png" alt="ANVISA" className="w-12 h-12 object-contain" />}
@@ -475,17 +485,17 @@ const Capabilities = () => {
                           {facility.approvals.map((approval, idx) => (
                             <div key={idx} className="flex items-center justify-center w-12 h-12 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200">
                               {approval === 'WHO' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO" className="w-12 h-12 object-contain" />}
-                              {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'WC' && <div className="text-xs font-bold text-blue-600">WC</div>}
                               {approval === 'ISO 9001' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQxQxQ&s" alt="ISO 9001" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 18001' && <div className="text-xs font-bold text-green-600">18001</div>}
                               {approval === 'ISO 45001' && <div className="text-xs font-bold text-orange-600">45001</div>}
-                              {approval === 'USFDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'WHO GMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'USFDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'WHO GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9QbILJkoYoy1lqldp-rZ2agfRUer0fOkwQ&s" alt="WHO GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 14001' && <div className="text-xs font-bold text-green-600">14001</div>}
                               {approval === 'ISO 22301' && <div className="text-xs font-bold text-purple-600">22301</div>}
-                              {approval === 'USFDA inspection (2022, compliant)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'USFDA inspection (2022, compliant)' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'EUGMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'FDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="FDA" className="w-12 h-12 object-contain" />}
                               {approval === 'ANVISA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Anvisa_logo.svg/120px-Anvisa_logo.svg.png" alt="ANVISA" className="w-12 h-12 object-contain" />}
@@ -582,15 +592,15 @@ const Capabilities = () => {
                               {approval === 'ISO 9001' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQxQxQ&s" alt="ISO 9001" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 18001' && <div className="text-xs font-bold text-green-600">18001</div>}
                               {approval === 'ISO 45001' && <div className="text-xs font-bold text-orange-600">45001</div>}
-                              {approval === 'USFDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'WHO GMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'USFDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'WHO GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9QbILJkoYoy1lqldp-rZ2agfRUer0fOkwQ&s" alt="WHO GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'ISO 14001' && <div className="text-xs font-bold text-green-600">14001</div>}
                               {approval === 'ISO 22301' && <div className="text-xs font-bold text-purple-600">22301</div>}
                               {approval === 'USFDA inspection (2022, compliant)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                              {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                               {approval === 'EUGMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU GMP" className="w-12 h-12 object-contain" />}
-                              {approval === 'FDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="FDA" className="w-12 h-12 object-contain" />}
-                              {approval === 'ANVISA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Anvisa_logo.svg/120px-Anvisa_logo.svg.png" alt="ANVISA" className="w-12 h-12 object-contain" />}
+                              {approval === 'FDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="FDA" className="w-12 h-12 object-contain" />}
+                              {approval === 'ANVISA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlCWnK7KyQcEMaGOqRiPloecKNLbYYKVbg5w&s" alt="ANVISA" className="w-12 h-12 object-contain" />}
                               {approval === 'PMDA' && <div className="text-xs font-bold text-red-600">PMDA</div>}
                               {approval === 'Health Canada' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/120px-Flag_of_Canada_%28Pantone%29.svg.png" alt="Health Canada" className="w-12 h-12 object-contain" />}
                               {approval === 'NCPHP (EU)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU" className="w-12 h-12 object-contain" />}
@@ -613,13 +623,11 @@ const Capabilities = () => {
               </div>
             </div>
           </div>
-        </section>
-      )}
+     
+      </section>
 
-      {/* Research & Development Excellence Tab */}
-      {activeTab === 'research' && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section ref={researchRef} className="py-5 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16"
                  data-aos="fade-down"
                  data-aos-duration="1000">
@@ -755,58 +763,12 @@ const Capabilities = () => {
               </div>
             </div>
           </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section 
-        className="py-20 bg-cover bg-center bg-no-repeat relative"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('https://readdy.ai/api/search-image?query=Pharmaceutical%20partnership%20and%20collaboration%20concept%20with%20handshake%2C%20modern%20laboratory%20background%2C%20blue%20and%20green%20gradient%20lighting%2C%20professional%20healthcare%20business%20environment%2C%20global%20pharmaceutical%20cooperation&width=1920&height=600&seq=capabilities-cta&orientation=landscape')`
-        }}
-        data-aos="fade-in"
-        data-aos-duration="1000"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 
-            className="text-3xl md:text-4xl font-bold text-white mb-6 font-montserrat"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="200"
-          >
-            Partner with Excellence
-          </h2>
-          <p 
-            className="text-xl text-white/90 max-w-3xl mx-auto mb-8 font-montserrat"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="400"
-          >
-            Experience the power of advanced technology, world-class manufacturing, and innovative R&amp;D capabilities
-          </p>
-          <div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="600"
-          >
-            <a 
-              href="/contact" 
-              className="bg-[#2879b6] hover:bg-[#1e5f8c] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transition-all duration-300 whitespace-nowrap cursor-pointer shadow-md hover:shadow-xl transform hover:scale-105 font-montserrat"
-            >
-              <i className="ri-phone-line mr-2"></i>
-              Discuss Your Needs
-            </a>
-            <a 
-              href="/products" 
-              className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/30 transition-all duration-300 whitespace-nowrap cursor-pointer border border-white/30 font-montserrat"
-            >
-              <i className="ri-eye-line mr-2"></i>
-              Explore Our Products
-            </a>
-          </div>
-        </div>
+        
+        {/* Research & Development Excellence content here */}
       </section>
+     
+
+
 
       {/* Facility Details Popup Modal */}
       {selectedFacility && (
@@ -877,21 +839,21 @@ const Capabilities = () => {
                     <div className="flex flex-wrap gap-2">
                       {selectedFacility.approvals.map((approval: string, index: number) => (
                         <div key={index} className="flex items-center justify-center w-12 h-12 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-sm">
-                          {approval === 'WHO' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO" className="w-15 h-15 object-contain" />}
-                          {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQxQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                          {approval === 'WHO' && <img src="https://cdn.who.int/media/images/default-source/infographics/who-emblem.png?sfvrsn=877bb56a_2" alt="WHO" className="w-15 h-15 object-contain" />}
+                          {approval === 'GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                           {approval === 'WC' && <div className="text-sm font-bold text-blue-600">WC</div>}
-                          {approval === 'ISO 9001' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQxQxQ&s" alt="ISO 9001" className="w-12 h-12 object-contain" />}
+                          {approval === 'ISO 9001' && <img src="https://png.pngtree.com/png-clipart/20250514/original/pngtree-iso-9001-certified-company-logo-badge-vector-png-image_20971536.png" alt="ISO 9001" className="w-12 h-12 object-contain" />}
                           {approval === 'ISO 18001' && <div className="text-sm font-bold text-green-600">18001</div>}
                           {approval === 'ISO 45001' && <div className="text-sm font-bold text-orange-600">45001</div>}
-                          {approval === 'USFDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                          {approval === 'WHO GMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/WHO_logo_logotype.svg/120px-WHO_logo_logotype.svg.png" alt="WHO GMP" className="w-12 h-12 object-contain" />}
+                          {approval === 'USFDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJd3izOIMXlvfj_MREfBvhy5fJ4phkTkpbA&s" alt="USFDA" className="w-12 h-12 object-contain" />}
+                          {approval === 'WHO GMP' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9QbILJkoYoy1lqldp-rZ2agfRUer0fOkwQ&s" alt="WHO GMP" className="w-12 h-12 object-contain" />}
                           {approval === 'ISO 14001' && <div className="text-sm font-bold text-green-600">14001</div>}
                           {approval === 'ISO 22301' && <div className="text-sm font-bold text-purple-600">22301</div>}
                           {approval === 'USFDA inspection (2022, compliant)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="USFDA" className="w-12 h-12 object-contain" />}
-                          {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvQqQxQqQxQqQxQqQxQqQxQqQxQqQxQqQxQ&s" alt="GMP" className="w-12 h-12 object-contain" />}
+                          {approval === 'GMP Standards' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSTmW3F6WZRaOMqxNyCwCZ-drvJugYsocqlg&s" alt="GMP" className="w-12 h-12 object-contain" />}
                           {approval === 'EUGMP' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU GMP" className="w-12 h-12 object-contain" />}
-                          {approval === 'FDA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/US-FoodAndDrugAdministration-Logo.svg/120px-US-FoodAndDrugAdministration-Logo.svg.png" alt="FDA" className="w-12 h-12 object-contain" />}
-                          {approval === 'ANVISA' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Anvisa_logo.svg/120px-Anvisa_logo.svg.png" alt="ANVISA" className="w-12 h-12 object-contain" />}
+                          {approval === 'FDA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThLGbW32p4xWTiioDa_PzEOrIB_pp9-UoHUQ&s" alt="FDA" className="w-12 h-12 object-contain" />}
+                          {approval === 'ANVISA' && <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlCWnK7KyQcEMaGOqRiPloecKNLbYYKVbg5w&s" alt="ANVISA" className="w-12 h-12 object-contain" />}
                           {approval === 'PMDA' && <div className="text-sm font-bold text-red-600">PMDA</div>}
                           {approval === 'Health Canada' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/120px-Flag_of_Canada_%28Pantone%29.svg.png" alt="Health Canada" className="w-12 h-12 object-contain" />}
                           {approval === 'NCPHP (EU)' && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/120px-Flag_of_Europe.svg.png" alt="EU" className="w-12 h-12 object-contain" />}
