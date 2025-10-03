@@ -362,10 +362,11 @@ const About = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["journey", "vision", "leadership", "management"];
-      const scrollPos = window.scrollY; // Adjust offset if needed
+      const scrollPos = 100; // Adjust offset if needed
 
       for (const sec of sections) {
         const section = document.getElementById(sec);
+         console.log("ssss", section)
         if (section) {
           if (
             scrollPos >= section.offsetTop &&
@@ -579,7 +580,7 @@ const About = () => {
             </div>
 
             <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
-              <div className="max-w-4xl w-full">
+              <div className="max-w-7xl w-full">
                 <img
                   src={journeyImage}
                   alt="Refex Group Milestones Timeline"
@@ -592,8 +593,11 @@ const About = () => {
       </section>
 
       {/* Vision Section */}
-      <section id="vision" className="py-20 bg-white relative overflow-hidden">
-         <section className="py-20 bg-white relative overflow-hidden">
+      <section id="vision" className="py-2 bg-white relative overflow-hidden">
+         <h2 className="text-3xl py-3 text-center md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
+         Our Vision & Our Mission
+        </h2>
+         <section className="py-2 bg-white relative overflow-hidden">
                 <div className="absolute inset-0">
                   <div 
                     className="absolute top-20 left-10 w-96 h-96 bg-[#2879b6]/10 rounded-full blur-3xl"
@@ -927,10 +931,7 @@ const About = () => {
                       data-aos-duration="1000"
                       data-aos-delay="1200"
                     >
-                      <button className="inline-flex items-center px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-[#2879b6] to-[#7dc244] text-white rounded-2xl font-semibold text-base lg:text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group font-montserrat whitespace-nowrap">
-                        <i className="ri-arrow-right-line mr-2 lg:mr-3 text-lg lg:text-xl group-hover:animate-bounce"></i>
-                        <span>Discover Our Impact</span>
-                      </button>
+                     
                     </div>
                   </div>
                 </div>
