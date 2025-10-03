@@ -1,0 +1,93 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    font-weight: 700;
+  }
+  
+  h2 {
+    font-weight: 600;
+  }
+  
+  .font-light {
+    font-weight: 300;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .font-extrabold {
+    font-weight: 800;
+  }
+  
+  .font-black {
+    font-weight: 900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-refex-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-refex-blue-dark transition duration-200 cursor-pointer whitespace-nowrap;
+  }
+  
+  .btn-secondary {
+    @apply bg-refex-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition duration-200 cursor-pointer whitespace-nowrap;
+  }
+  
+  .btn-accent {
+    @apply bg-refex-orange text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-200 cursor-pointer whitespace-nowrap;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-refex-blue text-refex-blue px-6 py-3 rounded-lg font-semibold hover:bg-refex-blue hover:text-white transition duration-200 cursor-pointer whitespace-nowrap;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  
+  .gradient-primary {
+    background: linear-gradient(135deg, #2879b6 0%, #7dc244 50%, #ee6a31 100%);
+  }
+  
+  .gradient-blue {
+    background: linear-gradient(135deg, #2879b6 0%, #4a90c2 100%);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, #2879b6 0%, #7dc244 50%, #ee6a31 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
