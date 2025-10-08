@@ -126,7 +126,7 @@ const Contact = () => {
                 {data.contactHero.description}
               </p>
             )}
-            <div 
+            {/* <div 
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               data-aos="fade-up"
               data-aos-duration="1000"
@@ -146,7 +146,7 @@ const Contact = () => {
                 <i className="ri-map-pin-line mr-2"></i>
                 Visit Our Office
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

@@ -24,20 +24,22 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img
-              src="https://static.readdy.ai/image/fee7c46f86ab0abd00d243769e1016cd/1d58d4112a718d2b16f06f3a09a7875a.png"
-              alt="Refex Life Sciences"
-              className="h-16 w-auto"
-            />
+            <Link to="/" className="block">
+              <img
+                src="https://static.readdy.ai/image/fee7c46f86ab0abd00d243769e1016cd/1d58d4112a718d2b16f06f3a09a7875a.png"
+                alt="Refex Life Sciences"
+                className="h-16 w-auto hover:opacity-80 transition-opacity duration-300"
+              />
+            </Link>
           </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 items-center">
           {navItems.map((item) => {
   const isActive = currentPath === item.href;
   const linkClass = `font-semibold text-sm transition-all duration-300 cursor-pointer whitespace-nowrap ${
     isActive ? "text-blue-600" : "text-gray-700 hover:text-green-600"
-  } ${item.admin ? "text-orange-600 hover:text-orange-700" : ""}`;
+  }`;
 
   if (item.name === "About Us") {
     return (
@@ -49,11 +51,11 @@ export default function Header() {
         >
           {item.name}
         </Link>
-        <div className="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-white shadow-lg rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
           <div className="py-2">
             <Link
               to="/about"
-              state={{ activeTab: 'journey' }}
+              state={{  activeTab: 'journey'}}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
@@ -61,7 +63,7 @@ export default function Header() {
             </Link>
             <Link
               to="/about"
-              state={{ activeTab: 'vision' }}
+              state={{  activeTab: 'vision' }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
@@ -77,7 +79,7 @@ export default function Header() {
             </Link>
             <Link
               to="/about"
-              state={{ activeTab: 'management' }}
+              state={{ activeTab:"management" }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
@@ -138,7 +140,7 @@ export default function Header() {
               const isActive = currentPath === item.href;
               const linkClass = `block font-semibold text-sm transition-all duration-300 ${
                 isActive ? "text-blue-600" : "text-gray-700 hover:text-green-600"
-              } ${item.admin ? "text-orange-600 hover:text-orange-700" : ""}`;
+              }`;
 
               if (item.name === "About Us") {
                 return (
@@ -151,10 +153,10 @@ export default function Header() {
                     >
                       {item.name}
                     </Link>
-                    <div className="ml-4 space-y-2">
+                    <div className="ml-4 space-y-1 border-l-2 border-gray-200 pl-3">
                       <Link
                         to="/about"
-                        state={{ activeTab: 'journey' }}
+                        state={{ scrollTop: true }}
                         className="block text-sm text-gray-700 hover:text-green-600"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
@@ -163,7 +165,7 @@ export default function Header() {
                       </Link>
                     <Link
                       to="/about"
-                      state={{ activeTab: 'vision' }}
+                      state={{ scrollTop: true }}
                       className="block text-sm text-gray-700 hover:text-green-600"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                       onClick={() => setMobileMenuOpen(false)}
@@ -172,7 +174,7 @@ export default function Header() {
                     </Link>
                       <Link
                         to="/about"
-                        state={{ activeTab: 'leadership' }}
+                        state={{ scrollTop: true }}
                         className="block text-sm text-gray-700 hover:text-green-600"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
@@ -181,7 +183,7 @@ export default function Header() {
                       </Link>
                     <Link
                       to="/about"
-                      state={{ activeTab: 'management' }}
+                      state={{ scrollTop: true }}
                       className="block text-sm text-gray-700 hover:text-green-600"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                       onClick={() => setMobileMenuOpen(false)}

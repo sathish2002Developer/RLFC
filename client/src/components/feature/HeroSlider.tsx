@@ -131,23 +131,27 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
           </div>
 
           {/* Content - vertically centered, stable on scroll */}
-          <div className="parallax-content relative z-10 h-full flex items-center">
-            <div className="w-full px-6 lg:px-8" style={{
-               marginTop: '300px',
-              
-              
-            }}>
-              <div className={`max-w-4xl text-left transition-all duration-600 ease-out ${
+          <div className="parallax-content relative z-10 h-full flex items-center justify-center lg:justify-start">
+            <div className="w-full px-6 lg:px-8 lg:ml-24 ">
+              <div className={`max-w-4xl text-center lg:mt-20 lg:text-left transition-all duration-600 ease-out ${
                 index === currentSlide 
                   ? 'transform translate-y-0 opacity-100 scale-100' 
                   : 'transform translate-y-8 opacity-0 scale-90'
               }`}>
-                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-montserrat transition-all duration-800 ease-out ${
+                <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white leading-tight font-montserrat transition-all duration-800 ease-out ${
                   index === currentSlide ? 'transform scale-100 opacity-100' : 'transform scale-90 opacity-0'
                 }`}
                 style={{ transitionDelay: index === currentSlide ? '200ms' : '0ms' }}>
                   {slide.title}
                 </h1>
+                {slide.subtitle && (
+                  <p className={`mt-3 sm:mt-4 text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-montserrat transition-all duration-800 ease-out ${
+                    index === currentSlide ? 'transform scale-100 opacity-100' : 'transform scale-90 opacity-0'
+                  }`}
+                  style={{ transitionDelay: index === currentSlide ? '400ms' : '0ms' }}>
+                    {slide.subtitle}
+                  </p>
+                )}
               </div>
             </div>
           </div>

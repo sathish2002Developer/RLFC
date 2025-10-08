@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import  journeyImage from "../../images/jou.png"
@@ -398,14 +399,14 @@ const About = () => {
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#2879b6]/20 to-transparent rounded-3xl"></div>
-                          <div 
+                          {/* <div 
                             className="absolute -top-4 -right-4 lg:-top-6 lg:-right-6 w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-[#2879b6] to-[#2879b6] rounded-2xl lg:rounded-3xl flex items-center justify-center shadow-2xl"
                             data-aos="zoom-in"
                             data-aos-duration="800"
                             data-aos-delay="800"
                           >
                             <i className="ri-eye-line text-2xl lg:text-3xl text-white"></i>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       
@@ -481,13 +482,13 @@ const About = () => {
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#7dc244]/20 to-transparent rounded-3xl"></div>
-                          <div 
+                          {/* <div 
                             className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-br from-[#7dc244] to-[#7dc244] rounded-3xl flex items-center justify-center shadow-2xl"
                             data-aos="fade-up"
                             data-aos-duration="800"
                           >
                             <i className="ri-eye-line  text-2xl text-white"></i>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       

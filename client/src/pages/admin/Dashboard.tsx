@@ -34,13 +34,14 @@ export default function AdminDashboard() {
   const [activeHomeSection, setActiveHomeSection] = useState('hero-slides');
   const [activeAboutSection, setActiveAboutSection] = useState('about-sections');
   const [activeCapabilitiesSection, setActiveCapabilitiesSection] = useState('cap-hero');
-  const [activeSustainabilitySection, setActiveSustainabilitySection] = useState<'hero' | 'sdg' | 'policies' | 'vision' | 'innovation' | 'social' | 'footer'>('hero');
+  const [activeSustainabilitySection, setActiveSustainabilitySection] = useState<'hero' | 'sdg' | 'policies' | 'vision' | 'innovation' | 'social' | 'footer' | 'heart'>('hero');
   const [activeProductsSection, setActiveProductsSection] = useState<'hero'>('hero');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('add');
   const [editingItem, setEditingItem] = useState<any>(null);
   const [formData, setFormData] = useState<any>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [productsHero, setProductsHero] = useState<any>(null);
 
   // API-backed hero slides for admin view
@@ -138,6 +139,29 @@ export default function AdminDashboard() {
     } catch {}
   };
   useEffect(() => { fetchProductsHero(); }, []);
+
+  // Image upload helper
+  const uploadImage = async (file: File): Promise<string | null> => {
+    if (!file) return null;
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const res = await fetch('/api/upload/image', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.imageUrl;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const saveProductsHero = async () => {
     try {
@@ -727,7 +751,7 @@ export default function AdminDashboard() {
         }
         
         // Also refresh the website by opening it in a new tab to verify changes
-        const websiteUrl = window.location.origin.replace('3000', '3000') + '/sustainability';
+        const websiteUrl = window.location.origin.replace('9000', '9000') + '/sustainability';
         console.log('Changes saved! Check the website at:', websiteUrl);
         console.log('Updated local state:', savedData.data);
       } else {
@@ -2905,8 +2929,26 @@ export default function AdminDashboard() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <label className="block">
-                    <span className="text-sm text-gray-600">Background Image URL</span>
-                    <input className="mt-1 w-full border rounded px-3 py-2" value={productsHero?.backgroundImage || ''} onChange={(e) => setProductsHero({ ...(productsHero||{}), backgroundImage: e.target.value })} />
+                    <span className="text-sm text-gray-600">Background Image</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="mt-1 w-full border rounded px-3 py-2" 
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const url = await uploadImage(file);
+                          if (url) setProductsHero({ ...(productsHero||{}), backgroundImage: url });
+                        }
+                      }}
+                    />
+                    {productsHero?.backgroundImage && (
+                      <div className="mt-2">
+                        <img src={productsHero.backgroundImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                        <p className="text-xs text-gray-500 mt-1">Current: {productsHero.backgroundImage}</p>
+                      </div>
+                    )}
+                    {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                   </label>
                   <label className="block">
                     <span className="text-sm text-gray-600">Overlay From</span>
@@ -3477,12 +3519,26 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600">Background Image URL</label>
+                    <label className="block text-sm text-gray-600">Background Image</label>
                     <input 
+                      type="file"
+                      accept="image/*"
                       className="mt-1 w-full border rounded px-3 py-2" 
-                      value={sustHeroBg} 
-                      onChange={(e) => setSustHeroBg(e.target.value)} 
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const url = await uploadImage(file);
+                          if (url) setSustHeroBg(url);
+                        }
+                      }}
                     />
+                    {sustHeroBg && (
+                      <div className="mt-2">
+                        <img src={sustHeroBg} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                        <p className="text-xs text-gray-500 mt-1">Current: {sustHeroBg}</p>
+                      </div>
+                    )}
+                    {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                   </div>
                   <div>
                     <button
@@ -3620,8 +3676,30 @@ export default function AdminDashboard() {
                             <textarea className="mt-1 w-full border rounded px-3 py-2 h-24" value={s.description||''} onChange={(e) => { const copy=[...heartSections]; copy[idx].description=e.target.value; setHeartSections(copy); }} />
                           </label>
                           <label className="block md:col-span-2">
-                            <span className="text-sm text-gray-600">Image URL</span>
-                            <input className="mt-1 w-full border rounded px-3 py-2" value={s.image||''} onChange={(e) => { const copy=[...heartSections]; copy[idx].image=e.target.value; setHeartSections(copy); }} />
+                            <span className="text-sm text-gray-600">Image</span>
+                            <input 
+                              type="file"
+                              accept="image/*"
+                              className="mt-1 w-full border rounded px-3 py-2" 
+                              onChange={async (e) => { 
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const url = await uploadImage(file);
+                                  if (url) {
+                                    const copy=[...heartSections]; 
+                                    copy[idx].image=url; 
+                                    setHeartSections(copy);
+                                  }
+                                }
+                              }} 
+                            />
+                            {s.image && (
+                              <div className="mt-2">
+                                <img src={s.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                                <p className="text-xs text-gray-500 mt-1">Current: {s.image}</p>
+                              </div>
+                            )}
+                            {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                           </label>
                         </div>
 
@@ -4564,8 +4642,26 @@ export default function AdminDashboard() {
                       <input className="mt-1 w-full border rounded px-3 py-2" value={footerCtaIcon} onChange={(e) => setFooterCtaIcon(e.target.value)} />
                     </label>
                     <label className="block">
-                      <span className="text-sm text-gray-600">Background Image URL</span>
-                      <input className="mt-1 w-full border rounded px-3 py-2" value={footerBgImage} onChange={(e) => setFooterBgImage(e.target.value)} />
+                      <span className="text-sm text-gray-600">Background Image</span>
+                      <input 
+                        type="file"
+                        accept="image/*"
+                        className="mt-1 w-full border rounded px-3 py-2" 
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) setFooterBgImage(url);
+                          }
+                        }}
+                      />
+                      {footerBgImage && (
+                        <div className="mt-2">
+                          <img src={footerBgImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {footerBgImage}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </label>
                     <label className="block md:col-span-2">
                       <span className="text-sm text-gray-600">Subtitle (rich text)</span>
@@ -4992,14 +5088,26 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Background Image</label>
                   <input
-                    type="url"
-                    value={formData.backgroundImage || ''}
-                    onChange={(e) => handleInputChange('backgroundImage', e.target.value)}
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const url = await uploadImage(file);
+                        if (url) handleInputChange('backgroundImage', url);
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
                   />
+                  {formData.backgroundImage && (
+                    <div className="mt-2">
+                      <img src={formData.backgroundImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                      <p className="text-xs text-gray-500 mt-1">Current: {formData.backgroundImage}</p>
+                    </div>
+                  )}
+                  {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                 </div>
 
                 <div className="flex justify-end space-x-4 pt-6">
@@ -5363,14 +5471,26 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                       <input
-                        type="url"
-                        value={formData.image || ''}
-                        onChange={(e) => handleInputChange('image', e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) handleInputChange('image', url);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
                       />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </div>
                     {/* Description field intentionally removed as requested */}
                     <div>
@@ -5510,14 +5630,26 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                       <input
-                        type="url"
-                        value={formData.image || ''}
-                        onChange={(e) => handleInputChange('image', e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) handleInputChange('image', url);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
                       />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Color Theme</label>
@@ -5578,14 +5710,26 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                       <input
-                        type="url"
-                        value={formData.image || ''}
-                        onChange={(e) => handleInputChange('image', e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) handleInputChange('image', url);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
                       />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Link URL (optional)</label>
@@ -5658,14 +5802,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Vision Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Vision Image</label>
                           <input
-                            type="url"
-                            value={formData.visionImage || ''}
-                            onChange={(e) => handleInputChange('visionImage', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('visionImage', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.visionImage && (
+                            <div className="mt-2">
+                              <img src={formData.visionImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.visionImage}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">Mission Title</label>
@@ -5678,14 +5834,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Mission Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Mission Image</label>
                           <input
-                            type="url"
-                            value={formData.missionImage || ''}
-                            onChange={(e) => handleInputChange('missionImage', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('missionImage', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.missionImage && (
+                            <div className="mt-2">
+                              <img src={formData.missionImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.missionImage}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">Mission Points (JSON)</label>
@@ -5721,14 +5889,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Journey Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Journey Image</label>
                           <input
-                            type="url"
-                            value={formData.image || ''}
-                            onChange={(e) => handleInputChange('image', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('image', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.image && (
+                            <div className="mt-2">
+                              <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div className="flex items-center">
                           <input
@@ -5774,14 +5954,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Background Image</label>
                           <input
-                            type="url"
-                            value={formData.backgroundImage || ''}
-                            onChange={(e) => handleInputChange('backgroundImage', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('backgroundImage', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.backgroundImage && (
+                            <div className="mt-2">
+                              <img src={formData.backgroundImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.backgroundImage}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div className="flex items-center">
                           <input
@@ -6103,14 +6295,14 @@ export default function AdminDashboard() {
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Or Enter Image URL</label>
                             <input
-                              type="url"
+                              type="text"
                               value={formData.image || ''}
                               onChange={(e) => {
                                 handleInputChange('image', e.target.value);
                                 setImagePreview(null);
                               }}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                              placeholder="https://example.com/image.jpg"
+                              placeholder="https://example.com/image.jpg or upload file above"
                             />
                           </div>
                         </div>
@@ -6243,14 +6435,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                           <input
-                            type="url"
-                            value={formData.image || ''}
-                            onChange={(e) => handleInputChange('image', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('image', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.image && (
+                            <div className="mt-2">
+                              <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
@@ -6335,14 +6539,26 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Background Image</label>
                           <input
-                            type="url"
-                            value={formData.backgroundImage || ''}
-                            onChange={(e) => handleInputChange('backgroundImage', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadImage(file);
+                                if (url) handleInputChange('backgroundImage', url);
+                              }
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
                           />
+                          {formData.backgroundImage && (
+                            <div className="mt-2">
+                              <img src={formData.backgroundImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                              <p className="text-xs text-gray-500 mt-1">Current: {formData.backgroundImage}</p>
+                            </div>
+                          )}
+                          {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                       </>
                     )}
@@ -6373,14 +6589,26 @@ export default function AdminDashboard() {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                               <input
-                                type="url"
-                                value={formData.image || ''}
-                                onChange={(e) => handleInputChange('image', e.target.value)}
+                                type="file"
+                                accept="image/*"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const url = await uploadImage(file);
+                                    if (url) handleInputChange('image', url);
+                                  }
+                                }}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                required
                               />
+                              {formData.image && (
+                                <div className="mt-2">
+                                  <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                                  <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                                </div>
+                              )}
+                              {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                             </div>
                           </div>
                         </div>
@@ -6712,14 +6940,26 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                       <input
-                        type="url"
-                        value={formData.image || ''}
-                        onChange={(e) => handleInputChange('image', e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) handleInputChange('image', url);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
                       />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Capabilities</label>
@@ -6874,14 +7114,26 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Background Image</label>
                       <input
-                        type="url"
-                        value={formData.backgroundImage || ''}
-                        onChange={(e) => handleInputChange('backgroundImage', e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const url = await uploadImage(file);
+                            if (url) handleInputChange('backgroundImage', url);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
                       />
+                      {formData.backgroundImage && (
+                        <div className="mt-2">
+                          <img src={formData.backgroundImage} alt="Preview" className="w-32 h-20 object-cover rounded" />
+                          <p className="text-xs text-gray-500 mt-1">Current: {formData.backgroundImage}</p>
+                        </div>
+                      )}
+                      {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                     </div>
                   </>
                 )}

@@ -29,5 +29,3 @@ const upsertHero = async (req, res) => {
 module.exports = {
   hero: { get: getHero, upsert: upsertHero },
 };
-
-
