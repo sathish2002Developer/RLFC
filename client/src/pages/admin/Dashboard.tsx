@@ -47,7 +47,7 @@ export default function AdminDashboard() {
   const [heroSlidesApi, setHeroSlidesApi] = useState<any[]>([]);
   const fetchHeroSlides = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/home/slides');
+      const res = await fetch('/api/cms/home/slides');
       if (res.ok) {
         const json = await res.json();
         const rows = Array.isArray(json?.data) ? json.data : json;
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
   const [offeringsApi, setOfferingsApi] = useState<any[]>([]);
   const fetchOfferings = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/home/offerings');
+      const res = await fetch('/api/cms/home/offerings');
       if (res.ok) {
         const json = await res.json();
         const rows = Array.isArray(json?.data) ? json.data : json;
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
   const fetchStatistics = async () => {
     try {
       console.log('🔄 Admin: Fetching statistics from API...');
-      const res = await fetch('http://localhost:9000/api/cms/home/statistics');
+      const res = await fetch('/api/cms/home/statistics');
       if (res.ok) {
         const json = await res.json();
         const rows = Array.isArray(json?.data) ? json.data : json;
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
   });
   const fetchAboutData = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/about');
+      const res = await fetch('/api/cms/about');
       if (res.ok) {
         const json = await res.json();
         console.log('🔍 About API Response:', json);
@@ -130,7 +130,7 @@ export default function AdminDashboard() {
   // Products Hero CMS
   const fetchProductsHero = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/products/hero');
+      const res = await fetch('/api/cms/products/hero');
       if (res.ok) {
         const json = await res.json();
         setProductsHero(json.data);
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
 
   const saveProductsHero = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/products/hero', {
+      const res = await fetch('/api/cms/products/hero', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productsHero || {}),
@@ -167,7 +167,7 @@ export default function AdminDashboard() {
   // Save about vision mission to API
   const saveAboutVisionMission = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:9000/api/cms/about/vision-mission', {
+      const response = await fetch('/api/cms/about/vision-mission', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -260,7 +260,7 @@ export default function AdminDashboard() {
   const [regulatoryApi, setRegulatoryApi] = useState<any[]>([]);
   const fetchRegulatory = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/home/regulatory');
+      const res = await fetch('/api/cms/home/regulatory');
       if (res.ok) {
         const json = await res.json();
         const rows = Array.isArray(json?.data) ? json.data : json;
@@ -302,7 +302,7 @@ export default function AdminDashboard() {
   const [heartIsActive, setHeartIsActive] = useState<boolean>(true);
   const fetchSustainability = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/sustainability');
+      const res = await fetch('/api/cms/sustainability');
       if (res.ok) {
         const json = await res.json();
         setSustainabilityApi(json.data || json);
@@ -319,7 +319,7 @@ export default function AdminDashboard() {
   });
   const fetchCapabilities = async () => {
     try {
-      const res = await fetch('http://localhost:9000/api/cms/capabilities');
+      const res = await fetch('/api/cms/capabilities');
       if (res.ok) {
         const json = await res.json();
         setCapabilitiesApi(json.data || json);
@@ -385,7 +385,7 @@ export default function AdminDashboard() {
   // Save Innovation & Transformation section
   const saveInnovationTransformation = async () => {
     try {
-      await fetch('http://localhost:9000/api/cms/sustainability/innovation-transformation', {
+      await fetch('/api/cms/sustainability/innovation-transformation', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -402,7 +402,7 @@ export default function AdminDashboard() {
   const addDigitalCard = async () => {
     try {
       const nextOrder = (sustainabilityApi?.digitalSolutions?.length || 0) + 1;
-      await fetch('http://localhost:9000/api/cms/sustainability/digital-solutions', {
+      await fetch('/api/cms/sustainability/digital-solutions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -419,7 +419,7 @@ export default function AdminDashboard() {
   
   const updateDigitalField = async (id: string, field: string, value: any) => {
     try {
-      await fetch(`http://localhost:9000/api/cms/sustainability/digital-solutions/${id}`, {
+      await fetch(`/api/cms/sustainability/digital-solutions/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -432,7 +432,7 @@ export default function AdminDashboard() {
   
   const deleteDigitalCard = async (id: string) => {
     try {
-      await fetch(`http://localhost:9000/api/cms/sustainability/digital-solutions/${id}`, {
+      await fetch(`/api/cms/sustainability/digital-solutions/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -444,7 +444,7 @@ export default function AdminDashboard() {
   const addResearchCard = async () => {
     try {
       const nextOrder = (sustainabilityApi?.researchInnovations?.length || 0) + 1;
-      await fetch('http://localhost:9000/api/cms/sustainability/research-innovations', {
+      await fetch('/api/cms/sustainability/research-innovations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -461,7 +461,7 @@ export default function AdminDashboard() {
   
   const updateResearchField = async (id: string, field: string, value: any) => {
     try {
-      await fetch(`http://localhost:9000/api/cms/sustainability/research-innovations/${id}`, {
+      await fetch(`/api/cms/sustainability/research-innovations/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
   
   const deleteResearchCard = async (id: string) => {
     try {
-      await fetch(`http://localhost:9000/api/cms/sustainability/research-innovations/${id}`, {
+      await fetch(`/api/cms/sustainability/research-innovations/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -485,7 +485,7 @@ export default function AdminDashboard() {
   // Save Footer Section
   const saveFooterSection = async () => {
     try {
-      await fetch('http://localhost:9000/api/cms/sustainability/footer', {
+      await fetch('/api/cms/sustainability/footer', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -504,7 +504,7 @@ export default function AdminDashboard() {
   // Save Social Section
   const saveSocialSection = async () => {
     try {
-      await fetch('http://localhost:9000/api/cms/sustainability/social', {
+      await fetch('/api/cms/sustainability/social', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -705,7 +705,7 @@ export default function AdminDashboard() {
       console.log('Current vision description:', vmVisionDesc); // Debug log
       console.log('Synced data:', syncedData); // Debug log
       
-      const response = await fetch('http://localhost:9000/api/cms/sustainability/vision-mission', {
+      const response = await fetch('/api/cms/sustainability/vision-mission', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -897,7 +897,7 @@ export default function AdminDashboard() {
         if (sectionKey === 'heroSlides' && item?.id) {
           (async () => {
             try {
-              await fetch(`http://localhost:9000/api/cms/home/slides/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
+              await fetch(`/api/cms/home/slides/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
               await fetchHeroSlides();
             } catch {}
           })();
@@ -906,7 +906,7 @@ export default function AdminDashboard() {
         if (sectionKey === 'statistics' && item?.id) {
           (async () => {
             try {
-              await fetch(`http://localhost:9000/api/cms/home/statistics/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
+              await fetch(`/api/cms/home/statistics/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
               await fetchStatistics();
             } catch {}
           })();
@@ -915,7 +915,7 @@ export default function AdminDashboard() {
         if (sectionKey === 'offerings' && item?.id) {
           (async () => {
             try {
-              await fetch(`http://localhost:9000/api/cms/home/offerings/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
+              await fetch(`/api/cms/home/offerings/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
               await fetchOfferings();
             } catch {}
           })();
@@ -924,7 +924,7 @@ export default function AdminDashboard() {
         if (sectionKey === 'regulatoryApprovals' && item?.id) {
           (async () => {
             try {
-              await fetch(`http://localhost:9000/api/cms/home/regulatory/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
+              await fetch(`/api/cms/home/regulatory/${item.id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json', ...authHeaders() as any } });
               await fetchRegulatory();
             } catch {}
           })();
@@ -953,7 +953,7 @@ export default function AdminDashboard() {
           (async () => {
             try {
               console.log('🗑️ Deleting leadership member:', item.id);
-              const response = await fetch(`http://localhost:9000/api/cms/about/leadership/${item.id}`, {
+              const response = await fetch(`/api/cms/about/leadership/${item.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any }
               });
@@ -984,7 +984,7 @@ export default function AdminDashboard() {
       if (activeCapabilitiesSection === 'cap-facilities' && item?.id) {
         (async () => {
           try {
-            await fetch('http://localhost:9000/api/cms/capabilities/facilities/' + item.id, {
+            await fetch('/api/cms/capabilities/facilities/' + item.id, {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any }
             });
@@ -1019,7 +1019,7 @@ export default function AdminDashboard() {
         (async () => {
           try {
             if (modalType === 'add') {
-              await fetch('http://localhost:9000/api/cms/home/slides', {
+              await fetch('/api/cms/home/slides', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify({
@@ -1030,7 +1030,7 @@ export default function AdminDashboard() {
                 })
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`http://localhost:9000/api/cms/home/slides/${(editingItem as any).id}`, {
+              await fetch(`/api/cms/home/slides/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify({
@@ -1066,13 +1066,13 @@ export default function AdminDashboard() {
               isActive: !!formData.isActive,
             };
             if (modalType === 'add') {
-              await fetch('http://localhost:9000/api/cms/home/statistics', {
+              await fetch('/api/cms/home/statistics', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`http://localhost:9000/api/cms/home/statistics/${(editingItem as any).id}`, {
+              await fetch(`/api/cms/home/statistics/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
@@ -1101,13 +1101,13 @@ export default function AdminDashboard() {
               isActive: !!formData.isActive,
             };
             if (modalType === 'add') {
-              await fetch('http://localhost:9000/api/cms/home/offerings', {
+              await fetch('/api/cms/home/offerings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`http://localhost:9000/api/cms/home/offerings/${(editingItem as any).id}`, {
+              await fetch(`/api/cms/home/offerings/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
@@ -1135,13 +1135,13 @@ export default function AdminDashboard() {
               isActive: !!formData.isActive,
             };
             if (modalType === 'add') {
-              await fetch('http://localhost:9000/api/cms/home/regulatory', {
+              await fetch('/api/cms/home/regulatory', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`http://localhost:9000/api/cms/home/regulatory/${(editingItem as any).id}`, {
+              await fetch(`/api/cms/home/regulatory/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
@@ -1171,7 +1171,7 @@ export default function AdminDashboard() {
       if (sectionKey === 'aboutJourneyImage') {
         (async () => {
           try {
-            const response = await fetch('http://localhost:9000/api/cms/about/journey', {
+            const response = await fetch('/api/cms/about/journey', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
               body: JSON.stringify({
@@ -1201,7 +1201,7 @@ export default function AdminDashboard() {
       if (sectionKey === 'aboutHero') {
         (async () => {
           try {
-            const response = await fetch('http://localhost:9000/api/cms/about/hero', {
+            const response = await fetch('/api/cms/about/hero', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
               body: JSON.stringify({
@@ -1249,13 +1249,13 @@ export default function AdminDashboard() {
               isActive: formData.isActive !== undefined ? !!formData.isActive : true,
             };
             if (modalType === 'add') {
-              await fetch('http://localhost:9000/api/cms/capabilities/facilities', {
+              await fetch('/api/cms/capabilities/facilities', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`http://localhost:9000/api/cms/capabilities/facilities/${(editingItem as any).id}`, {
+              await fetch(`/api/cms/capabilities/facilities/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
@@ -1273,7 +1273,7 @@ export default function AdminDashboard() {
         // Save via API
         (async () => {
           try {
-            await fetch('http://localhost:9000/api/cms/capabilities/hero', {
+            await fetch('/api/cms/capabilities/hero', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
               body: JSON.stringify({
@@ -1297,7 +1297,7 @@ export default function AdminDashboard() {
         // Save via API
         (async () => {
           try {
-            await fetch('http://localhost:9000/api/cms/capabilities/research', {
+            await fetch('/api/cms/capabilities/research', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
               body: JSON.stringify({
@@ -1481,13 +1481,13 @@ export default function AdminDashboard() {
             
             let response;
             if (modalType === 'add') {
-              response = await fetch('http://localhost:9000/api/cms/about/leadership', {
+              response = await fetch('/api/cms/about/leadership', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              response = await fetch(`http://localhost:9000/api/cms/about/leadership/${(editingItem as any).id}`, {
+              response = await fetch(`/api/cms/about/leadership/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)
@@ -1577,14 +1577,14 @@ export default function AdminDashboard() {
         formData.append('image', file);
 
         // Upload image to server
-        const response = await fetch('http://localhost:9000/api/upload/image', {
+        const response = await fetch('/api/upload/image', {
           method: 'POST',
           body: formData,
         });
 
         if (response.ok) {
           const result = await response.json();
-          const imageUrl = `http://localhost:9000${result.imageUrl}`;
+          const imageUrl = `${result.imageUrl}`;
           
           // Set preview and form data
           setImagePreview(imageUrl);
@@ -3488,7 +3488,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={async () => {
                         try {
-                          await fetch('http://localhost:9000/api/cms/sustainability/hero', {
+                          await fetch('/api/cms/sustainability/hero', {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -3531,7 +3531,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={async () => {
                         try {
-                          await fetch('http://localhost:9000/api/cms/sustainability/heart', {
+                          await fetch('/api/cms/sustainability/heart', {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -4261,7 +4261,7 @@ export default function AdminDashboard() {
                               <button 
                                 onClick={async () => {
                                   try {
-                                    await fetch(`http://localhost:9000/api/cms/sustainability/sdg/${card.id}`, {
+                                    await fetch(`/api/cms/sustainability/sdg/${card.id}`, {
                                       method: 'DELETE',
                                       headers: { 'Content-Type': 'application/json' }
                                     });
@@ -4333,13 +4333,13 @@ export default function AdminDashboard() {
                               };
                               
                               if (sdgModalMode === 'add') {
-                                await fetch('http://localhost:9000/api/cms/sustainability/sdg', {
+                                await fetch('/api/cms/sustainability/sdg', {
                                   method: 'POST',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify(payload)
                                 });
                               } else {
-                                await fetch(`http://localhost:9000/api/cms/sustainability/sdg/${sdgForm.id}`, {
+                                await fetch(`/api/cms/sustainability/sdg/${sdgForm.id}`, {
                                   method: 'PUT',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify(payload)

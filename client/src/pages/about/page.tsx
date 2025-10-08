@@ -20,7 +20,7 @@ const About = () => {
   useEffect(() => {
     const loadAbout = async () => {
       try {
-        const res = await fetch('http://localhost:9000/api/cms/about');
+        const res = await fetch('/api/cms/about');
         if (res.ok) {
           const json = await res.json();
           setAboutApi(json.data || json);

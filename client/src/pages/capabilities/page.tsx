@@ -22,7 +22,7 @@ const Capabilities = () => {
   useEffect(() => {
     const loadCapabilities = async () => {
       try {
-        const res = await fetch('http://localhost:9000/api/cms/capabilities');
+        const res = await fetch('/api/cms/capabilities');
         if (res.ok) {
           const json = await res.json();
           setCapabilitiesData(json.data || json);

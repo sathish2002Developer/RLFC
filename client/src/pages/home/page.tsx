@@ -175,7 +175,7 @@ export default function Home() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('http://localhost:9000/api/cms/home/slides');
+        const res = await fetch('/api/cms/home/slides');
         if (res.ok) {
           const json = await res.json();
           const rows = Array.isArray(json?.data) ? json.data : json; // controller returns rows as data
@@ -199,9 +199,9 @@ export default function Home() {
       try {
         console.log('🔄 Loading API data...');
         const [offRes, statRes, regRes] = await Promise.all([
-          fetch('http://localhost:9000/api/cms/home/offerings'),
-          fetch('http://localhost:9000/api/cms/home/statistics'),
-          fetch('http://localhost:9000/api/cms/home/regulatory'),
+          fetch('/api/cms/home/offerings'),
+          fetch('/api/cms/home/statistics'),
+          fetch('/api/cms/home/regulatory'),
         ]);
         
         console.log('📡 API Response Status:', {

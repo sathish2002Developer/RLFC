@@ -39,7 +39,7 @@ const Sustainability = () => {
   useEffect(() => {
     const fetchSustainability = async () => {
       try {
-        const res = await fetch("http://localhost:9000/api/cms/sustainability", {
+        const res = await fetch("/api/cms/sustainability", {
           credentials: "include",
         });
         if (res.ok) {
