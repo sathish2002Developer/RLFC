@@ -1,10 +1,15 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 
 const PharmaceuticalAPIs = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const categories = [
     'All Categories',

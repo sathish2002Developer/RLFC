@@ -4,9 +4,22 @@ import imag1 from "../../images/2151111131.jpg"
 import imag4 from "../../images/image-4.jpg"
 import imag3 from "../../images/image -3.jpg"
 
-const HeroSlider = () => {
+interface HeroSliderProps {
+  slides?: Array<{
+    id?: string;
+    title: string;
+    subtitle?: string;
+    image: string;
+    order?: number;
+    isActive?: boolean;
+  }>;
+}
+
+const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [
+  
+  // Default slides as fallback
+  const defaultSlides = [
     {
       title: "Accelerating Healthcare from Lab to Life",
       subtitle: "Leading pharmaceutical innovation with 40+ years of expertise in psychotropic APIs and complex generics",
@@ -41,6 +54,16 @@ const HeroSlider = () => {
     }
   ];
 
+  // Use prop slides if available, otherwise use default slides
+  const slides = propSlides && propSlides.length > 0 ? propSlides : defaultSlides;
+  
+  // Debug slides
+  console.log('🎠 HeroSlider received slides:', {
+    propSlides: propSlides,
+    slides: slides,
+    slidesLength: slides.length
+  });
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -53,17 +76,18 @@ const HeroSlider = () => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const parallax = document.querySelectorAll('.parallax-bg');
-      const content = document.querySelectorAll('.parallax-content');
+      // Intentionally do NOT move content on scroll to avoid title shifting
+      // const content = document.querySelectorAll('.parallax-content');
       
       parallax.forEach((element) => {
         const speed = 0.5;
         (element as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
       });
 
-      content.forEach((element) => {
-        const speed = 0.3;
-        (element as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
-      });
+      // content.forEach((element) => {
+      //   const speed = 0.3;
+      //   (element as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
+      // });
    };
 
     window.addEventListener('scroll', handleScroll);
@@ -106,10 +130,12 @@ const HeroSlider = () => {
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
 
-          {/* Content with Parallax - Left aligned with only heading - Top positioned */}
-          <div className="parallax-content relative z-10 h-full flex items-start pt-20">
-            <div className="w-full px-6 lg:px-8 m-10" style={{
-               marginTop:"300px"
+          {/* Content - vertically centered, stable on scroll */}
+          <div className="parallax-content relative z-10 h-full flex items-center">
+            <div className="w-full px-6 lg:px-8" style={{
+               marginTop: '300px',
+              
+              
             }}>
               <div className={`max-w-4xl text-left transition-all duration-600 ease-out ${
                 index === currentSlide 

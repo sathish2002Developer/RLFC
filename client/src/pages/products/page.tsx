@@ -4,10 +4,16 @@ import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 
 const Products = () => {
+  const [hero, setHero] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedArea, setSelectedArea] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('therapeutic');
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Initialize AOS when component mounts
   useEffect(() => {
@@ -30,6 +36,30 @@ const Products = () => {
     initAOS();
   }, []);
 
+  // Load Product Hero from CMS
+  useEffect(() => {
+    const loadHero = async () => {
+      try {
+        const res = await fetch('http://localhost:9000/api/cms/products/hero');
+        if (res.ok) {
+          const json = await res.json();
+          setHero(json.data);
+          try {
+            if (typeof window !== 'undefined') {
+              const AOS = (await import('aos')).default;
+              // Refresh AOS so elements added after mount animate and render immediately
+              AOS.refreshHard();
+            }
+          } catch {}
+        }
+      } catch (_) {}
+    };
+    loadHero();
+    const onChange = () => loadHero();
+    window.addEventListener('productsHeroChanged', onChange);
+    return () => window.removeEventListener('productsHeroChanged', onChange);
+  }, []);
+
   const categories = [
     'All Categories',
     'Anti-Histaminic',
@@ -45,6 +75,68 @@ const Products = () => {
     'Anti-Cancer (Ovarian)',
     'COPD'
   ];
+
+  const renderHero = () => {
+    if (!hero || hero.isActive === false) return null;
+    const overlayFrom = hero.overlayFrom || 'rgba(0,0,0,0.5)';
+    const overlayTo = hero.overlayTo || 'rgba(0,0,0,0.3)';
+    const titleColor = hero.titleColor || '#ffffff';
+    const subtitleColor = hero.subtitleColor || 'rgba(255,255,255,0.9)';
+    const descriptionColor = hero.descriptionColor || 'rgba(255,255,255,0.8)';
+    const aosType = hero.aosType || 'fade-up';
+    const aosDuration = hero.aosDuration || 1000;
+    const aosDelay = hero.aosDelay || 200;
+
+    return (
+      <section
+        className="relative py-20 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(${overlayFrom}, ${overlayTo}), url('${hero.backgroundImage || ''}')`,
+        }}
+      >
+        <div className="w-full px-6 lg:px-8">
+          <div className="text-center">
+            <h1
+              className="text-lg md:text-6xl font-bold mb-3 leading-tight font-montserrat"
+              style={{ color: titleColor }}
+              data-aos={aosType}
+              data-aos-duration={aosDuration}
+            >
+              <span className="block">{hero.titleLine1 || 'Our Product'}</span>
+              <span className="block mt-1">{hero.titleLine2 || 'Portfolio'}</span>
+            </h1>
+            {hero.subtitle ? (
+              <p
+                className="text-base max-w-4xl mx-auto font-montserrat mb-2"
+                style={{ color: subtitleColor }}
+                data-aos={aosType}
+                data-aos-duration={aosDuration}
+                data-aos-delay={aosDelay}
+              >
+                {hero.subtitle.split(hero.highlightText || '').join('')}
+                {hero.highlightText && (
+                  <span className="font-semibold" style={{ color: titleColor }}>
+                    {` ${hero.highlightText} `}
+                  </span>
+                )}
+              </p>
+            ) : null}
+            {hero.description ? (
+              <p
+                className="text-base max-w-4xl mx-auto font-montserrat"
+                style={{ color: descriptionColor }}
+                data-aos={aosType}
+                data-aos-duration={aosDuration}
+                data-aos-delay={aosDelay + 200}
+              >
+                {hero.description}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </section>
+    );
+  };
 
   const getColorClasses = (color: string) => {
     const colorMap = {
@@ -398,46 +490,49 @@ const Products = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section with Background Image */}
-      <section 
-        className="relative py-20 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20laboratory%20with%20scientists%20working%20on%20drug%20development%2C%20clean%20sterile%20environment%20with%20advanced%20equipment%2C%20molecular%20structures%20and%20chemical%20formulas%20in%20background%2C%20blue%20and%20white%20color%20scheme%2C%20professional%20medical%20research%20facility%2C%20API%20development%2C%20therapeutic%20innovation%2C%20contemporary%20scientific%20design&width=1920&height=800&seq=products-hero&orientation=landscape')`
-        }}
-        data-aos="fade-in"
-        data-aos-duration="1000"
-      >
-        <div className="w-full px-6 lg:px-8">
-          <div className="text-center">
-          
-            <h1 
-              className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight font-montserrat"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-delay="400"
-            >
-              <span className="block">Our Product</span>
-              <span className="block mt-1">Portfolio</span>
-            </h1>
-            <p 
-              className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-delay="600"
-            >
-              Leader in <span className="text-[#1D9AD4] font-semibold">Psychotropic Substances</span> & CNS APIs with 40+ years of proven expertise
-            </p>
-            <p 
-              className="text-base text-white/80 max-w-4xl mx-auto font-montserrat"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-delay="800"
-            >
-              Comprehensive API portfolio across diverse therapeutic segments serving healthcare needs worldwide
-            </p>
+      {/* Hero Section */}
+      {hero ? (
+        renderHero()
+      ) : (
+        <section 
+          className="relative py-20 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20laboratory%20with%20scientists%20working%20on%20drug%20development%2C%20clean%20sterile%20environment%20with%20advanced%20equipment%2C%20molecular%20structures%20and%20chemical%20formulas%20in%20background%2C%20blue%20and%20white%20color%20scheme%2C%20professional%20medical%20research%20facility%2C%20API%20development%2C%20therapeutic%20innovation%2C%20contemporary%20scientific%20design&width=1920&height=800&seq=products-hero&orientation=landscape')`
+          }}
+          data-aos="fade-in"
+          data-aos-duration="1000"
+        >
+          <div className="w-full px-6 lg:px-8">
+            <div className="text-center">
+              <h1 
+                className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight font-montserrat"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="400"
+              >
+                <span className="block">Our Product</span>
+                <span className="block mt-1">Portfolio</span>
+              </h1>
+              <p 
+                className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="600"
+              >
+                Leader in <span className="text-[#1D9AD4] font-semibold">Psychotropic Substances</span> & CNS APIs with 40+ years of proven expertise
+              </p>
+              <p 
+                className="text-base text-white/80 max-w-4xl mx-auto font-montserrat"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="800"
+              >
+                Comprehensive API portfolio across diverse therapeutic segments serving healthcare needs worldwide
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Product Categories Tabs */}
       <section className="py-12 bg-gray-50 sticky top-20 z-40">

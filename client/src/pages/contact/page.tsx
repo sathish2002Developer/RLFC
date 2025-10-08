@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
+import { useAdminAuth } from '../../contexts/AdminContext';
 
 const Contact = () => {
+  const { data } = useAdminAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +15,11 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Initialize AOS when component mounts
   useEffect(() => {
@@ -87,7 +94,7 @@ const Contact = () => {
       <section 
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://www.rlfinechem.com/wp-content/uploads/2025/07/Contact-us.webp')`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('${data?.contactHero?.backgroundImage || "https://www.rlfinechem.com/wp-content/uploads/2025/07/Contact-us.webp"}')`
         }}
       >
         <div className="w-full px-6 lg:px-8">
@@ -97,16 +104,28 @@ const Contact = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
             >
-              Contact Us
+              {data?.contactHero?.title || 'Contact Us'}
             </h1>
-            <p 
-              className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-delay="200"
-            >
-              Ready to accelerate your healthcare solutions? Get in touch with our team of experts and discover how we can help bring your pharmaceutical innovations to life.
-            </p>
+            {data?.contactHero?.subtitle && (
+              <p 
+                className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="200"
+              >
+                {data.contactHero.subtitle}
+              </p>
+            )}
+            {data?.contactHero?.description && (
+              <p 
+                className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="200"
+              >
+                {data.contactHero.description}
+              </p>
+            )}
             <div 
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               data-aos="fade-up"
@@ -145,10 +164,10 @@ const Contact = () => {
             >
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 font-montserrat">
-                  Get in Touch
+                  {data?.contactGetInTouch?.title || 'Get in Touch'}
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
-                  We're here to help you navigate the complex world of pharmaceutical development. Whether you need API manufacturing, formulation development, or regulatory support, our team is ready to assist.
+                  {data?.contactGetInTouch?.description || 'We\'re here to help you navigate the complex world of pharmaceutical development. Whether you need API manufacturing, formulation development, or regulatory support, our team is ready to assist.'}
                 </p>
               </div>
 
@@ -160,16 +179,20 @@ const Contact = () => {
                   data-aos-duration="800"
                   data-aos-delay="100"
                 >
-                  <div className="w-12 h-12 bg-refex-blue rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i className="ri-map-pin-line text-white text-xl"></i>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    data?.contactGetInTouch?.location?.color === 'refex-blue' ? 'bg-refex-blue' :
+                    data?.contactGetInTouch?.location?.color === 'refex-green' ? 'bg-refex-green' :
+                    'bg-refex-orange'
+                  }`}>
+                    <i className={`${data?.contactGetInTouch?.location?.icon || 'ri-map-pin-line'} text-white text-xl`}></i>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">Our Location</h3>
-                    <p className="text-gray-600 font-montserrat">
-                      Refex Building, 67, Bazullah Road<br />
-                      Parthasarathy Puram, T Nagar<br />
-                      Chennai, 600017
-                    </p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
+                      {data?.contactGetInTouch?.location?.title || 'Our Location'}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{
+                      __html: data?.contactGetInTouch?.location?.address || 'Refex Building, 67, Bazullah Road<br />Parthasarathy Puram, T Nagar<br />Chennai, 600017'
+                    }}></p>
                   </div>
                 </div>
 
@@ -179,13 +202,21 @@ const Contact = () => {
                   data-aos-duration="800"
                   data-aos-delay="200"
                 >
-                  <div className="w-12 h-12 bg-refex-green rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i className="ri-phone-line text-white text-xl"></i>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    data?.contactGetInTouch?.phone?.color === 'refex-blue' ? 'bg-refex-blue' :
+                    data?.contactGetInTouch?.phone?.color === 'refex-green' ? 'bg-refex-green' :
+                    'bg-refex-orange'
+                  }`}>
+                    <i className={`${data?.contactGetInTouch?.phone?.icon || 'ri-phone-line'} text-white text-xl`}></i>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">Phone</h3>
-                    <p className="text-gray-600 font-montserrat">044 - 43405900/950</p>
-                    <p className="text-sm text-gray-500 font-montserrat">Monday - Friday, 9:00 AM - 6:00 PM IST</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
+                      {data?.contactGetInTouch?.phone?.title || 'Phone'}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat">
+                      {data?.contactGetInTouch?.phone?.number || '044 - 43405900/950'}
+                    </p>
+                   
                   </div>
                 </div>
 
@@ -195,42 +226,29 @@ const Contact = () => {
                   data-aos-duration="800"
                   data-aos-delay="300"
                 >
-                  <div className="w-12 h-12 bg-refex-orange rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i className="ri-mail-line text-white text-xl"></i>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    data?.contactGetInTouch?.email?.color === 'refex-blue' ? 'bg-refex-blue' :
+                    data?.contactGetInTouch?.email?.color === 'refex-green' ? 'bg-refex-green' :
+                    'bg-refex-orange'
+                  }`}>
+                    <i className={`${data?.contactGetInTouch?.email?.icon || 'ri-mail-line'} text-white text-xl`}></i>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">Email</h3>
-                    <p className="text-gray-600 font-montserrat">info@refex.co.in</p>
-                    <p className="text-sm text-gray-500 font-montserrat">We'll respond within 24 hours</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
+                      {data?.contactGetInTouch?.email?.title || 'Email'}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat">
+                      {data?.contactGetInTouch?.email?.address || 'info@refex.co.in'}
+                    </p>
+                  
                   </div>
                 </div>
               </div>
 
               {/* Business Hours */}
-              <div 
-                className="bg-gray-50 rounded-xl p-8"
-                data-aos="fade-right"
-                data-aos-duration="800"
-                data-aos-delay="400"
-              >
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 font-montserrat">Business Hours</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-montserrat">Monday - Friday</span>
-                    <span className="text-gray-900 font-semibold font-montserrat">9:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-montserrat">Saturday</span>
-                    <span className="text-gray-900 font-semibold font-montserrat">10:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-montserrat">Sunday</span>
-                    <span className="text-gray-900 font-semibold font-montserrat">Closed</span>
-                  </div>
-                </div>
-              </div>
+           
             </div>
-
+                  
             {/* Contact Form - Slide from Left */}
             <div 
               className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100"

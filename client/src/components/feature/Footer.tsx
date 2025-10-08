@@ -75,19 +75,19 @@ const Footer = () => {
               </h3>
               <ul className="space-y-4">
                 <li>
-                  <Link to="/about-rls" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
+                  <Link to="/about" state={{ scrollTop: true }} className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
                     <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
                     About RLS
                   </Link>
                 </li>
                 <li>
-                  <Link to="/history" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
+                  <Link to="/about" state={{ activeTab: 'journey' }} className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
                     <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    History/Journey
+                    Our Journey
                   </Link>
                 </li>
                 <li>
-                  <Link to="/leadership" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
+                  <Link to="/about" state={{ activeTab: 'leadership' }} className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
                     <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
                     Leadership Team
                   </Link>
@@ -98,24 +98,7 @@ const Footer = () => {
                     Products
                   </Link>
                 </li>
-                <li>
-                  <Link to="/capabilities" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
-                    <i className="ri-arrow-right-s-line text-refex-green mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Capabilities
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/sustainability" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
-                    <i className="ri-arrow-right-s-line text-refex-green mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Sustainability
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/careers" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
-                    <i className="ri-arrow-right-s-line text-refex-orange mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Careers
-                  </Link>
-                </li>
+               
                 <li>
                   <Link to="/contact" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group">
                     <i className="ri-arrow-right-s-line text-refex-orange mr-2 group-hover:text-white transition-colors duration-200"></i>
@@ -147,33 +130,33 @@ const Footer = () => {
                 </a>
               </div>
 
-                  <div
-                  style={{
-                     cursor:"pointer"
-                  }}
-                   className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-refex-orange/30 transition-all duration-300">
-                <h4 className="text-white font-semibold font-montserrat mb-3 flex items-center">
-                  <i className="ri-map-pin-line text-refex-orange mr-2"></i>
-                  Visit Us
-                </h4>
-                <p className="text-gray-300 font-montserrat text-sm leading-relaxed mb-4">
-                  Come visit our headquarters and manufacturing facilities in Chennai.
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <i className="ri-building-line text-refex-orange mr-2 w-4"></i>
-                    <span>Refex Building, T Nagar</span>
+                    {/* <div
+                    style={{
+                      cursor:"pointer"
+                    }}
+                    className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-refex-orange/30 transition-all duration-300">
+                  <h4 className="text-white font-semibold font-montserrat mb-3 flex items-center">
+                    <i className="ri-map-pin-line text-refex-orange mr-2"></i>
+                    Visit Us
+                  </h4>
+                  <p className="text-gray-300 font-montserrat text-sm leading-relaxed mb-4">
+                    Come visit our headquarters and manufacturing facilities in Chennai.
+                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center text-gray-300 text-sm">
+                      <i className="ri-building-line text-refex-orange mr-2 w-4"></i>
+                      <span>Refex Building, T Nagar</span>
+                    </div>
+                    <div className="flex items-center text-gray-300 text-sm">
+                      <i className="ri-time-line text-refex-orange mr-2 w-4"></i>
+                      <span>Mon-Fri: 9 AM - 6 PM</span>
+                    </div>
+                    <div className="flex items-center text-gray-300 text-sm">
+                      <i className="ri-phone-line text-refex-orange mr-2 w-4"></i>
+                      <span>044 - 43405900/950</span>
+                    </div>
                   </div>
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <i className="ri-time-line text-refex-orange mr-2 w-4"></i>
-                    <span>Mon-Fri: 9 AM - 6 PM</span>
-                  </div>
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <i className="ri-phone-line text-refex-orange mr-2 w-4"></i>
-                    <span>044 - 43405900/950</span>
-                  </div>
-                </div>
-              </div>
+                </div> */}
             </div>
 
           </div>

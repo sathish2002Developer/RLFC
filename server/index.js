@@ -5,14 +5,45 @@ const fs = require("fs");
 const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
-// const { sequelize } = require("./src/models/index");
+const { sequelize } = require("./models");
 const history = require("connect-history-api-fallback");
-// const status = require("./src/helpers/Response");
+const status = require("./helpers/response");
 const session = require("express-session");
 const passport = require("passport");
 const { Strategy } = require("passport-openidconnect");
 
 const app = express();
+
+// CORS must be applied before any other middleware
+// More permissive CORS for development
+app.use((req, res, next) => {
+  // Log all incoming requests for debugging
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} from origin: ${req.headers.origin || 'no-origin'}`);
+  
+  // Set CORS headers for all requests
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Cache-Control, Pragma');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Max-Age', '86400'); // 24 hours
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    console.log('Handling preflight request for:', req.url);
+    return res.status(200).end();
+  }
+  
+  next();
+});
+
+// Additional CORS middleware as backup
+app.use(cors({
+  origin: true, // Allow all origins in development
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Cache-Control', 'Pragma'],
+  optionsSuccessStatus: 200
+}));
 
 // Middleware to parse incoming JSON data ==================================
 app.use(express.json({ limit: "10mb" }));
@@ -26,18 +57,45 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 
 
 // Routes
+app.use("/auth", require("./routes/auth"));
+app.use("/cms", require("./routes/cms"));
+app.use("/api/cms/home", require("./routes/home_cms"));
+app.use("/api/cms/about", require("./routes/about_cms"));
+app.use("/api/cms/capabilities", require("./routes/capabilities_cms"));
+app.use("/api/cms/sustainability", require("./routes/sustainability_cms"));
+app.use("/api/cms/products", require("./routes/products_cms"));
 
 
 
-// Configuration for CORS Origin ------------------------------------------------------
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3000", "http://192.168.14.121:3000"],
-//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-//     credentials: true,
-//   })
-// );
-app.use(cors("*")); // To allow all orgins =============================
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Server is running well",
+    timestamp: new Date().toISOString()
+  });
+});
+
+// CORS test endpoint
+app.get("/api/cors-test", (req, res) => {
+  res.json({
+    success: true,
+    message: "CORS is working!",
+    origin: req.headers.origin,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Test POST endpoint for CORS
+app.post("/api/cors-test", (req, res) => {
+  res.json({
+    success: true,
+    message: "POST CORS is working!",
+    body: req.body,
+    origin: req.headers.origin,
+    timestamp: new Date().toISOString()
+  });
+});
 
 // // simple route
 // app.get("/", (req, res) => {
@@ -71,35 +129,53 @@ app.use(cors("*")); // To allow all orgins =============================
 //   require("./src/routes/sales_management/quotation_download")
 // );
 
+// Image upload endpoint - MUST be before the catch-all API route
+const uploadImage = require('./middlewares/uploadImage');
+app.post('/api/upload/image', uploadImage.single('image'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+    
+    // Return the file path relative to the server
+    const imageUrl = `/uploads/images/${req.file.filename}`;
+    res.json({ 
+      success: true, 
+      imageUrl: imageUrl,
+      filename: req.file.filename 
+    });
+  } catch (error) {
+    console.error('Image upload error:', error);
+    res.status(500).json({ error: 'Failed to upload image' });
+  }
+});
+
+// Serve uploaded images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.all("/api/*", (req, res) => {
-  return status.ResponseStatus(res, 404, "Endpoint Not Found");
+  return status.responseStatus(res, 404, "Endpoint Not Found");
 });
 
 // Serve static files from the 'client/dist' directory
 app.use(express.static(path.join(__dirname, "./dist")));
 app.use(history());
 
-// Serve the index.html for all routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./dist", "index.html"));
 });
 
-// set port, listen for requests
-const PORT = process.env.APP_PORT || 8080;
+// set port
+const PORT = process.env.APP_PORT || 9000;
 
- app.listen(PORT, () => {
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Database synced successfully");
+    app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}.`);
     });
-
-
-// sequelize
-//   .sync({ alter: true })
-//   .then(() => {
-//     console.log("Database synced successfully");
-//     app.listen(PORT, () => {
-//       console.log(`Server is running on port ${PORT}.`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.error("Error syncing database:", err);
-//   });
+  })
+  .catch((err) => {
+    console.error("Error syncing database:", err);
+  });

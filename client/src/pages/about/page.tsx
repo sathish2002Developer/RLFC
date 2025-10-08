@@ -6,12 +6,54 @@ import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import Rlfc from "../../images/RLFC-Logo.jpg"
 import Extrovis from "../../images/Extrovis.png"
+import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
 
 const About = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('journey');
   const [selectedLeader, setSelectedLeader] = useState<any>(null);
+  const { data } = useAdminAuth();
+
+  // API data for About page
+  const [aboutApi, setAboutApi] = useState<any>({ hero: null, visionMission: null, sections: [], leadership: [], values: [], journey: [], aboutJourney: null });
+  useEffect(() => {
+    const loadAbout = async () => {
+      try {
+        const res = await fetch('http://localhost:9000/api/cms/about');
+        if (res.ok) {
+          const json = await res.json();
+          setAboutApi(json.data || json);
+        }
+      } catch (_) {}
+    };
+    loadAbout();
+    
+    // Listen for changes from admin
+    const handleAboutDataChange = () => {
+      loadAbout();
+    };
+    
+    window.addEventListener('aboutDataChanged', handleAboutDataChange);
+    return () => window.removeEventListener('aboutDataChanged', handleAboutDataChange);
+  }, []);
+
+  // If navigated with scrollTop flag, ensure top scroll
+  useEffect(() => {
+    if (location.state && (location.state as any).scrollTop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Clear the state to avoid repeated scrolling
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
+  // Use API data with fallback to local data
+  const visionMission = aboutApi?.visionMission || (data as any)?.visionMission;
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Initialize AOS when component mounts
   useEffect(() => {
@@ -37,310 +79,42 @@ const About = () => {
   // Handle navigation state for tab activation
   useEffect(() => {
     if (location.state?.activeTab) {
-      setActiveTab(location.state.activeTab);
+      const target = location.state.activeTab as string;
+      setActiveTab(target);
+      // Scroll to the requested section after mount/paint
+      setTimeout(() => {
+        scrollToSection(target);
+      }, 0);
       // Clear the state after using it
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
 
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    // Scroll to show the tab content properly
-    setTimeout(() => {
-      const tabSection = document.querySelector('.tab-content-section');
-      if (tabSection) {
-        const headerHeight = 80; // Account for sticky header
-        const elementPosition = tabSection.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementPosition - headerHeight - 20; // Extra 20px padding
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      } else {
-        // Fallback: scroll to top if section not found
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-    }, 150); // Increased delay to ensure content is fully rendered
-  };
+  // Note: we highlight tabs on scroll; clicking the tab buttons uses scrollToSection below
 
   const closePopup = () => {
     setSelectedLeader(null);
   };
 
-  const leaders = [
-    // Advisory Board
-    {
-      id: 1,
-      name: 'Dr. Brian Tempest',
-      position: 'Advisor',
-      category: 'Advisory Board',
-      image: User,
-      color: 'refex-blue',
-      description: '45+ years of pharma leadership experience, former CEO of Ranbaxy – instrumental in shaping global pharma presence.',
-      achievements: [
-        '45+ years of pharma leadership experience',
-        'Former CEO, Ranbaxy – instrumental in shaping global pharma presence',
-        'Deep expertise in strategy, governance & global pharmaceutical markets',
-        'Advisor to boards & shareholders of leading pharma companies',
-        'Recognized thought leader with proven foresight in industry transformation'
-      ],
-      experience: '45+ Years',
-      education: 'Pharmaceutical Leadership'
-    },
-    {
-      id: 2,
-      name: 'K. Raghavendra Rao',
-      position: 'Advisor',
-      category: 'Advisory Board',
-            image: User,
 
-      color: 'refex-green',
-      description: '40+ years of pharma industry expertise, founder of Orchid Pharma – built from the ground up to a leading company.',
-      achievements: [
-        '40+ years of pharma industry expertise',
-        'Founder of Orchid Pharma – built from the ground up to a leading company',
-        'Educational background: B.Com + MBA (IIM Ahmedabad)',
-        'Entrepreneurial excellence in product selection, innovation & strategic growth',
-        'Influential leader shaping the Indian pharmaceutical sector with lasting impact'
-      ],
-      experience: '40+ Years',
-      education: 'B.Com + MBA (IIM Ahmedabad)'
-    },
-    // Technical Leadership Team
-    {
-      id: 3,
-      name: 'Rajesh Naik',
-      position: 'Executive Director – Operations',
-      category: 'Technical Leadership Team',
-            image: User,
+   // Get leadership data from API
+  const AdvisoryBoard = (aboutApi as any)?.leadership?.filter((leader: any) => 
+    leader.category === 'Advisory Board' && leader.isActive
+  ) || data.leadership?.filter(leader => 
+    leader.category === 'Advisory Board' && leader.isActive
+  ) || [];
 
-      color: 'refex-orange',
-      description: "26+ years in pharma technical operations. Ex-Dr. Reddy's, GSK, Biocon & Zydus; expert in manufacturing, SCM, EHS & operational excellence.",
-      achievements: [
-        '26+ years in pharma technical operations',
-        "Ex-Dr. Reddy's, GSK, Biocon & Zydus experience",
-        'Expert in manufacturing and supply chain management',
-        'Specialist in EHS & operational excellence',
-        'Led multiple facility scale-up projects'
-      ],
-      experience: '26+ Years',
-      education: 'Technical Operations'
-    },
-    {
-      id: 4,
-      name: 'Dr. Ramasubramanian Shanmuganathan',
-      position: 'Head R & D',
-      category: 'Technical Leadership Team',
-            image: User,
+  const ManagementTeam = (aboutApi as any)?.leadership?.filter((leader: any) => 
+    leader.category === 'Management Team' && leader.isActive
+  ) || data.leadership?.filter(leader => 
+    leader.category === 'Management Team' && leader.isActive
+  ) || [];
 
-      color: 'refex-blue',
-      description: '29+ years in pharma R&D leadership with experience at AstraZeneca, Syngene, Cadila & Jubilant. Brings deep scientific expertise to drive innovation and pipeline growth.',
-      achievements: [
-        '29+ years in pharma R&D leadership',
-        'Experience at AstraZeneca, Syngene, Cadila & Jubilant',
-        'Deep scientific expertise in drug development',
-        'Drives innovation and pipeline growth',
-        'Led multiple successful product launches'
-      ],
-      experience: '29+ Years',
-      education: 'PhD, Pharmaceutical Sciences'
-    },
-    {
-      id: 5,
-      name: 'Mathijs Steegstra',
-      position: 'Global Head of Scientific Affairs',
-      category: 'Technical Leadership Team',
-            image: User,
-
-      color: 'refex-green',
-      description: '20+ years in pharma quality & regulatory across USA, Europe & MENA. Pharmacy graduate from Groningen; expertise in approvals, compliance & sterile facility management.',
-      achievements: [
-        '20+ years in pharma quality & regulatory',
-        'Experience across USA, Europe & MENA regions',
-        'Pharmacy graduate from Groningen University',
-        'Expertise in regulatory approvals and compliance',
-        'Specialist in sterile facility management'
-      ],
-      experience: '20+ Years',
-      education: 'Pharmacy Graduate, Groningen'
-    },
-    {
-      id: 6,
-      name: 'Dr. Rajasekhara Reddy',
-      position: 'Formulations R&D Head',
-      category: 'Technical Leadership Team',
-            image: User,
-
-      color: 'refex-orange',
-      description: "15+ years in formulations R&D; expertise in complex generics (liposomes, microspheres, nanoparticles, drug–device combos). PhD in Pharma Sciences; ex-Alembic, Hospira, Dr. Reddy's.",
-      achievements: [
-        '15+ years in formulations R&D',
-        'Expertise in complex generics (liposomes, microspheres, nanoparticles)',
-        'Specialist in drug–device combination products',
-        'PhD in Pharmaceutical Sciences',
-        "Ex-Alembic, Hospira, Dr. Reddy's"
-      ],
-      experience: '15+ Years',
-      education: 'PhD, Pharmaceutical Sciences'
-    },
-    // Management Team
-    {
-      id: 7,
-      name: 'Anil Jain',
-      position: 'Chairman & MD, Refex Group',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-blue',
-      description: 'Visionary entrepreneur who built Refex from scratch, championing innovation, sustainability, and Make-in-India.',
-      achievements: [
-        'Built Refex Group from scratch',
-        'Champion of innovation and sustainability',
-        'Leader in Make-in-India initiatives',
-        'Visionary entrepreneur with proven track record',
-        'Strategic leader driving group expansion'
-      ],
-      experience: '40+ Years',
-      education: 'Entrepreneurial Leadership'
-    },
-    {
-      id: 8,
-      name: 'Dinesh Agarwal',
-      position: 'Group CEO, Refex Group',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-green',
-      description: "Chartered Accountant with 20+ years' experience, renowned for strategic insight and execution, shaping Refex's growth into sustainable success.",
-      achievements: [
-        "Chartered Accountant with 20+ years' experience",
-        'Renowned for strategic insight and execution',
-        "Shaped Refex's growth into sustainable success",
-        'Expert in financial strategy and operations',
-        'Leader in business transformation'
-      ],
-      experience: '20+ Years',
-      education: 'Chartered Accountant'
-    },
-    {
-      id: 9,
-      name: 'Mr. Hanumantha Rao Kamma',
-      position: 'Chief Strategy Officer',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-orange',
-      description: "23+ years in pharma with expertise in strategy, BD & sourcing. Master's in International Management; ex-senior leader across global markets.",
-      achievements: [
-        '23+ years in pharmaceutical industry',
-        'Expertise in strategy, business development & sourcing',
-        "Master's in International Management",
-        'Ex-senior leader across global markets',
-        'Strategic planning and execution specialist'
-      ],
-      experience: '23+ Years',
-      education: "Master's in International Management"
-    },
-    {
-      id: 10,
-      name: 'Sharat Narasapur',
-      position: 'CEO, Refex Life Sciences',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-blue',
-      description: "25+ years in chemicals & pharma, ex-Dr. Reddy's & SeQuent MD. Strategic leader blending technical expertise with commercial acumen for sustainable growth.",
-      achievements: [
-        '25+ years in chemicals & pharmaceutical industry',
-        "Ex-Dr. Reddy's & SeQuent Managing Director",
-        'Strategic leader with technical expertise',
-        'Commercial acumen for sustainable growth',
-        'Expert in business transformation'
-      ],
-      experience: '25+ Years',
-      education: 'Chemical & Pharmaceutical Leadership'
-    },
-    {
-      id: 11,
-      name: 'Dr. Janos Vaczi',
-      position: 'Managing Director and CEO',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-green',
-      description: '25+ years in pharma with global MNC leadership. MD, Hungary; ex-President International Ops & senior roles across Europe.',
-      achievements: [
-        '25+ years in pharmaceutical industry',
-        'Global MNC leadership experience',
-        'MD qualification from Hungary',
-        'Ex-President International Operations',
-        'Senior roles across European markets'
-      ],
-      experience: '25+ Years',
-      education: 'MD, Hungary'
-    },
-    {
-      id: 12,
-      name: 'Amit Shrivastava',
-      position: 'Chief Marketing Officer',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-orange',
-      description: 'President – Marketing, deep expertise in the API space, with strengths in portfolio strategy, competitive intelligence, and regulatory affairs, enabling growth in high-value, niche segments.',
-      achievements: [
-        'President – Marketing with deep API expertise',
-        'Strengths in portfolio strategy and competitive intelligence',
-        'Expert in regulatory affairs',
-        'Enables growth in high-value, niche segments',
-        'Strategic marketing leadership'
-      ],
-      experience: '20+ Years',
-      education: 'Marketing & Business Strategy'
-    },
-    {
-      id: 13,
-      name: 'PV Raghavendra Rao',
-      position: 'CFO',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-blue',
-      description: "CA with 25 years in financial management across pharma. Ex-CFO at Sequent, Macleods & Solara; 14 years at Dr. Reddy's. Expert in FP&A, taxation, treasury & strategy with a Goldratt Master Executive Certificate.",
-      achievements: [
-        'CA with 25 years in financial management',
-        'Ex-CFO at Sequent, Macleods & Solara',
-        '14 years experience at Dr. Reddy\'s',
-        'Expert in FP&A, taxation, treasury & strategy',
-        'Goldratt Master Executive Certificate holder'
-      ],
-      experience: '25+ Years',
-      education: 'CA, Goldratt Master Executive Certificate'
-    },
-    {
-      id: 14,
-      name: 'Srinivasan Pagadala',
-      position: 'Chief HR Officer',
-      category: 'Management Team',
-            image: User,
-
-      color: 'refex-green',
-      description: '25+ years in HR across pharma & healthcare. Specialist in talent, transformation & employee relations. Ex-Dr. Reddy\'s, Novartis, GVK Bio, Biological E, and Solara Active Pharma.',
-      achievements: [
-        '25+ years in HR across pharma & healthcare',
-        'Specialist in talent, transformation & employee relations',
-        'Ex-Dr. Reddy\'s, Novartis, GVK Bio experience',
-        'Experience at Biological E and Solara Active Pharma',
-        'Expert in organizational development'
-      ],
-      experience: '25+ Years',
-      education: 'HR & Organizational Development'
-    }
-  ];
+  const TechnicalLeaders = (aboutApi as any)?.leadership?.filter((leader: any) => 
+    leader.category === 'Technical Leadership Team' && leader.isActive
+  ) || data.leadership?.filter(leader => 
+    leader.category === 'Technical Leadership Team' && leader.isActive
+  ) || [];
 
   const getColorClasses = (color: string) => {
     const colorMap = {
@@ -386,12 +160,12 @@ const About = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero Section (Admin-managed) */}
 
          <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
         }}
       >
         <div className="w-full px-6 lg:px-8">
@@ -401,37 +175,29 @@ const About = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
             >
-              <span className="block">  About RLS</span>
+              <span className="block">{(aboutApi as any)?.hero?.title || data.aboutHero?.title || 'About RLS'}</span>
               {/* <span className="block mt-1">Sciences</span> */}
             </h1>
+            {(aboutApi as any)?.hero?.subtitle || data.aboutHero?.subtitle ? (
             <p
               className="text-base text-white max-w-4xl mx-auto font-montserrat mb-2"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="200"
             >
-              
-              <span className="text-blue-300 font-semibold">Refex Life Sciences (RLS),</span>
-               a Refex Group company, was born from the strategic integration 
-                of RL Fine Chem's four-decade legacy in active pharmaceutical ingredients (APIs) with 
-                the diversified industrial strength of the Refex Group. Established in 2022, RLS represents 
-                Refex Group's decisive entry into healthcare, uniting deep pharmaceutical expertise with 
-                financial resilience, operational excellence, and global vision.
+              {(aboutApi as any)?.hero?.subtitle || data.aboutHero.subtitle}
             </p>
+            ) : null}
+            {(aboutApi as any)?.hero?.description || data.aboutHero?.description ? (
             <p
               className="text-base text-white max-w-4xl mx-auto font-montserrat"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="400"
             >
-               Building on RLFC's leadership in psychotropic and niche APIs, and strengthened further 
-                through the acquisitions of Extrovis (Switzerland) and Modepro (Pune), RLS today stands 
-                as a fully integrated life sciences platform with capabilities across KSM, APIs, and 
-                finished formulations committed to advancing global healthcare with innovation, quality, and trust.
-              Refex Life Sciences (RLS), a Refex Group company, was born from the strategic integration
-              of RL Fine Chem&apos;s four-decade legacy in active pharmaceutical ingredients (APIs) with
-              the diversified industrial strength of the Refex Group.
+              {(aboutApi as any)?.hero?.description || data.aboutHero.description}
             </p>
+            ) : null}
           </div>
 
              <div className="flex flex-wrap justify-center items-center gap-12 mt-16">
@@ -444,11 +210,12 @@ const About = () => {
               data-aos-delay="100"
             >
              
-              <div className="w-32 h-32 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                 <img 
+               
                   src={Rlfc} 
                   alt="Modepro Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-40 h-40 object-contain"
                 />
               </div>
               <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#2879b6] text-white rounded-xl font-semibold hover:bg-[#1e5f8c] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -465,11 +232,11 @@ const About = () => {
               data-aos-duration="800"
               data-aos-delay="200"
             >
-              <div className="w-32 h-32 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                 <img 
                   src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
                   alt="Modepro Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-40 h-40 object-contain"
                 />
               </div>
               <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#7dc244] text-white rounded-xl font-semibold hover:bg-[#5ba832] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -487,11 +254,11 @@ const About = () => {
               data-aos-delay="300"
             >
              
-              <div className="w-32 h-32 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                 <img 
                   src={Extrovis} 
                   alt="Modepro Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-40 h-40 object-contain"
                 />
               </div>
               <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#ee6a31] text-white rounded-xl font-semibold hover:bg-[#d55a28] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -572,17 +339,17 @@ const About = () => {
           <div className="space-y-12">
             <div className="text-center mb-12" data-aos="fade-down" data-aos-duration="1000">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 hover:scale-105 transition-transform duration-500 text-gray-800 font-montserrat">
-                Our Journey
+                {(aboutApi as any)?.aboutJourney?.title || 'Our Journey'}
               </h2>
               <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
-                From pioneering refrigerants to transforming healthcare - a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence from 2022-23
+                {(aboutApi as any)?.aboutJourney?.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.'}
               </p>
             </div>
 
             <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
               <div className="max-w-6xl w-full">
                 <img
-                  src={journeyImage}
+                  src={(aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage}
                   alt="Refex Group Milestones Timeline"
                   className="w-full h-auto object-contain  hover:shadow-3xl transition-all duration-500 transform hover:scale-105"
                 />
@@ -627,7 +394,7 @@ const About = () => {
                           <img 
                             alt="Our Vision" 
                             className="w-full h-64 md:h-80 lg:h-96 object-cover object-center rounded-3xl shadow-2xl" 
-                            src="https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"
+                            src={visionMission?.visionImage || "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#2879b6]/20 to-transparent rounded-3xl"></div>
@@ -660,7 +427,7 @@ const About = () => {
                             data-aos="fade-up"
                             data-aos-duration="800"
                             data-aos-delay="700"
-                          >Our Vision</h3>
+                          >{visionMission?.visionTitle || 'Our Vision'}</h3>
                         </div>
                         
                         <div 
@@ -670,7 +437,7 @@ const About = () => {
                           data-aos-delay="800"
                         >
                           <p className="text-base lg:text-lg text-gray-700 leading-relaxed font-montserrat">
-                            To transform global healthcare by building an innovation driven, integrated pharmaceutical platform from India, delivering affordable, accessible and life changing drugs that address unmet patient needs – from lifestyle diseases to mental health – with a relentless commitment to quality, differentiation and impact.
+                            {visionMission?.visionDescription || 'To transform global healthcare by building an innovation driven, integrated pharmaceutical platform from India, delivering affordable, accessible and life changing drugs.'}
                           </p>
                         </div>
                         
@@ -700,26 +467,24 @@ const About = () => {
 
                   {/* Mission */}
                   <div>
-                    <div className="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-16">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                       <div 
-                        className="w-full lg:w-1/2 order-2 lg:order-1"
-                        data-aos="fade-left"
-                        data-aos-duration="1000"
-                        data-aos-delay="200"
+                        className="w-full order-2 lg:order-2 h-full"
+                        data-aos="fade-up"
+                        data-aos-duration="800"
                       >
-                        <div className="relative">
+                        <div className="relative h-full">
                           <img 
                             alt="Our Mission" 
-                            className="w-full h-full md:h-full lg:h-fullobject-cover object-center rounded-3xl shadow-2xl" 
-                            src="https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"
+                            className="w-full h-full object-cover object-center rounded-3xl shadow-2xl" 
+                            src={visionMission?.missionImage || "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#7dc244]/20 to-transparent rounded-3xl"></div>
                           <div 
                             className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-br from-[#7dc244] to-[#7dc244] rounded-3xl flex items-center justify-center shadow-2xl"
-                            data-aos="zoom-in"
+                            data-aos="fade-up"
                             data-aos-duration="800"
-                            data-aos-delay="800"
                           >
                             <i className="ri-eye-line  text-2xl text-white"></i>
                           </div>
@@ -727,94 +492,61 @@ const About = () => {
                       </div>
                       
                       <div 
-                        className="w-full lg:w-1/2 space-y-6 lg:space-y-8 order-1 lg:order-2"
-                        data-aos="fade-right"
-                        data-aos-duration="1000"
-                        data-aos-delay="400"
+                        className="w-full space-y-6 lg:space-y-8 order-1 lg:order-1 h-full"
+                        data-aos="fade-up"
+                        data-aos-duration="800"
                       >
                         <div className="flex items-center gap-4 mb-6 lg:mb-8">
                           <div 
                             className="w-2 h-12 lg:h-16 bg-gradient-to-b from-[#7dc244] to-[#7dc244] rounded-full"
-                            data-aos="slide-down"
+                            data-aos="fade-up"
                             data-aos-duration="800"
-                            data-aos-delay="600"
                           ></div>
                           <h3 
                             className="text-2xl lg:text-3xl font-bold text-gray-800 font-montserrat"
                             data-aos="fade-up"
                             data-aos-duration="800"
-                            data-aos-delay="700"
-                          >Our Mission</h3>
+                          >{visionMission?.missionTitle || 'Our Mission'}</h3>
                         </div>
                         
                         <div className="space-y-4 lg:space-y-6">
-                          <div 
-                            className="group relative bg-gradient-to-br from-[#7dc244]/10 to-[#7dc244]/5 rounded-2xl p-4 lg:p-6 shadow-lg border border-[#7dc244]/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                            data-aos="slide-right"
-                            data-aos-duration="800"
-                            data-aos-delay="800"
-                          >
-                            <div className="flex items-start gap-3 lg:gap-4">
-                              <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
-                              <div>
-                                <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">Build a future-ready integrated pharma platform</h4>
-                                <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
-                                  Delivering high-quality APIs and complex generic formulations across CNS, respiratory, and high-barrier specialty therapies
-                                </p>
+                          {(visionMission?.missionPoints || [
+                            {
+                              title: "Build a future-ready integrated pharma platform",
+                              description: "Delivering high-quality APIs and complex generic formulations across CNS, respiratory, and high-barrier specialty therapies"
+                            },
+                            {
+                              title: "Leverage technology innovation in R&D and manufacturing",
+                              description: "Accelerating drug development cycles with AI-enabled research and continuous flow chemistry technology"
+                            },
+                            {
+                              title: "Deepen global footprint",
+                              description: "Expand our reach across 80+ markets with local presence, regional insights, and responsive supply chains to serve global customers effectively"
+                            },
+                            {
+                              title: "Sustainability through Green Chemistry",
+                              description: "Implement water-positive initiatives, reduce carbon footprint, and build ESG-focused operations as a core pillar of our excellence"
+                            }
+                          ]).map((point: any, index: number) => (
+                            <div 
+                              key={index}
+                              className="group relative bg-gradient-to-br from-[#7dc244]/10 to-[#7dc244]/5 rounded-2xl p-4 lg:p-6 shadow-lg border border-[#7dc244]/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                              data-aos="fade-up"
+                              data-aos-duration="800"
+                            >
+                              <div className="flex items-start gap-3 lg:gap-4">
+                                <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
+                                <div>
+                                  <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">
+                                    {point.title || point.text}
+                                  </h4>
+                                  <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
+                                    {point.description || point.text}
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          
-                          <div 
-                            className="group relative bg-gradient-to-br from-[#7dc244]/10 to-[#7dc244]/5 rounded-2xl p-4 lg:p-6 shadow-lg border border-[#7dc244]/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                            data-aos="slide-right"
-                            data-aos-duration="800"
-                            data-aos-delay="1000"
-                          >
-                            <div className="flex items-start gap-3 lg:gap-4">
-                              <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
-                              <div>
-                                <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">Leverage technology innovation in R&amp;D and manufacturing</h4>
-                                <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
-                                  Accelerating drug development cycles with AI-enabled research and continuous flow chemistry technology
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div 
-                            className="group relative bg-gradient-to-br from-[#7dc244]/10 to-[#7dc244]/5 rounded-2xl p-4 lg:p-6 shadow-lg border border-[#7dc244]/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                            data-aos="slide-right"
-                            data-aos-duration="800"
-                            data-aos-delay="1200"
-                          >
-                            <div className="flex items-start gap-3 lg:gap-4">
-                              <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
-                              <div>
-                                <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">Deepen global footprint</h4>
-                                <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
-                                  Expand our reach across 80+ markets with local presence, regional insights, and responsive supply chains to serve global customers effectively
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div 
-                            className="group relative bg-gradient-to-br from-[#7dc244]/10 to-[#7dc244]/5 rounded-2xl p-4 lg:p-6 shadow-lg border border-[#7dc244]/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                            data-aos="slide-right"
-                            data-aos-duration="800"
-                            data-aos-delay="1400"
-                          >
-                            <div className="flex items-start gap-3 lg:gap-4">
-                              <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
-                              <div>
-                                <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">Sustainability through Green Chemistry</h4>
-                                <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
-                                  Implement water-positive initiatives, reduce carbon footprint, and build ESG-focused operations as a core pillar of our excellence
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -963,9 +695,9 @@ const About = () => {
           Advisory Board
         </h3>
         <div className="flex flex-wrap justify-center gap-8 items-center">
-          {leaders
-            .filter((leader) => leader.category === "Advisory Board")
-            .map((leader, index) => {
+          {AdvisoryBoard
+            
+                        .map((leader: any, index: number) => {
               const colors = getColorClasses(leader.color);
               return (
                 <div
@@ -980,7 +712,7 @@ const About = () => {
                     className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
                   >
                     <img
-                      src={leader.image}
+                      src={leader.image || User}
                       alt={leader.name}
                       className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                     />
@@ -1009,43 +741,49 @@ const About = () => {
           Technical Leadership Team
         </h3>
         <div className="flex flex-wrap justify-center gap-8 items-center">
-          {leaders
-            .filter((leader) => leader.category === "Technical Leadership Team")
-            .map((leader, index) => {
-              const colors = getColorClasses(leader.color);
-              return (
+          {TechnicalLeaders && TechnicalLeaders.length > 0 ? TechnicalLeaders.map((leader: any, index: number) => {
+            const colors = getColorClasses(leader.color);
+            return (
+              <div
+                key={leader.id}
+                className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
+                onClick={() => setSelectedLeader(leader)}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay={index * 100}
+              >
                 <div
-                  key={leader.id}
-                  className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                  onClick={() => setSelectedLeader(leader)}
-                  data-aos="zoom-in"
-                  data-aos-duration="800"
-                  data-aos-delay={index * 100}
+                  className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
                 >
-                  <div
-                    className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
-                  >
-                    <img
-                      src={leader.image}
-                      alt={leader.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-
-                  {/* Always Visible Name and Position */}
-                  <div className="mt-4 text-center">
-                    <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
-                      {leader.name}
-                    </p>
-                    <p
-                      className={`text-xs ${colors.text} font-semibold font-montserrat mt-1 leading-tight`}
-                    >
-                      {leader.position}
-                    </p>
-                  </div>
+                  <img
+                    src={leader.image || User}
+                    alt={leader.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      // Fallback to default image if the image fails to load
+                      e.currentTarget.src = User;
+                    }}
+                  />
                 </div>
-              );
-            })}
+
+                {/* Always Visible Name and Position */}
+                <div className="mt-4 text-center">
+                  <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
+                    {leader.name}
+                  </p>
+                  <p
+                    className={`text-xs ${colors.text} font-semibold font-montserrat mt-1 leading-tight`}
+                  >
+                    {leader.position}
+                  </p>
+                </div>
+              </div>
+            );
+          }) : (
+            <div className="text-center text-gray-500 font-montserrat">
+              <p>Technical Leadership Team information is being updated.</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1072,9 +810,9 @@ const About = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-8 items-center">
-        {leaders
-          .filter((leader) => leader.category === "Management Team")
-          .map((leader, index) => {
+        {
+          ManagementTeam
+                        .map((leader: any, index: number) => {
             const colors = getColorClasses(leader.color);
             return (
               <div
@@ -1089,9 +827,13 @@ const About = () => {
                   className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
                 >
                   <img
-                    src={leader.image}
+                    src={leader.image || User}
                     alt={leader.name}
                     className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      // Fallback to default image if the image fails to load
+                      e.currentTarget.src = User;
+                    }}
                   />
                 </div>
 
@@ -1124,7 +866,6 @@ const About = () => {
       </div>
     </div>
   </section>
-     
     
 
       {/* Tab Navigation */}
@@ -1204,7 +945,7 @@ const About = () => {
                     <div>
                       <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Key Achievements</h4>
                       <div className="space-y-3">
-                        {selectedLeader.achievements.map((achievement: string, index: number) => (
+                        {(Array.isArray(selectedLeader.achievements) ? selectedLeader.achievements : []).map((achievement: string, index: number) => (
                           <div key={index} className="flex items-start gap-3">
                             <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${getColorClasses(selectedLeader.color).bg} mt-2 flex-shrink-0`}></div>
                             <p className="text-gray-600 font-montserrat">{achievement}</p>

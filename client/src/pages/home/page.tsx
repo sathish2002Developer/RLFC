@@ -1,16 +1,167 @@
 
-import { useState, useEffect } from 'react';
-
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 import HeroSlider from '../../components/feature/HeroSlider';
 import Footer from '../../components/feature/Footer';
 import Header from '../../components/feature/Header';
+import { useAdminAuth } from '../../contexts/AdminContext';
 
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [currentRegulatorySlide, setCurrentRegulatorySlide] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  
+  // Get admin data from context
+  const { data } = useAdminAuth();
+  
+  // Map brand color keys to hex for UI usage
+  const getColorValue = (color: string) => {
+    const colorMap = {
+      'refex-blue': '#2879b6',
+      'refex-green': '#7dc244',
+      'refex-orange': '#ee6a31'
+    } as const;
+    return (colorMap as any)[color] || color || '#2879b6';
+  };
+  
+  // State for admin data (keeping for backward compatibility)
+  const [adminData, setAdminData] = useState({
+    heroSlides: [] as any[],
+    offerings: [] as any[],
+    statistics: [] as any[],
+    regulatoryApprovals: [] as any[],
+    aboutSections: [] as any[],
+    homeGlobalImpact: null as any
+  });
+  
+  // Load data directly from localStorage
+  useEffect(() => {
+    const loadDataFromStorage = () => {
+      try {
+        const savedData = localStorage.getItem('admin_data');
+        console.log('📦 Loading data from localStorage:', savedData ? 'Found data' : 'No data found');
+        console.log('📦 Raw localStorage data:', savedData);
+        
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          console.log('📥 Parsed data from localStorage:', {
+            heroSlides: parsedData.heroSlides?.length || 0,
+            offerings: parsedData.offerings?.length || 0,
+            statistics: parsedData.statistics?.length || 0,
+            regulatoryApprovals: parsedData.regulatoryApprovals?.length || 0
+          });
+          console.log('📥 Full parsed data:', parsedData);
+          
+          setAdminData({
+            heroSlides: parsedData.heroSlides || [],
+            offerings: parsedData.offerings || [],
+            statistics: parsedData.statistics || [],
+            regulatoryApprovals: parsedData.regulatoryApprovals || [],
+            aboutSections: parsedData.aboutSections || [],
+            homeGlobalImpact: parsedData.homeGlobalImpact || null
+          });
+          
+          console.log('✅ Admin data state updated:', {
+            heroSlides: parsedData.heroSlides?.length || 0,
+            offerings: parsedData.offerings?.length || 0,
+            statistics: parsedData.statistics?.length || 0,
+            regulatoryApprovals: parsedData.regulatoryApprovals?.length || 0
+          });
+        } else {
+          console.log('📝 No data in localStorage, using empty arrays');
+          setAdminData({
+            heroSlides: [],
+            offerings: [],
+            statistics: [],
+            regulatoryApprovals: [],
+            aboutSections: [],
+            homeGlobalImpact: null
+          });
+        }
+      } catch (error) {
+        console.error('❌ Error loading data from localStorage:', error);
+        console.error('❌ Error details:', error instanceof Error ? error.message : 'Unknown error');
+        console.error('❌ Saved data that caused error:', localStorage.getItem('admin_data'));
+      }
+    };
+    
+    // Load data on mount
+    loadDataFromStorage();
+    
+    // Test localStorage data preservation
+    console.log('🧪 Testing localStorage data preservation...');
+    const testData = localStorage.getItem('admin_data');
+    if (testData) {
+      try {
+        const parsed = JSON.parse(testData);
+        console.log('✅ localStorage data is valid JSON:', {
+          hasHeroSlides: !!parsed.heroSlides,
+          hasOfferings: !!parsed.offerings,
+          hasStatistics: !!parsed.statistics,
+          hasRegulatoryApprovals: !!parsed.regulatoryApprovals
+        });
+      } catch (e) {
+        console.error('❌ localStorage data is corrupted:', e);
+      }
+    } else {
+      console.log('⚠️ No data in localStorage');
+    }
+    
+    // Listen for localStorage changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'admin_data') {
+        console.log('🔄 localStorage changed, reloading data...');
+        loadDataFromStorage();
+        setRefreshKey(prev => prev + 1);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events (for same-tab updates)
+    const handleCustomStorageChange = () => {
+      console.log('🔄 Custom storage event, reloading data...');
+      loadDataFromStorage();
+      setRefreshKey(prev => prev + 1);
+    };
+    
+    window.addEventListener('adminDataChanged', handleCustomStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('adminDataChanged', handleCustomStorageChange);
+    };
+  }, []);
+
+  // Listen for context data changes and update local state (optimized)
+  useEffect(() => {
+    if (data) {
+      console.log('🔄 Context data changed, updating local state...', {
+        homeGlobalImpact: data.homeGlobalImpact,
+        statistics: data.statistics?.length || 0
+      });
+      
+      setAdminData(prev => {
+        const newData = {
+          ...prev,
+          homeGlobalImpact: data.homeGlobalImpact || prev.homeGlobalImpact,
+          statistics: data.statistics || prev.statistics
+        };
+        
+        // Only trigger refresh if data actually changed
+        if (JSON.stringify(prev.homeGlobalImpact) !== JSON.stringify(newData.homeGlobalImpact) ||
+            JSON.stringify(prev.statistics) !== JSON.stringify(newData.statistics)) {
+          setRefreshKey(prev => prev + 1);
+        }
+        
+        return newData;
+      });
+    }
+  }, [data?.homeGlobalImpact?.title, data?.homeGlobalImpact?.description, data?.statistics?.length]);
+
+  
   
   // Add counters state for statistics animation
   const [counters, setCounters] = useState({
@@ -19,149 +170,206 @@ export default function Home() {
     markets: 0
   });
 
-  const slides = [
-    {
-      image: "https://readdy.ai/api/search-image?query=State-of-the-art%20pharmaceutical%20laboratory%20with%20advanced%20scientific%20equipment%20and%20researchers%20in%20white%20coats%2C%20modern%20sterile%20environment%20with%20sophisticated%20instruments%20and%20glass%20beakers%2C%20high-tech%20medical%20research%20facility%20with%20blue%20accent%20lighting%20and%20clean%20white%20surfaces%2C%20professional%20pharmaceutical%20lab%20atmosphere%20showcasing%20innovation%20from%20lab%20to%20life&width=1200&height=600&seq=pharma-lab-1&orientation=landscape",
-      title: "Accelerating Healthcare from Lab to Life"
-    },
-    {
-      image: "https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20network%20visualization%20showing%20world%20map%20with%20connecting%20lines%20to%2080%20%20countries%2C%20modern%20digital%20interface%20displaying%20international%20connections%20and%20global%20reach%2C%20professional%20blue%20and%20green%20color%20scheme%20with%20geographic%20elements%2C%20clean%20minimalist%20design%20representing%20worldwide%20pharmaceutical%20distribution&width=1200&height=600&seq=global-reach-2&orientation=landscape",
-      title: "Global Reach – Customers in 80+ countries"
-    },
-    {
-      image: "https://readdy.ai/api/search-image?query=Pharmaceutical%20production%20line%20showing%20building%20blocks%20to%20final%20formulations%20process%2C%20modern%20industrial%20facility%20with%20conveyor%20belts%20and%20packaging%20equipment%2C%20clean%20white%20manufacturing%20environment%20with%20blue%20industrial%20machinery%2C%20professional%20pharmaceutical%20manufacturing%20setting%20demonstrating%20reliable%20production%20chain&width=1200&height=600&seq=production-3&orientation=landscape",
-      title: "From Building Blocks to Formulations: One Partner. Total Reliability"
-    },
-    {
-      image: "https://readdy.ai/api/search-image?query=Multiple modern pharmaceutical facilities and research centers layout showing 4 global facilities and 3 R&D centres, aerial view of integrated pharmaceutical platform with clean architecture, professional buildings with glass facades and modern design, comprehensive pharmaceutical infrastructure visualization&width=1200&height=600&seq=facilities-4&orientation=landscape",
-      title: "4 Global Facilities | 3 R&D Centres | 1 Integrated Pharma Platform"
-    }
-  ];
+  // API: Load hero slides from server (override localStorage for slides only)
+  const [apiSlides, setApiSlides] = useState<any[]>([]);
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('http://localhost:9000/api/cms/home/slides');
+        if (res.ok) {
+          const json = await res.json();
+          const rows = Array.isArray(json?.data) ? json.data : json; // controller returns rows as data
+          setApiSlides((rows || []).filter((s: any) => s.isActive).sort((a: any, b: any) => (a.order||0)-(b.order||0)));
+        }
+      } catch (_) {}
+    };
+    load();
+    const handler = () => load();
+    window.addEventListener('heroSlidesChanged', handler);
+    return () => window.removeEventListener('heroSlidesChanged', handler);
+  }, []);
 
-  // Regulatory approvals data
-  const regulatoryApprovals = [
-    {
-      icon: 'ri-shield-check-line',
-      title: 'FDA',
-      description: 'United States Food and Drug Administration',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/4-1.jpg'
-    },
-    {
-      icon: 'ri-heart-pulse-line',
-      title: 'EDQM',
-      description: 'European Directorate for Quality of Medicines',
-      color: '#7dc244',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/3-1.jpg'
-    },
-    {
-      icon: 'ri-leaf-line',
-      title: 'ANVISA',
-      description: 'Brazilian Health Regulatory Agency',
-      color: '#ee6a31',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/anvisa-lg.png'
-    },
-    {
-      icon: 'ri-government-line',
-      title: 'Health Canada',
-      description: 'Health Canada Regulatory Approval',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/6-1.jpg'
-    },
-    {
-      icon: 'ri-global-line',
-      title: 'Health Canada',
-      description: 'Canadian Health Regulatory Authority',
-      color: '#7dc244',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/5-2.jpg'
-    },
-    {
-      icon: 'ri-verified-badge-line',
-      title: 'SFDA',
-      description: 'State Food and Drug Administration',
-      color: '#ee6a31',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/1-3.png'
-    },
-    {
-      icon: 'ri-medal-line',
-      title: 'TGA',  
-      description: 'Therapeutic Goods Administration',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/9.png'
-    },
-    {
-      icon: 'ri-award-line',
-      title: 'MHRA',
-      description: 'Medicines and Healthcare products Regulatory Agency',
-      color: '#7dc244',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/10.png'
-    },
-    {
-      icon: 'ri-hospital-line',
-      title: 'WHO GMP',
-      description: 'World Health Organization Good Manufacturing Practice',
-      color: '#ee6a31',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/08/2-1.jpg'
-    },
-    {
-      icon: 'ri-check-double-line',
-      title: 'PMDA',
-      description: 'Japan Pharmaceuticals and Medical Devices Agency',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/2-3.png'
-    },
-    {
-      icon: 'ri-shield-star-line',
-      title: 'NMPA',
-      description: 'National Medical Products Administration',
-      color: '#7dc244',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/8.png'
-    },
-    {
-      icon: 'ri-trophy-line',
-      title: 'SUKL',
-      description: 'State Institute for Drug Control',
-      color: '#ee6a31',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/7.png'
-    },
-    {
-      icon: 'ri-star-line',
-      title: 'SAHPRA',
-      description: 'South African Health Products Regulatory Authority',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/09/4-3.jpg'
-    },
-    {
-      icon: 'ri-certificate-line',
-      title: 'HSA',
-      description: 'Health Sciences Authority Singapore',
-      color: '#7dc244',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/09/3-3.jpg'
-    },
-    {
-      icon: 'ri-verified-badge-fill',
-      title: 'COFEPRIS',
-      description: 'Federal Commission for Protection against Health Risks',
-      color: '#ee6a31',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/5.png'
-    },
-    {
-      icon: 'ri-honour-line',
-      title: 'INVIMA',
-      description: 'National Institute for Drug and Food Surveillance',
-      color: '#2879b6',
-      image: 'https://www.rlfinechem.com/wp-content/uploads/2023/12/6.png'
+  // API: Load offerings, statistics, regulatory from server (override localStorage)
+  const [offeringsApi, setOfferingsApi] = useState<any[]>([]);
+  const [statisticsApi, setStatisticsApi] = useState<any[]>([]);
+  const [regulatoryApi, setRegulatoryApi] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadAll = async () => {
+      try {
+        console.log('🔄 Loading API data...');
+        const [offRes, statRes, regRes] = await Promise.all([
+          fetch('http://localhost:9000/api/cms/home/offerings'),
+          fetch('http://localhost:9000/api/cms/home/statistics'),
+          fetch('http://localhost:9000/api/cms/home/regulatory'),
+        ]);
+        
+        console.log('📡 API Response Status:', {
+          offerings: offRes.status,
+          statistics: statRes.status,
+          regulatory: regRes.status
+        });
+        
+        if (offRes.ok) {
+          const json = await offRes.json();
+          const rows = Array.isArray(json?.data) ? json.data : json;
+          setOfferingsApi((rows || []).filter((r: any) => r.isActive).sort((a: any, b: any) => (a.order||0)-(b.order||0)));
+          console.log('✅ Offerings loaded:', rows?.length || 0);
+        }
+        if (statRes.ok) {
+          const json = await statRes.json();
+          const rows = Array.isArray(json?.data) ? json.data : json;
+          setStatisticsApi((rows || []).filter((r: any) => r.isActive).sort((a: any, b: any) => (a.order||0)-(b.order||0)));
+          console.log('✅ Statistics loaded:', rows?.length || 0, rows);
+        } else {
+          console.error('❌ Statistics API failed:', statRes.status, statRes.statusText);
+        }
+        if (regRes.ok) {
+          const json = await regRes.json();
+          const rows = Array.isArray(json?.data) ? json.data : json;
+          const filteredRows = (rows || []).filter((r: any) => r.isActive).sort((a: any, b: any) => (a.order||0)-(b.order||0));
+           console.log('✅ filteredRows:', filteredRows.length);
+          setRegulatoryApi(filteredRows);
+          console.log('✅ Regulatory loaded:', {
+            totalRows: rows?.length || 0,
+            activeRows: filteredRows.length,
+            rawData: rows,
+            filteredData: filteredRows
+          });
+        } else {
+          console.error('❌ Regulatory API failed:', regRes.status, regRes.statusText);
+          // Set empty array to ensure we don't fall back to localStorage
+          setRegulatoryApi([]);
+        }
+      } catch (error) {
+        console.error('❌ API loading error:', error);
+      }
+    };
+    loadAll();
+  }, []);
+
+  // Filter and sort data choosing API over localStorage (optimized with useMemo)
+  const heroSlides = useMemo(() => 
+    (apiSlides.length > 0 ? apiSlides : adminData.heroSlides)
+      .filter(slide => slide.isActive)
+      .sort((a, b) => a.order - b.order), 
+    [apiSlides, adminData.heroSlides]
+  );
+  
+  const offerings = useMemo(() => 
+    (offeringsApi.length > 0 ? offeringsApi : adminData.offerings)
+      .filter(offering => offering.isActive)
+      .sort((a, b) => a.order - b.order), 
+    [offeringsApi, adminData.offerings]
+  );
+  
+  const statistics = useMemo(() => 
+    (statisticsApi.length > 0 ? statisticsApi : adminData.statistics)
+      .filter(stat => stat.isActive)
+      .sort((a, b) => a.order - b.order), 
+    [statisticsApi, adminData.statistics]
+  );
+  
+  const regulatoryApprovals = useMemo(() => {
+    // Force use of API data only - no localStorage fallback
+    const data = regulatoryApi
+      .filter(approval => approval.isActive)
+      .sort((a, b) => a.order - b.order);
+    console.log('🔍 Regulatory Approvals Data (API Only):', {
+      regulatoryApi: regulatoryApi.length,
+      adminData: adminData.regulatoryApprovals?.length || 0,
+      finalData: data.length,
+      data: data,
+      usingApi: true
+    });
+    return data;
+  }, [regulatoryApi]);
+
+  // Listen for API data changes and refresh (optimized to prevent loops)
+  useEffect(() => {
+    if (statisticsApi.length > 0) {
+      console.log('🔄 API statistics loaded, refreshing display...', {
+        statisticsApi: statisticsApi.length
+      });
+      setRefreshKey(prev => prev + 1);
     }
-  ];
+  }, [statisticsApi.length]); // Only depend on length to prevent infinite loops
+
+  // Listen for regulatory API data changes and refresh
+  useEffect(() => {
+    if (regulatoryApi.length > 0) {
+      console.log('🔄 API regulatory loaded, refreshing display...', {
+        regulatoryApi: regulatoryApi.length,
+        dataRegulatory: data.regulatoryApprovals?.length || 0
+      });
+      setRefreshKey(prev => prev + 1);
+    }
+  }, [regulatoryApi.length]); // Only depend on length to prevent infinite loops
+
+  // Debug: Log current data being used for Global Impact section (optimized)
+  useEffect(() => {
+    console.log('🔍 Global Impact Debug Info:', {
+      contextData: {
+        homeGlobalImpact: data?.homeGlobalImpact,
+        statistics: data?.statistics?.length || 0
+      },
+      localData: {
+        homeGlobalImpact: adminData?.homeGlobalImpact,
+        statistics: adminData?.statistics?.length || 0
+      },
+      apiData: {
+        statisticsApi: statisticsApi?.length || 0,
+        finalStatistics: statistics?.length || 0
+      },
+      finalTitle: data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence',
+      finalDescription: data?.homeGlobalImpact?.description || adminData?.homeGlobalImpact?.description || 'Default description'
+    });
+  }, [data?.homeGlobalImpact?.title, adminData?.homeGlobalImpact?.title, statisticsApi.length, statistics.length]); // Reduced dependencies
+  
+  // Debug filtered data (moved to useEffect to prevent render-time logging)
+  useEffect(() => {
+    console.log('🔍 Filtered data from adminData:', {
+      adminData: adminData,
+      heroSlides: heroSlides.length,
+      offerings: offerings.length,
+      statistics: statistics.length,
+      regulatoryApprovals: regulatoryApprovals.length
+    });
+  }, [heroSlides.length, offerings.length, statistics.length, regulatoryApprovals.length]);
+
+  // Use admin-managed slides or fallback to default (optimized with useMemo)
+  const slides = useMemo(() => 
+    heroSlides.length > 0 ? heroSlides : [], 
+    [heroSlides]
+  );
+  
+  // Debug hero slides (moved to useEffect to prevent render-time logging)
+  useEffect(() => {
+    console.log('🖼️ Hero slides data:', {
+      heroSlides: heroSlides.length,
+      slides: slides.length,
+      adminDataHeroSlides: adminData.heroSlides.length
+    });
+  }, [heroSlides.length, slides.length, adminData.heroSlides.length]);
+
 
 
   // Auto-scroll for regulatory carousel
   useEffect(() => {
+    if (regulatoryApprovals.length === 0) return;
     const timer = setInterval(() => {
-      setCurrentRegulatorySlide((prev) => (prev + 1) % regulatoryApprovals.length);
+      setCurrentRegulatorySlide((prev) => {
+        const maxSlide = Math.max(0, regulatoryApprovals.length - 4);
+        return prev >= maxSlide ? 0 : prev + 1;
+      });
     }, 4000); // 4 seconds per slide
     return () => clearInterval(timer);
   }, [regulatoryApprovals.length]);
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Parallax scroll effect
   useEffect(() => {
@@ -172,7 +380,7 @@ export default function Home() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev: number) => (prev + 1) % slides.length);
     }, 8000); // Changed from 5000ms to 8000ms (8 seconds)
     return () => clearInterval(timer);
   }, [slides.length]);
@@ -205,7 +413,12 @@ export default function Home() {
 
   // Counter animation function
   const animateCounters = () => {
-    const targets = { scientists: 200, products: 150, markets: 80 };
+    const targets = {
+      scientists: statistics[0]?.value || 200,
+      products: statistics[1]?.value || 150,
+      markets: statistics[2]?.value || 80
+    };
+    
     const duration = 2000; // 2 seconds
     const steps = 60;
     const increment = duration / steps;
@@ -230,137 +443,34 @@ export default function Home() {
 
   // Navigation functions for regulatory carousel
   const nextRegulatorySlide = () => {
-    setCurrentRegulatorySlide((prev) => (prev + 1) % regulatoryApprovals.length);
+    if (regulatoryApprovals.length === 0) return;
+    const maxSlide = Math.max(0, regulatoryApprovals.length - 4);
+    setCurrentRegulatorySlide((prev) => Math.min(prev + 1, maxSlide));
   };
 
   const prevRegulatorySlide = () => {
-    setCurrentRegulatorySlide((prev) => (prev - 1 + regulatoryApprovals.length) % regulatoryApprovals.length);
+    if (regulatoryApprovals.length === 0) return;
+    setCurrentRegulatorySlide((prev) => Math.max(prev - 1, 0));
   };
 
   const goToRegulatorySlide = (index: number) => {
-    setCurrentRegulatorySlide(index);
+    if (regulatoryApprovals.length === 0) return;
+    const maxSlide = Math.max(0, regulatoryApprovals.length - 4);
+    setCurrentRegulatorySlide(Math.min(index, maxSlide));
   };
 
-  // Calculate visible slides for regulatory carousel
-  const getVisibleRegulatorySlides = () => {
-    const visibleCount = 3; // Show 3 cards at a time
-    const slides = [];
-    for (let i = 0; i < visibleCount; i++) {
-      const index = (currentRegulatorySlide + i) % regulatoryApprovals.length;
-      slides.push(regulatoryApprovals[index]);
-    }
-    return slides;
-  };
 
-  const offerings = [
-    {
-      title: "Legacy of Leadership",
-      description: "40+ years of proven expertise in psychotropic APIs and complex generics",
-      icon: "ri-award-line",
-      color: "#2879b6",
-      gradient: "from-blue-500 to-cyan-500",
-      metric: "40+",
-      unit: "Years"
-    },
-    {
-      title: "Global Trust",
-      description: "Strong relationships with top pharma innovators and generics across 80+ countries",
-      icon: "ri-global-line",
-      color: "#7dc244",
-      gradient: "from-green-500 to-emerald-500",
-      metric: "80+",
-      unit: "Countries"
-    },
-    {
-      title: "Diverse Portfolio",
-      description: "Market leadership in CNS, antipsychotics, antihistamines, muscle relaxants, and expanding into high-barrier therapies",
-      icon: "ri-briefcase-line",
-      color: "#ee6a31",
-      gradient: "from-orange-500 to-red-500",
-      metric: "CNS",
-      unit: "Leadership"
-    },
-    {
-      title: "Innovation Engine",
-      description: "DSIR-approved R&D and late-stage development capabilities driving differentiated products and faster scale-up",
-      icon: "ri-lightbulb-line",
-      color: "#2879b6",
-      gradient: "from-blue-500 to-indigo-500",
-      metric: "R&D",
-      unit: "Centers"
-    },
-    {
-      title: "Integrated Value Chain",
-      description: "End-to-end strength across KSM, APIs, and FDFs, reducing supply chain risk and ensuring reliability",
-      icon: "ri-links-line",
-      color: "#7dc244",
-      gradient: "from-green-500 to-teal-500",
-      metric: "E2E",
-      unit: "Solutions"
-    },
-    {
-      title: "World-Class Manufacturing",
-      description: "Multiple sites in Karnataka, Andhra Pradesh, and global hubs in Italy and US, scaling seamlessly from grams to tons",
-      icon: "ri-factory-line",
-      color: "#ee6a31",
-      gradient: "from-orange-500 to-amber-500",
-      metric: "6",
-      unit: "Facilities"
-    },
-    {
-      title: "Regulatory Excellence",
-      description: "Approvals and compliance across US, EU, and other major regulated markets",
-      icon: "ri-shield-check-line",
-      color: "#2879b6",
-      gradient: "from-blue-500 to-purple-500",
-      metric: "Global",
-      unit: "Approvals"
-    },
-    {
-      title: "Partner of Choice",
-      description: "Trusted by 550+ customers worldwide for quality, speed, and regulatory support",
-      icon: "ri-handshake-line",
-      color: "#7dc244",
-      gradient: "from-green-500 to-lime-500",
-      metric: "550+",
-      unit: "Customers"
-    },
-    {
-      title: "Agile Supply Chain",
-      description: "Flexible, resilient operations ensuring consistent delivery in volatile environments",
-      icon: "ri-truck-line",
-      color: "#ee6a31",
-      gradient: "from-orange-500 to-pink-500",
-      metric: "Resilient",
-      unit: "Operations"
-    },
-    {
-      title: "Sustainability Commitment",
-      description: "Embedding green chemistry, water-positive initiatives, and ESG practices into every process",
-      icon: "ri-leaf-line",
-      color: "#7dc244",
-      gradient: "from-green-500 to-emerald-500",
-      metric: "ESG",
-      unit: "Focused"
-    },
-    {
-      title: "Future-Ready Growth",
-      description: "Backed by Refex Group's financial strength, infrastructure, and vision for global expansion",
-      icon: "ri-rocket-line",
-      color: "#2879b6",
-      gradient: "from-blue-500 to-cyan-500",
-      metric: "Global",
-      unit: "Vision"
-    }
-  ];
+  // Use admin-managed offerings directly
+  const offeringsData = offerings;
 
   return (
-    <div className="min-h-screen bg-white">
+     <>
+       <div className="min-h-screen bg-white">
       
       {/* Header - Updated with Refex Group styling */}
       <Header/>
 
-       <HeroSlider/>
+       <HeroSlider slides={slides}/>
 
       {/* Enhanced Hero Banner with Bubble Effects */}
     
@@ -410,49 +520,54 @@ export default function Home() {
           </div>
 
           {/* Enhanced Card Grid Layout with Advanced Animations */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
-  {offerings.map((offering, index) => {
+          <div key={refreshKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+            {offeringsData && offeringsData.length > 0 ? offeringsData.map((offering, index) => {
     // Correctly calculates a different delay for each card to create a staggered effect.
     // The delay increases by 100ms for each card.
     const staggerDelay = index * 100;
     
     return (
       <div 
-        key={index} 
+        key={offering.id || index} 
         className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:rotate-1 cursor-pointer overflow-hidden border border-gray-100"
-        data-aos="fade-up" // Changed to a normal "fade-up" animation
-        data-aos-delay={staggerDelay} // Applies the correct sequential delay
+        data-aos="fade-up"
+        data-aos-delay={staggerDelay}
         data-aos-duration="800"
         data-aos-easing="ease-out-cubic"
+        style={{ 
+          opacity: 1, 
+          transform: 'translateY(0)', 
+          animation: 'fadeInUp 0.8s ease-out forwards'
+        }}
       >
         
         {/* Enhanced Background Effects */}
         <div className={`absolute top-0 right-0 w-32 h-32 opacity-5 group-hover:opacity-20 transition-all duration-700 rounded-full blur-xl`} 
-             style={{ background: `radial-gradient(circle, ${offering.color}, ${offering.color}88)` }}>
+             style={{ background: `radial-gradient(circle, ${getColorValue(offering.color)}, ${getColorValue(offering.color)}88)` }}>
         </div>
         
         {/* Floating Particles Effect */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-          <div className="absolute top-4 right-4 w-2 h-2 rounded-full animate-ping" style={{ backgroundColor: offering.color, animationDuration: '2s' }}></div>
-          <div className="absolute bottom-8 left-6 w-1 h-1 rounded-full animate-ping" style={{ backgroundColor: offering.color, animationDelay: '0.5s', animationDuration: '3s' }}></div>
-          <div className="absolute top-1/2 left-4 w-1.5 h-1.5 rounded-full animate-ping" style={{ backgroundColor: offering.color, animationDelay: '1s', animationDuration: '2.5s' }}></div>
+          <div className="absolute top-4 right-4 w-2 h-2 rounded-full animate-ping" style={{ backgroundColor: getColorValue(offering.color), animationDuration: '2s' }}></div>
+          <div className="absolute bottom-8 left-6 w-1 h-1 rounded-full animate-ping" style={{ backgroundColor: getColorValue(offering.color), animationDelay: '0.5s', animationDuration: '3s' }}></div>
+          <div className="absolute top-1/2 left-4 w-1.5 h-1.5 rounded-full animate-ping" style={{ backgroundColor: getColorValue(offering.color), animationDelay: '1s', animationDuration: '2.5s' }}></div>
         </div>
         
         <div className="relative z-10 p-8">
           {/* Enhanced Header Section */}
           <div className="flex items-start justify-between mb-8">
             <div className={`relative w-18 h-18 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-500`} 
-                 style={{ backgroundColor: offering.color }}>
+                 style={{ backgroundColor: getColorValue(offering.color) }}>
               <i className={`${offering.icon} text-2xl text-white group-hover:scale-110 transition-transform duration-300`}></i>
               {/* Glow effect */}
               <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 animate-pulse" 
-                   style={{ backgroundColor: offering.color, filter: 'blur(8px)' }}>
+                   style={{ backgroundColor: getColorValue(offering.color), filter: 'blur(8px)' }}>
               </div>
             </div>
             
             {/* Enhanced Metric Badge */}
             <div className="text-right transform group-hover:scale-110 transition-transform duration-300">
-              <div className="text-3xl font-bold group-hover:animate-pulse" style={{ color: offering.color }}>
+              <div className="text-3xl font-bold group-hover:animate-pulse" style={{ color: getColorValue(offering.color) }}>
                 {offering.metric}
               </div>
               <div className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
@@ -476,7 +591,7 @@ export default function Home() {
           <div className="relative">
             <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
               <div className={`h-full rounded-full transform transition-all duration-1000 scale-x-0 group-hover:scale-x-100 origin-left`} 
-                   style={{ backgroundColor: offering.color }}>
+                   style={{ backgroundColor: getColorValue(offering.color) }}>
               </div>
             </div>
             {/* Shimmer effect */}
@@ -488,16 +603,20 @@ export default function Home() {
 
         {/* Enhanced Hover Border Effect */}
         <div className={`absolute inset-0 border-2 border-transparent rounded-3xl transition-all duration-700 opacity-0 group-hover:opacity-50 group-hover:scale-105`} 
-             style={{ borderColor: offering.color, filter: 'blur(1px)' }}>
+             style={{ borderColor: getColorValue(offering.color), filter: 'blur(1px)' }}>
         </div>
         
         {/* Corner Accent */}
         <div className="absolute top-0 left-0 w-0 h-0 border-t-4 border-l-4 border-transparent group-hover:border-t-8 group-hover:border-l-8 transition-all duration-500 rounded-tl-3xl" 
-             style={{ borderTopColor: offering.color, borderLeftColor: offering.color }}>
+             style={{ borderTopColor: getColorValue(offering.color), borderLeftColor: getColorValue(offering.color) }}>
         </div>
       </div>
     );
-  })}
+  }) : (
+    <div className="col-span-full text-center py-12">
+      <div className="text-gray-500 text-lg">No offerings available. Please add some in the admin panel.</div>
+    </div>
+  )}
 </div>
 
           {/* Enhanced Call to Action */}
@@ -511,112 +630,42 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Global Impact & Excellence
+              {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Trusted by healthcare professionals worldwide with proven expertise and unwavering commitment to quality
+              {data?.homeGlobalImpact?.description || adminData?.homeGlobalImpact?.description || 'Trusted by healthcare professionals worldwide with proven expertise and unwavering commitment to quality'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
-            {/* Scientists Card with Image */}
-            <div className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: '#2879b6' }} data-aos="zoom-in" data-aos-delay="300" data-aos-duration="600">
-              {/* Card Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src="https://readdy.ai/api/search-image?query=Professional%20pharmaceutical%20scientists%20and%20researchers%20working%20in%20modern%20laboratory%20with%20advanced%20scientific%20equipment%2C%20team%20of%20dedicated%20professionals%20in%20white%20lab%20coats%20conducting%20pharmaceutical%20research%20and%20development%2C%20clean%20sterile%20laboratory%20environment%20with%20microscopes%20and%20analytical%20instruments&width=400&height=300&seq=scientists-research&orientation=landscape"
-                  alt="Scientists & Researchers"
-                  className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-blue-600/20 to-transparent"></div>
+          <div key={`stats-${refreshKey}`} className="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+            {statistics.map((stat: any, index: number) => (
+              <div key={stat.id} className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: getColorValue(stat.color) }} data-aos="zoom-in" data-aos-delay={300 + (index * 150)} data-aos-duration="600">
+                {/* Card Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={stat.image}
+                    alt={stat.title}
+                    className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-600/20 to-transparent"></div>
+                </div>
                 
-                {/* Floating Icon */}
-                {/* <div className="absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" style={{ backgroundColor: 'rgba(40, 121, 182, 0.9)' }}>
-                  <i className="ri-microscope-line text-xl text-white"></i>
-                </div> */}
-              </div>
-              
-              {/* Card Content */}
-              <div className="p-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: '#2879b6', fontFamily: 'Montserrat, sans-serif' }}>
-                    {counters.scientists}+
+                {/* Card Content */}
+                <div className="p-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: getColorValue(stat.color), fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.value}
+                    </div>
+                    <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.description}
+                    </p>
                   </div>
-                  <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-blue-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Scientists & Researchers
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Dedicated professionals driving innovation in pharmaceutical research and development
-                  </p>
                 </div>
               </div>
-            </div>
-
-            {/* Products Card with Image */}
-            <div className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: '#7dc244' }} data-aos="zoom-in" data-aos-delay="450" data-aos-duration="600">
-              {/* Card Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src="https://readdy.ai/api/search-image?query=Comprehensive%20portfolio%20of%20high-quality%20pharmaceutical%20products%20and%20APIs%2C%20modern%20pharmaceutical%20manufacturing%20facility%20with%20medicine%20bottles%20and%20complex%20generic%20formulations%2C%20professional%20pharmaceutical%20production%20line%20with%20quality%20control%20systems&width=400&height=300&seq=pharma-products&orientation=landscape"
-                  alt="Pharmaceutical Products"
-                  className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-900/60 via-green-600/20 to-transparent"></div>
-                
-                {/* Floating Icon */}
-                {/* <div className="absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" style={{ backgroundColor: 'rgba(125, 194, 68, 0.9)' }}>
-                  <i className="ri-medicine-bottle-line text-xl text-white"></i>
-                </div> */}
-              </div>
-              
-              {/* Card Content */}
-              <div className="p-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: '#7dc244', fontFamily: 'Montserrat, sans-serif' }}>
-                    {counters.products}+
-                  </div>
-                  <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-green-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Pharmaceutical Products
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Comprehensive portfolio of high-quality APIs and complex generic formulations
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Markets Card with Image */}
-            <div className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: '#ee6a31' }} data-aos="zoom-in" data-aos-delay="600" data-aos-duration="600">
-              {/* Card Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src="https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20markets%20and%20international%20healthcare%20distribution%20network%2C%20world%20map%20showing%20diverse%20international%20markets%20with%20regulatory%20excellence%2C%20professional%20pharmaceutical%20distribution%20across%20multiple%20countries%20with%20modern%20logistics&width=400&height=300&seq=global-markets&orientation=landscape"
-                  alt="Global Markets"
-                  className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 via-orange-600/20 to-transparent"></div>
-                
-                {/* Floating Icon */}
-                {/* <div className="absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" style={{ backgroundColor: 'rgba(238, 106, 49, 0.9)' }}>
-                  <i className="ri-global-line text-xl text-white"></i>
-                </div> */}
-              </div>
-              
-              {/* Card Content */}
-              <div className="p-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: '#ee6a31', fontFamily: 'Montserrat, sans-serif' }}>
-                    {counters.markets}+
-                  </div>
-                  <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-orange-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Global Markets
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Serving healthcare needs across diverse international markets with regulatory excellence
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -656,42 +705,79 @@ export default function Home() {
               <i className="ri-arrow-right-line text-xl text-gray-600 hover:text-blue-600"></i>
             </button>
 
-            {/* Carousel Container - Shows exactly 3 logos */}
-            {/* Carousel Container - Shows exactly 4 logos */}
-<div className="overflow-hidden px-16">
-  <div className="flex justify-center items-center space-x-8">
-    {regulatoryApprovals.slice(currentRegulatorySlide, currentRegulatorySlide + 4).map((item, index) => (
-      <div
-        key={currentRegulatorySlide + index}
-        className="flex-shrink-0 flex items-center justify-center mb-2 mt-2"
-      >
-        <div className="flex items-center justify-center h-32 w-64 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
-          <img
-            src={item.image}
-            alt={item.title}
-            className="max-h-20 max-w-48 object-contain transition-transform duration-500 cursor-pointer"
-            style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
-          />
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
+            {/* Carousel Container - Shows up to 4 logos */}
+            <div key={`regulatory-${refreshKey}`} className="overflow-hidden px-16">
+              <div className="flex justify-center items-center space-x-8">
+                {regulatoryApprovals.length > 0 ? (
+                  (() => {
+                    const itemsToShow = Math.min(4, regulatoryApprovals.length);
+                    const startIndex = currentRegulatorySlide;
+                    const endIndex = Math.min(startIndex + itemsToShow, regulatoryApprovals.length);
+                    const items = regulatoryApprovals.slice(startIndex, endIndex);
+                    
+                    console.log('🎠 Carousel Debug:', {
+                      totalItems: regulatoryApprovals.length,
+                      currentSlide: currentRegulatorySlide,
+                      itemsToShow: itemsToShow,
+                      startIndex: startIndex,
+                      endIndex: endIndex,
+                      itemsCount: items.length,
+                      items: items.map(item => ({ title: item.title, isActive: item.isActive }))
+                    });
+                    
+                    return items.map((item, index) => (
+                      <div
+                        key={`${currentRegulatorySlide}-${index}`}
+                        className="flex-shrink-0 flex items-center justify-center mb-2 mt-2"
+                      >
+                        <div className="flex items-center justify-center h-32 w-64 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
+                          <img
+                            src={item.image || 'https://via.placeholder.com/200x100?text=Logo'}
+                            alt={item.title || 'Regulatory Approval'}
+                            className="max-h-20 max-w-48 object-contain transition-transform duration-500 cursor-pointer"
+                            style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
+                            onError={(e) => {
+                              e.currentTarget.src = 'https://via.placeholder.com/200x100?text=Logo+Not+Available';
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ));
+                  })()
+                ) : (
+                  <div className="text-center text-gray-500 py-8">
+                    <i className="ri-shield-check-line text-4xl mb-2"></i>
+                    <p>No regulatory approvals available</p>
+                  </div>
+                )}
+              </div>
+            </div>
 
-{/* Dot Indicators - Updated for 4-logo groups */}
-<div className="flex justify-center mt-10 space-x-2">
-  {Array.from({ length: Math.ceil(regulatoryApprovals.length / 4) }, (_, index) => (
-    <button
-      key={index}
-      onClick={() => goToRegulatorySlide(index * 4)}
-      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-        Math.floor(currentRegulatorySlide / 4) === index
-          ? 'bg-blue-600 w-8'
-          : 'bg-gray-300 hover:bg-gray-400'
-      }`}
-    />
-  ))}
-</div>
+            {/* Dot Indicators - Updated for proper pagination */}
+            <div className="flex justify-center mt-10 space-x-2">
+              {regulatoryApprovals.length > 0 && (() => {
+                const maxSlide = Math.max(0, regulatoryApprovals.length - 4);
+                const totalSlides = maxSlide + 1;
+                console.log('🔘 Dot Indicators Debug:', {
+                  totalItems: regulatoryApprovals.length,
+                  maxSlide: maxSlide,
+                  totalSlides: totalSlides,
+                  currentSlide: currentRegulatorySlide
+                });
+                
+                return Array.from({ length: totalSlides }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToRegulatorySlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentRegulatorySlide === index
+                        ? 'bg-blue-600 w-8'
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ));
+              })()}
+            </div>
 
           </div>
 
@@ -699,6 +785,7 @@ export default function Home() {
         
         </div>
       </section>
+
 
    <Footer/>
 
@@ -814,7 +901,27 @@ export default function Home() {
           transform: scale(1.2);
           transition: transform 0.3s ease;
         }
+
+        /* Card animation keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Ensure cards are visible by default */
+        .group {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
       `}</style>
     </div>
+     </>
+  
   );
 }
