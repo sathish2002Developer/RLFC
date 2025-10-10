@@ -77,14 +77,14 @@ export default function Header() {
             >
               Leadership Team
             </Link>
-            <Link
+            {/* <Link
               to="/about"
               state={{ activeTab:"management" }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Management Team
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

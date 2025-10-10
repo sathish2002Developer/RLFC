@@ -10,23 +10,30 @@ import Extrovis from "../../images/Extrovis.png"
 import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
 
-const About = () => {
-  const location = useLocation();
-  const [activeTab, setActiveTab] = useState('journey');
+  const About = () => {
+    const location = useLocation();
+    const [activeTab, setActiveTab] = useState('journey');
   const [selectedLeader, setSelectedLeader] = useState<any>(null);
   const { data } = useAdminAuth();
 
   // API data for About page
   const [aboutApi, setAboutApi] = useState<any>({ hero: null, visionMission: null, sections: [], leadership: [], values: [], journey: [], aboutJourney: null });
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
     const loadAbout = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch('/api/cms/about');
         if (res.ok) {
           const json = await res.json();
           setAboutApi(json.data || json);
         }
-      } catch (_) {}
+      } catch (_) {
+        // Keep fallback data if API fails
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadAbout();
     
@@ -129,7 +136,17 @@ const About = () => {
    const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
     if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
+      const headerHeight = 100; // Account for sticky header and tab bar
+      const sectionTop = section.offsetTop - headerHeight;
+      
+      // Set active tab immediately
+      setActiveTab(id);
+      
+      // Scroll to section
+      window.scrollTo({
+        top: sectionTop,
+        behavior: "smooth"
+      });
     }
   };
 
@@ -137,25 +154,38 @@ const About = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["journey", "vision", "leadership", "management"];
-      const scrollPos = window.scrollY+200; // Adjust offset if needed
+      const scrollPos = window.scrollY + 150; // Adjust offset for better detection
+      let currentSection = "journey"; // Default to journey
 
-      for (const sec of sections) {
-        const section = document.getElementById(sec);
-         console.log("ssss", section)
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
         if (section) {
-          if (
-            scrollPos >= section.offsetTop &&
-            scrollPos < section.offsetTop + section.offsetHeight
-          ) {
-            setActiveTab(sec);
+          const sectionTop = section.offsetTop - 100; // Add buffer
+          if (scrollPos >= sectionTop) {
+            currentSection = sections[i];
+            break;
           }
         }
       }
+      
+      setActiveTab(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
+   if(isLoading) {
+      return (
+        <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2879b6]"></div>
+        </div>
+      </div>
+     )
+   }
 
   return (
     <div className="min-h-screen bg-white">
@@ -163,6 +193,7 @@ const About = () => {
 
       {/* Hero Section (Admin-managed) */}
 
+      
          <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
@@ -200,77 +231,88 @@ const About = () => {
             </p>
             ) : null}
           </div>
-
              <div className="flex flex-wrap justify-center items-center gap-12 mt-16">
-            {/* RL Fine Chem */}
-            <div 
-              className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-              onClick={() => window.open('https://www.rlfinechem.com/about-rlfc/', '_blank')}
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="100"
-            >
-             
-              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
-                <img 
+              {/* RL Fine Chem */}
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://www.rlfinechem.com/about-rlfc/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="100"
+              >
                
-                  src={Rlfc} 
-                  alt="Modepro Logo" 
-                  className="w-40 h-40 object-contain"
-                />
+                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                 
+                    src={Rlfc} 
+                    alt="Modepro Logo" 
+                    className="w-40 h-40 object-contain"
+                  />
+                </div>
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#2879b6] text-white rounded-xl font-semibold hover:bg-[#1e5f8c] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
+                  <span>Know More</span>
+                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+                </button>
               </div>
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#2879b6] text-white rounded-xl font-semibold hover:bg-[#1e5f8c] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                <span>Know More</span>
-                <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-              </button>
-            </div>
+  
+              {/* Modepro */}
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://modepro.co.in/aboutus.html', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="200"
+              >
+                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
+                    alt="Modepro Logo" 
+                    className="w-40 h-40 object-contain"
+                  />
+                </div>
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#7dc244] text-white rounded-xl font-semibold hover:bg-[#5ba832] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
+                  <span>Know More</span>
+                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+                </button>
+              </div>
+  
+              {/* Extrovis */}
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://www.extrovis.com/our-company/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="300"
+              >
+               
+                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                    src={Extrovis} 
+                    alt="Modepro Logo" 
+                    className="w-40 h-40 object-contain"
+                  />
+                </div>
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#ee6a31] text-white rounded-xl font-semibold hover:bg-[#d55a28] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
+                  <span>Know More</span>
+                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+                </button>
+               </div>
+             </div>
+          
+        </div>
+      </section>
 
-            {/* Modepro */}
-            <div 
-              className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-              onClick={() => window.open('https://modepro.co.in/aboutus.html', '_blank')}
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="200"
-            >
-              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
-                <img 
-                  src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
-                  alt="Modepro Logo" 
-                  className="w-40 h-40 object-contain"
-                />
-              </div>
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#7dc244] text-white rounded-xl font-semibold hover:bg-[#5ba832] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                <span>Know More</span>
-                <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-              </button>
-            </div>
-
-            {/* Extrovis */}
-            <div 
-              className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-              onClick={() => window.open('https://www.extrovis.com/our-company/', '_blank')}
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="300"
-            >
-             
-              <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
-                <img 
-                  src={Extrovis} 
-                  alt="Modepro Logo" 
-                  className="w-40 h-40 object-contain"
-                />
-              </div>
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#ee6a31] text-white rounded-xl font-semibold hover:bg-[#d55a28] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                <span>Know More</span>
-                <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-              </button>
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="py-8 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-flex items-center gap-2 text-gray-600">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#2879b6]"></div>
+              <span className="font-montserrat">Loading content...</span>
             </div>
           </div>
         </div>
-      </section>
- 
+      )}
 
       {/* About RLS Section */}
 
@@ -725,7 +767,7 @@ const About = () => {
                       {leader.name}
                     </p>
                     <p
-                      className={`text-xs ${colors.text} font-semibold font-montserrat mt-1 leading-tight`}
+                      className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
                     >
                       {leader.position}
                     </p>
@@ -773,7 +815,7 @@ const About = () => {
                     {leader.name}
                   </p>
                   <p
-                    className={`text-xs ${colors.text} font-semibold font-montserrat mt-1 leading-tight`}
+                    className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
                   >
                     {leader.position}
                   </p>
@@ -844,7 +886,7 @@ const About = () => {
                     {leader.name}
                   </p>
                   <p
-                    className={`text-xs ${colors.text} font-semibold font-montserrat mt-1 leading-tight`}
+                    className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
                   >
                     {leader.position}
                   </p>
@@ -929,7 +971,7 @@ const About = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <i className="ri-graduation-cap-line text-white/80"></i>
-                            <span className="text-sm text-white/80 font-montserrat">{selectedLeader.education}</span>
+                            <span className="text-sm  text-white/80 font-montserrat">{selectedLeader.education}</span>
                           </div>
                         </div>
                       </div>

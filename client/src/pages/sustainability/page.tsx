@@ -250,7 +250,7 @@ const Sustainability = () => {
                     </div>
 
                     {/* Bottom Stats - Using API data */}
-                    <div className="flex items-center justify-center gap-6 pt-4 border-t border-[#2879b6]/10 mt-auto">
+                    {/* <div className="flex items-center justify-center gap-6 pt-4 border-t border-[#2879b6]/10 mt-auto">
                       {(vm?.stats || []).filter((s: any) => s.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0)).map((s: any, index: number) => (
                         <div key={s.id} className="text-center">
                           <div className="text-lg font-bold" style={{ color: s.color || '#2879b6' }}>{s.value}</div>
@@ -260,7 +260,7 @@ const Sustainability = () => {
                           )}
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -302,7 +302,7 @@ const Sustainability = () => {
                     </div>
 
                     {/* Bottom Stats */}
-                    <div className="flex items-center justify-center gap-6 pt-4 border-t border-[#7dc244]/10 mt-auto">
+                    {/* <div className="flex items-center justify-center gap-6 pt-4 border-t border-[#7dc244]/10 mt-auto">
                       <div className="text-center">
                         <div className="text-lg font-bold text-[#7dc244]">4</div>
                         <div className="text-xs text-gray-600 font-montserrat">Key Focus Areas</div>
@@ -312,7 +312,7 @@ const Sustainability = () => {
                         <div className="text-lg font-bold text-[#7dc244]">100%</div>
                         <div className="text-xs text-gray-600 font-montserrat">Commitment</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
