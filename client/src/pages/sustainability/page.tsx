@@ -420,15 +420,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="100">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor:sdgData[0]?.color }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[0]?.icon || 'ri-heart-pulse-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[0]?.number || 3}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[0]?.title || 'Good Health & Well-being'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/c/c4/Sustainable_Development_Goal_3.png')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -443,15 +446,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="200">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[1]?.color || '#7dc244' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[1]?.icon || 'ri-drop-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[1]?.number || 6}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[1]?.title || 'Clean Water & Sanitation'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/8/87/Sustainable_Development_Goal_6.png')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -469,15 +475,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="300">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[2]?.color || '#ee6a31' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[2]?.icon || 'ri-sun-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[2]?.number || 7}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[2]?.title || 'Affordable & Clean Energy'}</div>
-                    </div>
-                  </div>
+                          <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Sustainable_Development_Goal_07CleanEnergy.svg')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -492,15 +501,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="400">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[3]?.color || '#2879b6' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[3]?.icon || 'ri-building-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[3]?.number || 9}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[3]?.title || 'Industry, Innovation & Infrastructure'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/1/13/Sustainable_Development_Goal_09Industry.svg')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -518,15 +530,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="500">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[4]?.color || '#7dc244' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[4]?.icon || 'ri-recycle-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[4]?.number || 12}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[4]?.title || 'Responsible Consumption & Production'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/6/65/Sustainable_Development_Goal_12ResponsibleConsumption.svg')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -541,15 +556,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="600">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[5]?.color || '#ee6a31' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[5]?.icon || 'ri-leaf-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[5]?.number || 13}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[5]?.title || 'Climate Action'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/7/7b/Sustainable_Development_Goal_13Climate.svg')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
@@ -567,15 +585,18 @@ const Sustainability = () => {
                    data-aos-duration="800"
                    data-aos-delay="700">
                 <div className="flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/3 flex items-center justify-center" style={{ backgroundColor: sdgData[6]?.color || '#2879b6' }}>
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <i className={`${sdgData[6]?.icon || 'ri-team-line'} text-2xl text-white`}></i>
-                      </div>
-                      <div className="text-2xl font-bold mb-2">SDG {sdgData[6]?.number || 17}</div>
-                      <div className="text-xs opacity-90 font-montserrat">{sdgData[6]?.title || 'Partnerships for the Goals'}</div>
-                    </div>
-                  </div>
+                <div
+  className="p-8 md:w-1/3 flex items-center justify-center"
+  style={{
+    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/c/cf/Sustainable_Development_Goal_17.png')`,
+    backgroundSize: "contain",       // keeps full image visible
+    backgroundPosition: "center",    // centers the image
+    backgroundRepeat: "no-repeat",   // prevents tiling
+   // optional: adds base color behind image
+                 // required for visibility
+  }}
+>
+</div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
                     <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">

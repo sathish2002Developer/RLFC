@@ -190,9 +190,12 @@ const Contact = () => {
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
                       {data?.contactGetInTouch?.location?.title || 'Our Location'}
                     </h3>
-                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{
-                      __html: data?.contactGetInTouch?.location?.address || 'Refex Building, 67, Bazullah Road<br />Parthasarathy Puram, T Nagar<br />Chennai, 600017'
-                    }}></p>
+                    <p className="text-gray-600 font-montserrat">
+                      2nd Floor, No.313, Refex Towers,
+Sterling Road, Valluvar Kottam High Road,
+Nungambakkam, Chennai – 600034
+Tamil Nadu, India
+                    </p>
                   </div>
                 </div>
 
@@ -214,7 +217,7 @@ const Contact = () => {
                       {data?.contactGetInTouch?.phone?.title || 'Phone'}
                     </h3>
                     <p className="text-gray-600 font-montserrat">
-                      {data?.contactGetInTouch?.phone?.number || '044 - 43405900/950'}
+                      { '+91-44-43405900/950'}
                     </p>
                    
                   </div>

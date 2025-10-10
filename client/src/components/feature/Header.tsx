@@ -13,7 +13,7 @@ export default function Header() {
   { name: "About Us", href: "/about" },
   { name: "Products", href: "/products" },
   { name: "Capabilities", href: "/capabilities" },
-  { name: "Sustainability", href: "/sustainability" },
+  { name: "ESG", href: "/sustainability" },
   { name: "Careers", href: "https://www.refex.group/careers/", external: true }, // updated
   { name: "Contact", href: "/contact" },
 ];

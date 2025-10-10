@@ -58,7 +58,7 @@ const Footer = () => {
                      cursor:"pointer"
                   }}>
                       <h4 className="text-white font-semibold font-montserrat mb-1">Call Us</h4>
-                      <p className="text-gray-300 font-montserrat text-sm">044 - 43405900/950</p>
+                      <p className="text-gray-300 font-montserrat text-sm">+91-44-43405900/950</p>
                     </div>
                   </div>
                 </div>

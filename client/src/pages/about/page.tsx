@@ -59,9 +59,9 @@ import User from "../../images/images.png"
   const visionMission = aboutApi?.visionMission || (data as any)?.visionMission;
 
   // Scroll to top when page loads
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   // Initialize AOS when component mounts
   useEffect(() => {
@@ -852,7 +852,7 @@ import User from "../../images/images.png"
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 items-center">
+      <div className="flex flex-wrap justify-center gap-8 items-center mb-2">
         {
           ManagementTeam
                         .map((leader: any, index: number) => {
@@ -896,17 +896,7 @@ import User from "../../images/images.png"
           })}
       </div>
 
-      <div
-        className="text-center mt-16"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-delay="600"
-      >
-        <p className="text-gray-600 font-montserrat">
-          <i className="ri-cursor-line mr-2"></i>
-          Click on any leader to view their detailed profile
-        </p>
-      </div>
+   
     </div>
   </section>
     
@@ -939,12 +929,8 @@ import User from "../../images/images.png"
             >
               <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-100 relative">
                 {/* Close Button */}
-                <button
-                  onClick={closePopup}
-                  className="absolute top-6 right-6 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer z-10 shadow-lg"
-                >
-                  <i className="ri-close-line text-gray-600 text-xl"></i>
-                </button>
+                
+
 
                 <div className="relative">
                   {/* Header with Image */}
@@ -964,7 +950,7 @@ import User from "../../images/images.png"
                         <h3 className="text-2xl font-bold mb-2 font-montserrat">{selectedLeader.name}</h3>
                         <p className="text-white/90 font-semibold font-montserrat">{selectedLeader.position}</p>
                         <p className="text-white/80 text-sm font-montserrat mt-1">{selectedLeader.category}</p>
-                        <div className="flex items-center gap-4 mt-3">
+                        {/* <div className="flex items-center gap-4 mt-3">
                           <div className="flex items-center gap-2">
                             <i className="ri-time-line text-white/80"></i>
                             <span className="text-sm text-white/80 font-montserrat">{selectedLeader.experience}</span>
@@ -973,7 +959,7 @@ import User from "../../images/images.png"
                             <i className="ri-graduation-cap-line text-white/80"></i>
                             <span className="text-sm  text-white/80 font-montserrat">{selectedLeader.education}</span>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -981,11 +967,13 @@ import User from "../../images/images.png"
                   {/* Content */}
                   <div className="p-8">
                     <div className="mb-8">
-                      <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">About</h4>
-                      <p className="text-gray-600 leading-relaxed font-montserrat">{selectedLeader.description}</p>
+                    <div dangerouslySetInnerHTML={{ __html: selectedLeader.description }}></div>
+                      {/* <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">About</h4> */}
+            
+                      
                     </div>
 
-                    <div>
+                    {/* <div>
                       <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Key Achievements</h4>
                       <div className="space-y-3">
                         {(Array.isArray(selectedLeader.achievements) ? selectedLeader.achievements : []).map((achievement: string, index: number) => (
@@ -995,7 +983,7 @@ import User from "../../images/images.png"
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
