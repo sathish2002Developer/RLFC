@@ -14,6 +14,7 @@ import User from "../../images/images.png"
     const location = useLocation();
     const [activeTab, setActiveTab] = useState('journey');
   const [selectedLeader, setSelectedLeader] = useState<any>(null);
+  const [pendingTargetTab, setPendingTargetTab] = useState<string | null>(null);
   const { data } = useAdminAuth();
 
   // API data for About page
@@ -84,19 +85,42 @@ import User from "../../images/images.png"
     initAOS();
   }, []);
 
-  // Handle navigation state for tab activation
+  // Handle navigation state for tab activation (from other pages)
   useEffect(() => {
     if (location.state?.activeTab) {
       const target = location.state.activeTab as string;
       setActiveTab(target);
-      // Scroll to the requested section after mount/paint
-      setTimeout(() => {
-        scrollToSection(target);
-      }, 0);
+      setPendingTargetTab(target);
+      // First, ensure we are at the very top so sticky bars position correctly
+      window.scrollTo({ top: 0, behavior: 'auto' });
       // Clear the state after using it
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
+
+  // After loading completes, scroll to the pending target section with retries
+  useEffect(() => {
+    if (!isLoading && pendingTargetTab) {
+      let attempts = 0;
+      const maxAttempts = 10;
+      const attemptScroll = () => {
+        const el = document.getElementById(pendingTargetTab);
+        if (el) {
+          scrollToSection(pendingTargetTab);
+          setPendingTargetTab(null);
+          return;
+        }
+        attempts += 1;
+        if (attempts < maxAttempts) {
+          setTimeout(attemptScroll, 100);
+        } else {
+          setPendingTargetTab(null);
+        }
+      };
+      // Defer to next tick to allow layout stabilization
+      setTimeout(attemptScroll, 0);
+    }
+  }, [isLoading, pendingTargetTab]);
 
   // Note: we highlight tabs on scroll; clicking the tab buttons uses scrollToSection below
 
