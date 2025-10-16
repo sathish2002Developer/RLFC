@@ -222,7 +222,7 @@ import User from "../../images/images.png"
          <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(' /${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(' ${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
         }}
       >
         <div className="w-full px-6 lg:px-8">

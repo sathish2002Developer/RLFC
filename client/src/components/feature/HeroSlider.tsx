@@ -122,7 +122,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
               index === currentSlide ? 'scale-110' : 'scale-100'
             }`}
             style={{ 
-              backgroundImage: `url(/${slide.image})`,
+              backgroundImage: `url(${slide.image})`,
               animation: index === currentSlide ? 'zoomIn 6s ease-out' : 'none'
             }}
           >
