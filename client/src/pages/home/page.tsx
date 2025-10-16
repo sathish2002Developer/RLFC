@@ -225,10 +225,12 @@ export default function Home() {
           console.error('❌ Statistics API failed:', statRes.status, statRes.statusText);
         }
         if (regRes.ok) {
+         
           const json = await regRes.json();
           const rows = Array.isArray(json?.data) ? json.data : json;
+        
           const filteredRows = (rows || []).filter((r: any) => r.isActive).sort((a: any, b: any) => (a.order||0)-(b.order||0));
-           console.log('✅ filteredRows:', filteredRows.length);
+           console.log('✅ filteredRowsRegularity:', filteredRows.length);
           setRegulatoryApi(filteredRows);
           console.log('✅ Regulatory loaded:', {
             totalRows: rows?.length || 0,
@@ -463,6 +465,8 @@ export default function Home() {
   // Use admin-managed offerings directly
   const offeringsData = offerings;
 
+  console.log("regulatoryApi",regulatoryApi)
+
   return (
      <>
        <div className="min-h-screen bg-white">
@@ -633,7 +637,7 @@ export default function Home() {
               {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              {data?.homeGlobalImpact?.description || adminData?.homeGlobalImpact?.description || 'Trusted by healthcare professionals worldwide with proven expertise and unwavering commitment to quality'}
+               Trusted by healthcare professionals worldwide for delivering high-quality pharmaceutical solutions.
             </p>
           </div>
 
@@ -654,7 +658,7 @@ export default function Home() {
                 <div className="p-6">
                   <div className="text-center">
                     <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: getColorValue(stat.color), fontFamily: 'Montserrat, sans-serif' }}>
-                      {stat.value}
+                      {stat.value}+
                     </div>
                     <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                       {stat.title}
@@ -683,7 +687,7 @@ export default function Home() {
               Regulatory Approvals
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Our commitment to quality and compliance is validated by approvals from leading global regulatory authorities, ensuring the highest standards in pharmaceutical manufacturing.
+              Our Group Companies have been validated by global regulatory authorities.
             </p>
           </div>
 
@@ -708,7 +712,7 @@ export default function Home() {
             {/* Carousel Container - Shows up to 4 logos */}
             <div key={`regulatory-${refreshKey}`} className="overflow-hidden px-16">
               <div className="flex justify-center items-center space-x-8">
-                {regulatoryApprovals.length > 0 ? (
+                {regulatoryApi.length > 0 ? (
                   (() => {
                     const itemsToShow = Math.min(4, regulatoryApprovals.length);
                     const startIndex = currentRegulatorySlide;
@@ -731,7 +735,8 @@ export default function Home() {
                         className="flex-shrink-0 flex items-center justify-center mb-2 mt-2"
                       >
                         <div className="flex items-center justify-center h-32 w-64 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
-                          <img
+                           <h1>{item.title}</h1>
+                          {/* <img
                             src={item.image || 'https://via.placeholder.com/200x100?text=Logo'}
                             alt={item.title || 'Regulatory Approval'}
                             className="max-h-20 max-w-48 object-contain transition-transform duration-500 cursor-pointer"
@@ -739,7 +744,7 @@ export default function Home() {
                             onError={(e) => {
                               e.currentTarget.src = 'https://via.placeholder.com/200x100?text=Logo+Not+Available';
                             }}
-                          />
+                          /> */}
                         </div>
                       </div>
                     ));

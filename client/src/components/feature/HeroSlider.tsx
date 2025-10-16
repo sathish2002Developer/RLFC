@@ -80,7 +80,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
       // const content = document.querySelectorAll('.parallax-content');
       
       parallax.forEach((element) => {
-        const speed = 0.5;
+        const speed = 0.10;
         (element as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
       });
 
@@ -122,7 +122,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
               index === currentSlide ? 'scale-110' : 'scale-100'
             }`}
             style={{ 
-              backgroundImage: `url(${slide.image})`,
+              backgroundImage: `url(/${slide.image})`,
               animation: index === currentSlide ? 'zoomIn 6s ease-out' : 'none'
             }}
           >
@@ -132,7 +132,9 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
 
           {/* Content - vertically centered, stable on scroll */}
           <div className="parallax-content relative z-10 h-full flex items-center justify-center lg:justify-start">
-            <div className="w-full px-6 lg:px-8 lg:ml-24 ">
+            <div className="w-full px-6 lg:px-8 lg:ml-24 " style={{
+               marginTop:"300px"
+            }}>
               <div className={`max-w-4xl text-center lg:mt-20 lg:text-left transition-all duration-600 ease-out ${
                 index === currentSlide 
                   ? 'transform translate-y-0 opacity-100 scale-100' 

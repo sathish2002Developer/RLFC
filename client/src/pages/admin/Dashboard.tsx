@@ -1257,7 +1257,9 @@ export default function AdminDashboard() {
     } else if (activeTab === 'capabilities') {
       // Facilities create/update via API
       if (activeCapabilitiesSection === 'cap-facilities') {
+       
         (async () => {
+          
           try {
             const payload = {
               name: formData.name || '',
@@ -7007,7 +7009,7 @@ export default function AdminDashboard() {
                         {(Array.isArray(formData.approvals) && formData.approvals.length > 0 ? formData.approvals : ['']).map((url: string, idx: number) => (
                           <div key={idx} className="flex items-center gap-2">
                             <input
-                              type="url"
+                              type="text"
                               value={url}
                               onChange={(e) => setFormData((prev: any) => {
                                 const next = Array.isArray(prev.approvals) ? [...prev.approvals] : [];
@@ -7029,9 +7031,7 @@ export default function AdminDashboard() {
                             >
                               <i className="ri-delete-bin-6-line"></i>
                             </button>
-                            {url && (
-                              <img src={url} alt="Logo" className="w-10 h-8 object-contain rounded border" />
-                            )}
+                          
                           </div>
                         ))}
                         <button

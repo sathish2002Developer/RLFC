@@ -7,6 +7,7 @@ import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import Rlfc from "../../images/RLFC-Logo.jpg"
 import Extrovis from "../../images/Extrovis.png"
+import AboutFoot from "../../images/about-footer.jpg"
 import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
 
@@ -177,7 +178,7 @@ import User from "../../images/images.png"
   // Highlight tab on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["journey", "vision", "leadership", "management"];
+      const sections = ["journey", "vision", "management", "leadership" ];
       const scrollPos = window.scrollY + 150; // Adjust offset for better detection
       let currentSection = "journey"; // Default to journey
 
@@ -221,7 +222,7 @@ import User from "../../images/images.png"
          <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(' /${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
         }}
       >
         <div className="w-full px-6 lg:px-8">
@@ -240,18 +241,22 @@ import User from "../../images/images.png"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="200"
+                dangerouslySetInnerHTML={{ __html:(aboutApi as any)?.hero?.subtitle || data.aboutHero.subtitle} }
+              
             >
-              {(aboutApi as any)?.hero?.subtitle || data.aboutHero.subtitle}
+           
             </p>
             ) : null}
             {(aboutApi as any)?.hero?.description || data.aboutHero?.description ? (
+             
             <p
               className="text-base text-white max-w-4xl mx-auto font-montserrat"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="400"
+               dangerouslySetInnerHTML={{ __html:(aboutApi as any)?.hero?.description || data.aboutHero.description} }
             >
-              {(aboutApi as any)?.hero?.description || data.aboutHero.description}
+            
             </p>
             ) : null}
           </div>
@@ -259,18 +264,18 @@ import User from "../../images/images.png"
               {/* RL Fine Chem */}
               <div 
                 className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-                onClick={() => window.open('https://www.rlfinechem.com/about-rlfc/', '_blank')}
+                onClick={() => window.open('https://www.rlfinechem.com/', '_blank')}
                 data-aos="zoom-in"
                 data-aos-duration="800"
                 data-aos-delay="100"
               >
                
-                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                   <img 
                  
                     src={Rlfc} 
                     alt="Modepro Logo" 
-                    className="w-40 h-40 object-contain"
+                    className="w-60 h-60 object-contain"
                   />
                 </div>
                 <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#2879b6] text-white rounded-xl font-semibold hover:bg-[#1e5f8c] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -282,16 +287,16 @@ import User from "../../images/images.png"
               {/* Modepro */}
               <div 
                 className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-                onClick={() => window.open('https://modepro.co.in/aboutus.html', '_blank')}
+                onClick={() => window.open('https://modepro.co.in/', '_blank')}
                 data-aos="zoom-in"
                 data-aos-duration="800"
                 data-aos-delay="200"
               >
-                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                   <img 
                     src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
                     alt="Modepro Logo" 
-                    className="w-40 h-40 object-contain"
+                    className="w-60 h-60 object-contain"
                   />
                 </div>
                 <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#7dc244] text-white rounded-xl font-semibold hover:bg-[#5ba832] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -303,17 +308,17 @@ import User from "../../images/images.png"
               {/* Extrovis */}
               <div 
                 className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-                onClick={() => window.open('https://www.extrovis.com/our-company/', '_blank')}
+                onClick={() => window.open('https://www.extrovis.com/', '_blank')}
                 data-aos="zoom-in"
                 data-aos-duration="800"
                 data-aos-delay="300"
               >
                
-                <div className="w-40 h-40 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                   <img 
                     src={Extrovis} 
                     alt="Modepro Logo" 
-                    className="w-40 h-40 object-contain"
+                    className="w-60 h-60 object-contain"
                   />
                 </div>
                 <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#ee6a31] text-white rounded-xl font-semibold hover:bg-[#d55a28] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
@@ -369,6 +374,18 @@ import User from "../../images/images.png"
                 <span className="hidden sm:inline">Our Vision & Mission</span>
                 <span className="sm:hidden">Vision</span>
               </button>
+                 <button
+                onClick={() => scrollToSection("management")}
+                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+                  activeTab === "management"
+                    ? "bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110"
+                    : "text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20"
+                }`}
+              >
+                <i className="ri-user-star-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">Management Team</span>
+                <span className="sm:hidden">Management</span>
+              </button>
 
               <button
                 onClick={() => scrollToSection("leadership")}
@@ -383,18 +400,7 @@ import User from "../../images/images.png"
                 <span className="sm:hidden">Leadership</span>
               </button>
 
-              <button
-                onClick={() => scrollToSection("management")}
-                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                  activeTab === "management"
-                    ? "bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110"
-                    : "text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20"
-                }`}
-              >
-                <i className="ri-user-star-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Management Team</span>
-                <span className="sm:hidden">Management</span>
-              </button>
+           
             </div>
           </div>
         </div>
@@ -508,7 +514,7 @@ import User from "../../images/images.png"
                           </p>
                         </div>
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div 
                             className="bg-white rounded-xl p-4 shadow-md border-l-4 border-[#2879b6]"
                             data-aos="slide-up"
@@ -527,7 +533,7 @@ import User from "../../images/images.png"
                             <h4 className="font-bold text-gray-800 mb-2 font-montserrat text-sm lg:text-base">Global Impact</h4>
                             <p className="text-xs lg:text-sm text-gray-600 font-montserrat">Life-changing healthcare solutions</p>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -738,128 +744,7 @@ import User from "../../images/images.png"
               
       </section>
 
-      {/* Leadership Section */}
-      <section id="leadership" className="bg-white">
-        {/* Add your full leadership content here, same as before */}
-        
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-        className="text-center mb-16"
-        data-aos="fade-down"
-        data-aos-duration="1000"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
-          Leadership Team
-        </h2>
-        <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-          Visionary leaders driving pharmaceutical innovation and global healthcare transformation
-        </p>
-      </div>
-
-      {/* Advisory Board */}
-      <div className="mb-16">
-        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Advisory Board
-        </h3>
-        <div className="flex flex-wrap justify-center gap-8 items-center">
-          {AdvisoryBoard
-            
-                        .map((leader: any, index: number) => {
-              const colors = getColorClasses(leader.color);
-              return (
-                <div
-                  key={leader.id}
-                  className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                  onClick={() => setSelectedLeader(leader)}
-                  data-aos="zoom-in"
-                  data-aos-duration="800"
-                  data-aos-delay={index * 100}
-                >
-                  <div
-                    className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
-                  >
-                    <img
-                      src={leader.image || User}
-                      alt={leader.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-
-                  {/* Always Visible Name and Position */}
-                  <div className="mt-4 text-center">
-                    <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
-                      {leader.name}
-                    </p>
-                    <p
-                      className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
-                    >
-                      {leader.position}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      </div>
-
-      {/* Technical Leadership Team */}
-      <div className="mb-16">
-        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Technical Leadership Team
-        </h3>
-        <div className="flex flex-wrap justify-center gap-8 items-center">
-          {TechnicalLeaders && TechnicalLeaders.length > 0 ? TechnicalLeaders.map((leader: any, index: number) => {
-            const colors = getColorClasses(leader.color);
-            return (
-              <div
-                key={leader.id}
-                className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                onClick={() => setSelectedLeader(leader)}
-                data-aos="zoom-in"
-                data-aos-duration="800"
-                data-aos-delay={index * 100}
-              >
-                <div
-                  className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
-                >
-                  <img
-                    src={leader.image || User}
-                    alt={leader.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      // Fallback to default image if the image fails to load
-                      e.currentTarget.src = User;
-                    }}
-                  />
-                </div>
-
-                {/* Always Visible Name and Position */}
-                <div className="mt-4 text-center">
-                  <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
-                    {leader.name}
-                  </p>
-                  <p
-                    className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
-                  >
-                    {leader.position}
-                  </p>
-                </div>
-              </div>
-            );
-          }) : (
-            <div className="text-center text-gray-500 font-montserrat">
-              <p>Technical Leadership Team information is being updated.</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-     
-    </div>
-  </section>
-     
-
-      {/* Management Section */}
+          {/* Management Section */}
       <section id="management" className=" bg-white">
    
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -923,6 +808,134 @@ import User from "../../images/images.png"
    
     </div>
   </section>
+
+      {/* Leadership Section */}
+      <section id="leadership" className="bg-white " >
+        {/* Add your full leadership content here, same as before */}
+        
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+      
+        className="text-center mb-16"
+        data-aos="fade-down"
+        data-aos-duration="1000"
+      >
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat" style={{
+         marginTop:"10px"
+      }} >
+          Leadership Team
+        </h2>
+        <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
+          Visionary leaders driving pharmaceutical innovation and global healthcare transformation
+        </p>
+      </div>
+         <div className="mb-16">
+        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
+          Technical Leadership Team
+        </h3>
+        <div className="flex flex-wrap justify-center gap-8 items-center">
+          {TechnicalLeaders && TechnicalLeaders.length > 0 ? TechnicalLeaders.map((leader: any, index: number) => {
+            const colors = getColorClasses(leader.color);
+            return (
+              <div
+                key={leader.id}
+                className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
+                onClick={() => setSelectedLeader(leader)}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay={index * 100}
+              >
+                <div
+                  className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
+                >
+                  <img
+                    src={leader.image || User}
+                    alt={leader.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      // Fallback to default image if the image fails to load
+                      e.currentTarget.src = User;
+                    }}
+                  />
+                </div>
+
+                {/* Always Visible Name and Position */}
+                <div className="mt-4 text-center">
+                  <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
+                    {leader.name}
+                  </p>
+                  <p
+                    className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
+                  >
+                    {leader.position}
+                  </p>
+                </div>
+              </div>
+            );
+          }) : (
+            <div className="text-center text-gray-500 font-montserrat">
+              <p>Technical Leadership Team information is being updated.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Advisory Board */}
+      <div className="mb-16">
+        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
+          Advisory Board
+        </h3>
+        <div className="flex flex-wrap justify-center gap-8 items-center">
+          {AdvisoryBoard
+            
+                        .map((leader: any, index: number) => {
+              const colors = getColorClasses(leader.color);
+              return (
+                <div
+                  key={leader.id}
+                  className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
+                  onClick={() => setSelectedLeader(leader)}
+                  data-aos="zoom-in"
+                  data-aos-duration="800"
+                  data-aos-delay={index * 100}
+                >
+                  <div
+                    className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
+                  >
+                    <img
+                      src={leader.image || User}
+                      alt={leader.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Always Visible Name and Position */}
+                  <div className="mt-4 text-center">
+                    <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
+                      {leader.name}
+                    </p>
+                    <p
+                      className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
+                    >
+                      {leader.position}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+
+      {/* Technical Leadership Team */}
+   
+
+     
+    </div>
+  </section>
+ 
+     
+
+  
     
 
       {/* Tab Navigation */}
@@ -1013,6 +1026,46 @@ import User from "../../images/images.png"
               </div>
             </div>
           )}
+
+             <section 
+          className={`py-10 bg-cover bg-center bg-no-repeat`}
+        style={{
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('${AboutFoot || ''}')`
+          }}
+    
+          data-aos="fade-in"
+          data-aos-duration="1000"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          
+            <div className="max-w-5xl mx-auto">
+              
+                <p 
+                  className="text-xl text-white/90 leading-relaxed font-montserrat mb-8"
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                  data-aos-delay="600"
+                 
+                >
+                  With innovation and people welfare at its core, Refex Group delivers environment-friendly solutions that benefit both communities and the people.
+                </p>
+           
+              <div 
+               onClick={() => window.open('https://www.refex.group/', '_blank')}
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#7dc244] to-[#6bb83a] rounded-2xl text-white font-bold text-lg shadow-xl"
+                data-aos="zoom-in"
+                data-aos-duration="1000"
+                style={{
+                   cursor:"pointer"
+                }}
+                data-aos-delay="800"
+              >
+                
+                <span className="font-montserrat">{ 'To know more'}</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
       <Footer />
     </div>

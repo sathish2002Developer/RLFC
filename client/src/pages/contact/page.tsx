@@ -3,6 +3,17 @@ import { useState, useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import { useAdminAuth } from '../../contexts/AdminContext';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+
+// Type declarations for external libraries
+declare global {
+  interface Window {
+    AOS: any;
+    grecaptcha: any;
+    onRecaptchaSuccess: (token: string) => void;
+  }
+}
 
 const Contact = () => {
   const { data } = useAdminAuth();
@@ -10,11 +21,13 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
+    countryCode: '+91',
     company: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -33,18 +46,65 @@ const Contact = () => {
     }
   }, []);
 
+  // Load reCAPTCHA script
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    // Define reCAPTCHA callback
+    (window as any).onRecaptchaSuccess = (token: string) => {
+      setRecaptchaToken(token);
+    };
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  // Validation functions
+  const validateName = (name: string) => {
+    // Only allow alphabets, spaces, hyphens, and apostrophes
+    return /^[a-zA-Z\s\-']+$/.test(name);
+  };
+
+  const validatePhone = (phone: string) => {
+    // Only allow digits
+    return /^\d*$/.test(phone);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
+    // Apply validation based on field type
+    if (name === 'name' && value && !validateName(value)) {
+      return; // Don't update if invalid
+    }
+    
+    if (name === 'phone' && value && !validatePhone(value)) {
+      return; // Don't update if invalid
+    }
+    
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+
+    // Validate reCAPTCHA
+    if (!recaptchaToken) {
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validate message length
     if (formData.message.length > 500) {
@@ -54,17 +114,15 @@ const Contact = () => {
     }
 
     try {
-      const formDataToSend = new URLSearchParams();
-      Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
-      });
-
-      const response = await fetch('https://readdy.ai/api/form/submit/contact-form', {
+      const response = await fetch('/api/contact-form', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: formDataToSend,
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken
+        }),
       });
 
       if (response.ok) {
@@ -73,9 +131,15 @@ const Contact = () => {
           name: '',
           email: '',
           phone: '',
+          countryCode: '+91',
           company: '',
           message: ''
         });
+        setRecaptchaToken('');
+        // Reset reCAPTCHA
+        if (window.grecaptcha) {
+          window.grecaptcha.reset();
+        }
       } else {
         setSubmitStatus('error');
       }
@@ -241,7 +305,7 @@ Tamil Nadu, India
                       {data?.contactGetInTouch?.email?.title || 'Email'}
                     </h3>
                     <p className="text-gray-600 font-montserrat">
-                      {data?.contactGetInTouch?.email?.address || 'info@refex.co.in'}
+                      {data?.contactGetInTouch?.email?.address || 'info[at]refex.co.in'}
                     </p>
                   
                   </div>
@@ -279,9 +343,11 @@ Tamil Nadu, India
                       value={formData.name}
                       onChange={handleInputChange}
                       required
+                      autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
                       placeholder="Enter your full name"
                     />
+                  
                   </div>
                   
                   <div>
@@ -295,6 +361,7 @@ Tamil Nadu, India
                       value={formData.email}
                       onChange={handleInputChange}
                       required
+                      autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
                       placeholder="Enter your email address"
                     />
@@ -308,19 +375,19 @@ Tamil Nadu, India
                   data-aos-delay="200"
                 >
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
+  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
+    Phone Number
+  </label>
+  <PhoneInput
+    placeholder="Enter your phone number"
+    value={formData.phone}
+    onChange={(value) => setFormData(prev => ({ ...prev, phone: value || '' }))}
+    defaultCountry="IN"
+    international
+    countryCallingCodeEditable={false}
+    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
+  />
+</div>
                   
                   <div>
                     <label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
@@ -332,6 +399,7 @@ Tamil Nadu, India
                       name="company"
                       value={formData.company}
                       onChange={handleInputChange}
+                      autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
                       placeholder="Enter your company name"
                     />
@@ -354,6 +422,7 @@ Tamil Nadu, India
                     required
                     maxLength={500}
                     rows={6}
+                    autoComplete="off"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 resize-none text-sm font-montSerrat"
                     placeholder="Tell us about your project or inquiry..."
                   />
@@ -389,9 +458,23 @@ Tamil Nadu, India
                   </div>
                 )}
 
+                {/* reCAPTCHA */}
+                <div 
+                  className="flex justify-center"
+                  data-aos="fade-left"
+                  data-aos-duration="800"
+                  data-aos-delay="350"
+                >
+                  <div 
+                    className="g-recaptcha" 
+                    data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                    data-callback="onRecaptchaSuccess"
+                  ></div>
+                </div>
+
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !recaptchaToken}
                   className="w-full bg-refex-blue hover:bg-refex-blue-dark text-white py-4 px-8 rounded-lg font-semibold text-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer shadow-md hover:shadow-xl transform hover:scale-105 font-montserrat"
                   data-aos="fade-left"
                   data-aos-duration="800"
@@ -402,6 +485,8 @@ Tamil Nadu, India
                       <i className="ri-loader-4-line animate-spin mr-2"></i>
                       Sending...
                     </span>
+                  ) : !recaptchaToken ? (
+                    'Please complete reCAPTCHA'
                   ) : (
                     'Get in Touch'
                   )}

@@ -11,7 +11,7 @@ export default function Header() {
   const navItems = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
-  { name: "Products", href: "/products" },
+  // { name: "Products", href: "/products" },
   { name: "Capabilities", href: "/capabilities" },
   { name: "ESG", href: "/sustainability" },
   { name: "Careers", href: "https://www.refex.group/careers/", external: true }, // updated
@@ -26,9 +26,12 @@ export default function Header() {
           <div className="flex-shrink-0">
             <Link to="/" className="block">
               <img
+               style={{
+                 height:"90px"
+               }}
                 src="https://static.readdy.ai/image/fee7c46f86ab0abd00d243769e1016cd/1d58d4112a718d2b16f06f3a09a7875a.png"
                 alt="Refex Life Sciences"
-                className="h-16 w-auto hover:opacity-80 transition-opacity duration-300"
+                className=" w-auto hover:opacity-80 transition-opacity duration-300"
               />
             </Link>
           </div>
@@ -47,7 +50,7 @@ export default function Header() {
         <Link
           to={item.href}
           className={linkClass}
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+          style={{ fontFamily: "Montserrat, sans-serif", fontSize:"17px" }}
         >
           {item.name}
         </Link>
@@ -98,7 +101,7 @@ export default function Header() {
       target="_blank"
       rel="noopener noreferrer"
       className={linkClass}
-      style={{ fontFamily: "Montserrat, sans-serif" }}
+      style={{ fontFamily: "Montserrat, sans-serif" ,fontSize:"17px" }}
     >
       {item.name}
     </a>
@@ -107,7 +110,7 @@ export default function Header() {
       key={item.href}
       to={item.href}
       className={linkClass}
-      style={{ fontFamily: "Montserrat, sans-serif" }}
+      style={{ fontFamily: "Montserrat, sans-serif", fontSize:"17px" }}
     >
       {item.name}
     </Link>

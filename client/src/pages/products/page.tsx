@@ -40,7 +40,7 @@ const Products = () => {
   useEffect(() => {
     const loadHero = async () => {
       try {
-        const res = await fetch('http://localhost:9000/api/cms/products/hero');
+        const res = await fetch('/api/cms/products/hero');
         if (res.ok) {
           const json = await res.json();
           setHero(json.data);

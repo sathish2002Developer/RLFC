@@ -225,86 +225,94 @@ const Capabilities = () => {
 
             {/* API Manufacturing Section */}
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">API Manufacturing</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                {facilities.filter((facility: any) => facility.type === 'API Manufacturing').map((facility: any, index: number) => {
-                  const colors = getColorClasses(facility.color);
-                  return (
-                    <div
-                      key={facility.id}
-                      className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden`}
-                      onClick={() => setSelectedFacility(facility)}
-                      data-aos="zoom-in"
-                      data-aos-duration="800"
-                      data-aos-delay={index * 100}
-                    >
-                      {/* Facility Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        <img
-                          src={facility.image}
-                          alt={facility.name}
-                          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                          Est. {facility.established}
-                        </div>
-                        <div className="absolute bottom-4 left-4 text-white">
-                          <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
-                          <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
-                        </div>
-                      </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">RL Fine Chem Capabilities</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-stretch">
+  {facilities
+    .filter((facility: any) => facility.type === 'API Manufacturing')
+    .map((facility: any, index: number) => {
+      const colors = getColorClasses(facility.color);
 
-                      {/* Facility Details */}
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                            {facility.type}
-                          </span>
-                          <span className="text-sm font-bold text-gray-800 font-montserrat">
-                            {facility.capacity}
-                          </span>
-                        </div>
+      return (
+        <div
+          key={facility.id}
+          className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden flex flex-col h-full`}
+          onClick={() => setSelectedFacility(facility)}
+          data-aos="zoom-in"
+          data-aos-duration="800"
+          data-aos-delay={index * 100}
+        >
+          {/* Facility Image */}
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={facility.image}
+              alt={facility.name}
+              className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+              Est. {facility.established}
+            </div>
+            <div className="absolute bottom-4 left-4 text-white">
+              <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
+              <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
+            </div>
+          </div>
 
-                        {/* Key Capabilities */}
-                        <div className="mb-4">
-                          <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
-                          <div className="space-y-1">
-                            {facility.capabilities.map((capability: string, idx: number) => (
-                              <div key={idx} className="flex items-center gap-2">
-                                <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`}></div>
-                                <span className="text-xs text-gray-600 font-montserrat">{capability}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Approvals */}
-                        <div className="flex flex-wrap gap-1 mb-4">
-                          {facility.approvals.slice(0, 3).map((approval: string, idx: number) => (
-                            <div key={idx} className="flex items-center justify-center w-12 h-12 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-                            
-                                <img src={approval} alt="Approval" className="w-12 h-12 object-contain" />
-                            
-                            </div>
-                          ))}
-                          {facility.approvals.length > 3 && (
-                            <div className="flex items-center justify-center w-12 h-12 bg-gray-100 text-gray-600 rounded text-xs font-montserrat">
-                              +{facility.approvals.length - 3}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* View Details Button */}
-                        <button className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}>
-                          <i className="ri-eye-line mr-2"></i>
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Facility Details */}
+          <div className="p-6 flex flex-col flex-grow">
+            {/* All content except button */}
+            <div className="flex-grow flex flex-col">
+              {/* Type and Capacity */}
+              <div className="flex items-center justify-between mb-4">
+                <span className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+                  {facility.type}
+                </span>
+                <span className="text-sm font-bold text-gray-800 font-montserrat">
+                  {facility.capacity}
+                </span>
               </div>
+
+              {/* Key Capabilities */}
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
+                <div className="space-y-1">
+                  {facility.capabilities.map((capability: string, idx: number) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`} />
+                      <span className="text-xs text-gray-600 font-montserrat">{capability}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Approvals */}
+              <div className="flex flex-wrap gap-1 mb-4">
+                {facility.approvals.map((approval: string, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-center p-2 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200 text-xs font-montserrat text-gray-700"
+                  >
+                    <p>{approval}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* View Details Button pinned to bottom */}
+            <div className="mt-auto">
+              <button
+                className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
+              >
+                <i className="ri-eye-line mr-2"></i>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+</div>
+
               
               {/* Expansion Note */}
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 text-center"
@@ -322,165 +330,218 @@ const Capabilities = () => {
 
             {/* Oncology & Specialty Intermediates Section */}
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Oncology & Specialty Intermediates</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {facilities.filter((facility: any) => facility.type === 'Oncology & Specialty Intermediates').map((facility: any, index: number) => {
-                  const colors = getColorClasses(facility.color);
-                  return (
-                    <div
-                      key={facility.id}
-                      className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden`}
-                      onClick={() => setSelectedFacility(facility)}
-                      data-aos="zoom-in"
-                      data-aos-duration="800"
-                      data-aos-delay={index * 100}
-                    >
-                      {/* Facility Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        <img
-                          src={facility.image}
-                          alt={facility.name}
-                          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                          Est. {facility.established}
-                        </div>
-                        <div className="absolute bottom-4 left-4 text-white">
-                          <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
-                          <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
-                        </div>
-                      </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Oncology & Speciality Intermediates with Modepro Capabilities</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+  {facilities
+    .filter((facility: any) => facility.type === 'Oncology & Specialty Intermediates')
+    .map((facility: any, index: number) => {
+      const colors = getColorClasses(facility.color);
 
-                      {/* Facility Details */}
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                            {facility.type}
-                          </span>
-                          <span className="text-sm font-bold text-gray-800 font-montserrat">
-                            {facility.capacity}
-                          </span>
-                        </div>
+      return (
+        <div
+          key={facility.id}
+          className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden flex flex-col h-full`}
+          onClick={() => setSelectedFacility(facility)}
+          data-aos="zoom-in"
+          data-aos-duration="800"
+          data-aos-delay={index * 100}
+        >
+          {/* Facility Image */}
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={facility.image}
+              alt={facility.name}
+              className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+              Est. {facility.established}
+            </div>
+            <div className="absolute bottom-4 left-4 text-white">
+              <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
+              <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
+            </div>
+          </div>
 
-                        {/* Key Capabilities */}
-                        <div className="mb-4">
-                          <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
-                          <div className="space-y-1">
-                            {facility.capabilities.map((capability: string, idx: number) => (
-                              <div key={idx} className="flex items-center gap-2">
-                                <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`}></div>
-                                <span className="text-xs text-gray-600 font-montserrat">{capability}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Approvals */}
-                        <div className="flex flex-wrap gap-1 mb-4">
-                          {facility.approvals.map((approval: string, idx: number) => (
-                            <div key={idx} className="flex items-center justify-center w-12 h-12 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-                            
-                                <img src={approval} alt="Approval" className="w-12 h-12 object-contain" />
-                              
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* View Details Button */}
-                        <button className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}>
-                          <i className="ri-eye-line mr-2"></i>
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Facility Details */}
+          <div className="p-6 flex flex-col flex-grow">
+            {/* CONTENT WRAPPER — everything except button */}
+            <div className="flex-grow flex flex-col">
+              {/* Type and Capacity */}
+              <div className="flex items-center justify-between mb-4">
+                <span className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+                  {facility.type}
+                </span>
+                <span className="text-sm font-bold text-gray-800 font-montserrat">
+                  {facility.capacity}
+                </span>
               </div>
+
+              {/* Key Capabilities */}
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
+                <div className="space-y-1 max-h-16 overflow-hidden">
+                  {facility.capabilities.slice(0, 2).map((capability: string, idx: number) => (
+                    <div key={idx} className="flex items-center gap-2 text-xs text-gray-600 font-montserrat">
+                      <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`} />
+                      <span>{capability}</span>
+                    </div>
+                  ))}
+                  {facility.capabilities.length > 2 && (
+                    <div className="text-xs text-gray-500 font-montserrat">
+                      +{facility.capabilities.length - 2} more capabilities
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Approvals */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {facility.approvals.map((approval: string, idx: number) => (
+                  approval && (
+                    <div
+                      key={idx}
+                      className="px-2 py-1 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200 text-xs font-montserrat text-gray-700"
+                    >
+                      {approval}
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+
+            {/* View Details Button */}
+            <div className="mt-auto">
+              <button
+                className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
+              >
+                <i className="ri-eye-line mr-2"></i>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+</div>
+
+
             </div>
 
             {/* Formulations & Complex Generics Section */}
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Formulations & Complex Generics</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {facilities.filter((facility: any) => facility.type === 'Formulations & Complex Generics' || facility.type === 'Packaging & Customization').map((facility: any, index: number) => {
-                  const colors = getColorClasses(facility.color);
-                  return (
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Formulations & Complex Generics with Extrovis Capabilities
+</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+  {facilities
+    .filter(
+      (facility: any) =>
+        facility.type === 'Formulations & Complex Generics' ||
+        facility.type === 'Packaging & Customization'
+    )
+    .map((facility: any, index: number) => {
+      const colors = getColorClasses(facility.color);
+
+      return (
+        <div
+          key={facility.id}
+          className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden flex flex-col h-full`}
+          onClick={() => setSelectedFacility(facility)}
+          data-aos="zoom-in"
+          data-aos-duration="800"
+          data-aos-delay={index * 100}
+        >
+          {/* Facility Image */}
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={facility.image}
+              alt={facility.name}
+              className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div
+              className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}
+            >
+              Est. {facility.established}
+            </div>
+            <div className="absolute bottom-4 left-4 text-white">
+              <h3 className="text-lg font-bold font-montserrat">
+                {facility.name}
+              </h3>
+              <p className="text-sm opacity-90 font-montserrat">
+                {facility.location}
+              </p>
+            </div>
+          </div>
+
+          {/* Facility Details */}
+          <div className="p-6 flex flex-col flex-grow">
+            {/* Type and Capacity */}
+            <div className="flex items-center justify-between mb-4">
+              <span
+                className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}
+              >
+                {facility.type}
+              </span>
+              <span className="text-sm font-bold text-gray-800 font-montserrat ml-5">
+                {facility.capacity}
+              </span>
+            </div>
+
+            {/* Key Capabilities */}
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">
+                Capabilities:
+              </h4>
+              <div className="space-y-1 max-h-16 overflow-hidden">
+                {facility.capabilities.slice(0, 2).map(
+                  (capability: string, idx: number) => (
                     <div
-                      key={facility.id}
-                      className={`group bg-white rounded-3xl shadow-xl border-2 ${colors.border} ${colors.hover} hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 hover:scale-105 cursor-pointer overflow-hidden`}
-                      onClick={() => setSelectedFacility(facility)}
-                      data-aos="zoom-in"
-                      data-aos-duration="800"
-                      data-aos-delay={index * 100}
+                      key={idx}
+                      className="flex items-center gap-2 text-xs text-gray-600 font-montserrat"
                     >
-                      {/* Facility Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        <img
-                          src={facility.image}
-                          alt={facility.name}
-                          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                          Est. {facility.established}
-                        </div>
-                        <div className="absolute bottom-4 left-4 text-white">
-                          <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
-                          <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
-                        </div>
-                      </div>
-
-                      {/* Facility Details */}
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className={`px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
-                            {facility.type}
-                          </span>
-                          <span className="text-sm font-bold text-gray-800 font-montserrat ml-5">
-                            {facility.capacity}
-                          </span>
-                        </div>
-
-                        {/* Key Capabilities */}
-                        <div className="mb-4">
-                          <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
-                          <div className="space-y-1">
-                            {facility.capabilities.slice(0, 2).map((capability: string, idx: number) => (
-                              <div key={idx} className="flex items-center gap-2">
-                                <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`}></div>
-                                <span className="text-xs text-gray-600 font-montserrat">{capability}</span>
-                              </div>
-                            ))}
-                            {facility.capabilities.length > 2 && (
-                              <div className="text-xs text-gray-500 font-montserrat">
-                                +{facility.capabilities.length - 2} more capabilities
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Approvals */}
-                        <div className="flex flex-wrap gap-1 mb-4">
-                          {facility.approvals.slice(0, 3).map((approval: string, idx: number) => (
-                            <div key={idx} className="flex items-center justify-center w-12 h-12 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-                           
-                                <img src={approval} alt="Approval" className="w-12 h-12 object-contain" />
-                              
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* View Details Button */}
-                        <button className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}>
-                          <i className="ri-eye-line mr-2"></i>
-                          View Details
-                        </button>
-                      </div>
+                      <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full`} />
+                      <span>{capability}</span>
                     </div>
-                  );
-                })}
+                  )
+                )}
+                {facility.capabilities.length > 2 && (
+                  <div className="text-xs text-gray-500 font-montserrat">
+                    +{facility.capabilities.length - 2} more capabilities
+                  </div>
+                )}
               </div>
+            </div>
+
+            {/* Approvals */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {facility.approvals.map(
+                (approval: string, idx: number) =>
+                  approval && (
+                    <div
+                      key={idx}
+                      className="px-2 py-1 bg-white rounded border border-gray-200 hover:border-gray-300 transition-colors duration-200 text-xs font-montserrat text-gray-700"
+                    >
+                      {approval}
+                    </div>
+                  )
+              )}
+            </div>
+
+            {/* View Details Button (stays at bottom) */}
+            <div className="mt-auto">
+              <button
+                className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
+              >
+                <i className="ri-eye-line mr-2"></i>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+</div>
             </div>
           </div>
      
@@ -643,16 +704,26 @@ const Capabilities = () => {
 
                   {/* Approvals */}
                   <div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Regulatory Approvals</h4>
+                   {selectedFacility?.approvals?.length >0 ? 
+                    <>
+                      <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Regulatory Approvals</h4>
                     <div className="flex flex-wrap gap-2">
-                      {selectedFacility.approvals.map((approval: string, index: number) => (
-                        <div key={index} className="flex items-center justify-center w-12 h-12 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-sm">
+                      {selectedFacility?.approvals?.map((approval: string, index: number) => (
+                         approval &&<div key={index} className="flex items-center justify-center p-2  bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-sm">
                             
-                                <img src={approval} alt="Approval" className="w-12 h-12 object-contain" />
+                                
+                            
+                                 <p>{approval}</p>
+                            
+                         
                             
                         </div>
                       ))}
                     </div>
+                    </>
+                  
+                    :null
+}
                   </div>
                 </div>
 

@@ -35,52 +35,17 @@
         "order": 3,
         "isActive": true
     },
-    {
-        "id": "4",
-        "title": "Legacy of Leadership",
-        "description": "40+ years of proven expertise in psychotropic APIs and complex generics",
-        "icon": "ri-award-line",
-        "color": "#2879b6",
-        "gradient": "from-blue-500 to-cyan-500",
-        "metric": "40+",
-        "unit": "Years",
-        "order": 4,
-        "isActive": true
-    },
-    {
-        "id": "5",
-        "title": "Global Trust",
-        "description": "Strong relationships with top pharma innovators and generics across 80+ countries",
-        "icon": "ri-global-line",
-        "color": "#7dc244",
-        "gradient": "from-green-500 to-emerald-500",
-        "metric": "80+",
-        "unit": "Countries",
-        "order": 5,
-        "isActive": true
-    },
-    {
-        "id": "6",
-        "title": "Diverse Portfolio",
-        "description": "Market leadership in CNS, antipsychotics, antihistamines, muscle relaxants, and expanding into high-barrier therapies",
-        "icon": "ri-briefcase-line",
-        "color": "#ee6a31",
-        "gradient": "from-orange-500 to-red-500",
-        "metric": "CNS",
-        "unit": "Leadership",
-        "order": 6,
-        "isActive": true
-    },
+  
     {
         "id": "7",
-        "title": "Innovation Engine",
-        "description": "DSIR-approved R&D and late-stage development capabilities driving differentiated products and faster scale-up",
-        "icon": "ri-lightbulb-line",
+        "title": "Quality Compliance",
+        "icon":"ri-line-chart-line",
+        "description": "Delivering 100% quality compliance to ensure every product is consistent, safe, and reliable.",
         "color": "#2879b6",
         "gradient": "from-purple-500 to-indigo-500",
-        "metric": "R&D",
-        "unit": "Centers",
-        "order": 7,
+        "metric": "100%",
+        "unit": "Quality",
+        "order": 9,
         "isActive": true
     },
     {
