@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "RefexAdmin@",
-    "database": "refex_contacts",
+    "database": "rlfc",
     "host": "localhost",
     "port": 3306,
     "dialect": "mysql",
