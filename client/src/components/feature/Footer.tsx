@@ -210,13 +210,13 @@ const Footer = () => {
             </div>
             <div className="flex items-center space-x-8">
               <Link
-                to="https://www.refex.group/privacy-policy/"
+                to="https://sites.google.com/refex.co.in/privacy/home"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 cursor-pointer font-montserrat hover:underline"
               >
                 Privacy Policy
               </Link>
               <Link
-                to="https://www.refex.group/terms-of-use/"
+                to="https://sites.google.com/refex.co.in/term/home"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 cursor-pointer font-montserrat hover:underline"
               >
                 Terms of Service

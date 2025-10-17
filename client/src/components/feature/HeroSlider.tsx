@@ -191,7 +191,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
       </div>
 
       {/* Scroll Down Icon */}
-      <div className="absolute bottom-8 right-8 z-20">
+      {/* <div className="absolute bottom-8 right-8 z-20">
         <div 
           className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all duration-300 animate-bounce"
           onClick={() => {
@@ -203,7 +203,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
         >
           <i className="ri-arrow-down-line text-white text-xl"></i>
         </div>
-      </div>
+      </div> */}
 
       <style jsx>{`
         @keyframes zoomIn {
