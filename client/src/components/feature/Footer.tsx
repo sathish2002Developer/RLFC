@@ -57,7 +57,7 @@ const Footer = () => {
               Leadership Team
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/products"
               className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
@@ -65,7 +65,7 @@ const Footer = () => {
               <i className="ri-arrow-right-s-line text-refex-green mr-2 group-hover:text-white transition-colors duration-200"></i>
               Products
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               to="/contact"
