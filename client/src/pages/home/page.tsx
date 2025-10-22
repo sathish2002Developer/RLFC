@@ -756,7 +756,7 @@ export default function Home() {
   <div className="max-w-6xl mx-auto px-6 text-center">
     <h2 className="text-3xl font-bold mb-4 text-gray-900">Regulatory Approvals</h2>
     <p className="text-gray-700 mb-10 leading-relaxed text-justify">
-      Reflex Life Sciences operates a worldwide network of state-of-the-art manufacturing facilities seamlessly
+      Refex Life Sciences operates a worldwide network of state-of-the-art manufacturing facilities seamlessly
       integrated into the group. These facilities comply with the highest international quality standards with
       accreditations from:
     </p>
