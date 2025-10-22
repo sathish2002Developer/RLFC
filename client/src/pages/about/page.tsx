@@ -222,7 +222,7 @@ import User from "../../images/images.png"
          <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(' ${(aboutApi as any)?.hero?.backgroundImage || data.aboutHero?.backgroundImage || "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20corporate%20headquarters%20building%20with%20professional%20architecture%2C%20dark%20blue%20and%20navy%20color%20scheme%2C%20contemporary%20glass%20facade%2C%20corporate%20excellence%20atmosphere%2C%20professional%20healthcare%20company%20facilities%2C%20business%20leadership%20environment%2C%20clean%20modern%20design&width=1920&height=800&seq=about-hero-dark&orientation=landscape"}')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))`,
         }}
       >
         <div className="w-full px-6 lg:px-8">
@@ -264,6 +264,22 @@ import User from "../../images/images.png"
               {/* RL Fine Chem */}
               <div 
                 className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://modepro.co.in/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="200"
+              >
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
+                    alt="Modepro Logo" 
+                    className="w-60 h-60 object-contain"
+                  />
+                </div>
+             
+              </div>
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
                 onClick={() => window.open('https://www.rlfinechem.com/', '_blank')}
                 data-aos="zoom-in"
                 data-aos-duration="800"
@@ -278,32 +294,11 @@ import User from "../../images/images.png"
                     className="w-60 h-60 object-contain"
                   />
                 </div>
-                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#2879b6] text-white rounded-xl font-semibold hover:bg-[#1e5f8c] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                  <span>Know More</span>
-                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-                </button>
+             
               </div>
   
               {/* Modepro */}
-              <div 
-                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
-                onClick={() => window.open('https://modepro.co.in/', '_blank')}
-                data-aos="zoom-in"
-                data-aos-duration="800"
-                data-aos-delay="200"
-              >
-                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
-                  <img 
-                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
-                    alt="Modepro Logo" 
-                    className="w-60 h-60 object-contain"
-                  />
-                </div>
-                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#7dc244] text-white rounded-xl font-semibold hover:bg-[#5ba832] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                  <span>Know More</span>
-                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-                </button>
-              </div>
+         
   
               {/* Extrovis */}
               <div 
@@ -321,10 +316,7 @@ import User from "../../images/images.png"
                     className="w-60 h-60 object-contain"
                   />
                 </div>
-                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#ee6a31] text-white rounded-xl font-semibold hover:bg-[#d55a28] transition-all duration-300 transform hover:scale-105 font-montserrat whitespace-nowrap">
-                  <span>Know More</span>
-                  <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
-                </button>
+            
                </div>
              </div>
           
@@ -374,18 +366,7 @@ import User from "../../images/images.png"
                 <span className="hidden sm:inline">Our Vision & Mission</span>
                 <span className="sm:hidden">Vision</span>
               </button>
-                 <button
-                onClick={() => scrollToSection("management")}
-                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                  activeTab === "management"
-                    ? "bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110"
-                    : "text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20"
-                }`}
-              >
-                <i className="ri-user-star-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Management Team</span>
-                <span className="sm:hidden">Management</span>
-              </button>
+                
 
               <button
                 onClick={() => scrollToSection("leadership")}
@@ -655,9 +636,7 @@ import User from "../../images/images.png"
                               Innovation
                             </h4>
                             <p className="text-gray-600 leading-relaxed font-montserrat text-sm lg:text-base">
-                              Transform global healthcare by building an innovation driven, integrated
-                              pharmaceutical platform from India, delivering affordable, accessible and
-                              life changing drugs.
+                            To become a leader in global healthcare by building an innovation-driven, integrated pharmaceutical platform, delivering affordable, accessible, and life-saving drugs.
                             </p>
                           </div>
                         </div>
@@ -753,15 +732,15 @@ import User from "../../images/images.png"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
+        <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
           Management Team
         </h2>
-        <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
+        {/* <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
           Experienced leaders driving strategic growth and operational excellence across all business verticals
-        </p>
+        </p> */}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 items-center mb-2">
+      <div className="flex flex-wrap justify-center  gap-8 items-center mb-2">
         {
           ManagementTeam
                         .map((leader: any, index: number) => {
@@ -820,18 +799,18 @@ import User from "../../images/images.png"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat" style={{
+        {/* <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat" style={{
          marginTop:"10px"
       }} >
           Leadership Team
         </h2>
         <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
           Visionary leaders driving pharmaceutical innovation and global healthcare transformation
-        </p>
+        </p> */}
       </div>
          <div className="mb-16">
         <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Technical Leadership Team
+          Technical  Team
         </h3>
         <div className="flex flex-wrap justify-center gap-8 items-center">
           {TechnicalLeaders && TechnicalLeaders.length > 0 ? TechnicalLeaders.map((leader: any, index: number) => {
@@ -1047,7 +1026,7 @@ import User from "../../images/images.png"
                   data-aos-delay="600"
                  
                 >
-                  With innovation and people welfare at its core, Refex Group delivers environment-friendly solutions that benefit both communities and the people.
+                 Refex’s journey of excellence began two decades ago with a focus on learning, resilience, and agility. From Refrigerant gas to Ash Utilization & Coal handling, Renewables, MedTech, Green Mobility, and Pharmaceuticals, we have expanded our horizons.
                 </p>
            
               <div 

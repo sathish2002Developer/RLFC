@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import RefexGroupLogo from "../../images/RLS_Logo.png"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function Header() {
                style={{
                  height:"90px"
                }}
-                src="https://static.readdy.ai/image/fee7c46f86ab0abd00d243769e1016cd/1d58d4112a718d2b16f06f3a09a7875a.png"
+                src={RefexGroupLogo}
                 alt="Refex Life Sciences"
                 className=" w-auto hover:opacity-80 transition-opacity duration-300"
               />

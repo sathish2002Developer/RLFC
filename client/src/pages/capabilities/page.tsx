@@ -147,7 +147,7 @@ const Capabilities = () => {
                 <span className="block mt-1">{capabilitiesData.hero?.subtitle || data.capabilitiesHero.subtitle}</span>
               )}
             </h1>
-            {(() => {
+            {/* {(() => {
               const desc = capabilitiesData.hero?.description || data?.capabilitiesHero?.description || '';
               const subDesc = capabilitiesData.hero?.subDescription || data?.capabilitiesHero?.subDescription || '';
               return (
@@ -174,7 +174,7 @@ const Capabilities = () => {
                   )}
                 </>
               );
-            })()}
+            })()} */}
           </div>
         </div>
       </section>
@@ -249,9 +249,9 @@ const Capabilities = () => {
               className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+            {/* <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
               Est. {facility.established}
-            </div>
+            </div> */}
             <div className="absolute bottom-4 left-4 text-white">
               <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
               <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
@@ -300,12 +300,12 @@ const Capabilities = () => {
 
             {/* View Details Button pinned to bottom */}
             <div className="mt-auto">
-              <button
+              {/* <button
                 className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
               >
                 <i className="ri-eye-line mr-2"></i>
                 View Details
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -354,9 +354,9 @@ const Capabilities = () => {
               className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
+            {/* <div className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}>
               Est. {facility.established}
-            </div>
+            </div> */}
             <div className="absolute bottom-4 left-4 text-white">
               <h3 className="text-lg font-bold font-montserrat">{facility.name}</h3>
               <p className="text-sm opacity-90 font-montserrat">{facility.location}</p>
@@ -412,12 +412,12 @@ const Capabilities = () => {
 
             {/* View Details Button */}
             <div className="mt-auto">
-              <button
+              {/* <button
                 className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
               >
                 <i className="ri-eye-line mr-2"></i>
                 View Details
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -459,11 +459,11 @@ const Capabilities = () => {
               className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div
+            {/* <div
               className={`absolute top-4 right-4 px-3 py-1 ${colors.bg} text-white rounded-full text-xs font-semibold`}
             >
               Est. {facility.established}
-            </div>
+            </div> */}
             <div className="absolute bottom-4 left-4 text-white">
               <h3 className="text-lg font-bold font-montserrat">
                 {facility.name}
@@ -530,12 +530,12 @@ const Capabilities = () => {
 
             {/* View Details Button (stays at bottom) */}
             <div className="mt-auto">
-              <button
+              {/* <button
                 className={`w-full py-3 px-4 ${colors.bg} text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 cursor-pointer whitespace-nowrap font-montserrat text-sm`}
               >
                 <i className="ri-eye-line mr-2"></i>
                 View Details
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

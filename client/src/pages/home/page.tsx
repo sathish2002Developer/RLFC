@@ -4,6 +4,8 @@ import HeroSlider from '../../components/feature/HeroSlider';
 import Footer from '../../components/feature/Footer';
 import Header from '../../components/feature/Header';
 import { useAdminAuth } from '../../contexts/AdminContext';
+import Rlfc from "../../images/RLFC-Logo.jpg"
+import Extrovis from "../../images/Extrovis.png"
 
 
 export default function Home() {
@@ -477,6 +479,124 @@ export default function Home() {
        <HeroSlider slides={slides}/>
 
       {/* Enhanced Hero Banner with Bubble Effects */}
+           <section className="py-16 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              {"Who We Are"}
+            </h2>
+            <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            A leading pharmaceutical platform with 40+ years of API excellence, global partnerships in advanced intermediates, and CRDMO expertise in speciality formulations and antibiotics.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-12 mt-16" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+          <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://modepro.co.in/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="200"
+              >
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
+                    alt="Modepro Logo" 
+                    className="w-60 h-60 object-contain"
+                  />
+                </div>
+               
+              </div>
+  
+              {/* RL Fine Chem */}
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://www.rlfinechem.com/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="100"
+              >
+               
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                 
+                    src={Rlfc} 
+                    alt="Modepro Logo" 
+                    className="w-60 h-60 object-contain"
+                  />
+                </div>
+             
+              </div>
+  
+              {/* Modepro */}
+           
+              {/* Extrovis */}
+              <div 
+                className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
+                onClick={() => window.open('https://www.extrovis.com/', '_blank')}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="300"
+              >
+               
+                <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
+                  <img 
+                    src={Extrovis} 
+                    alt="Modepro Logo" 
+                    className="w-60 h-60 object-contain"
+                  />
+                </div>
+             
+               </div>
+             </div>
+
+        
+        </div>
+      </section>
+
+           {/* Statistics Section - Brand colors and typography */}
+           <section className="py-16 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
+            </h2>
+            <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+               Trusted by healthcare professionals worldwide for delivering high-quality pharmaceutical solutions.
+            </p>
+          </div>
+
+          <div key={`stats-${refreshKey}`} className="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+            {statistics.map((stat: any, index: number) => (
+              <div key={stat.id} className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: getColorValue(stat.color) }} data-aos="zoom-in" data-aos-delay={300 + (index * 150)} data-aos-duration="600">
+                {/* Card Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={stat.image}
+                    alt={stat.title}
+                    className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-600/20 to-transparent"></div>
+                </div>
+                
+                {/* Card Content */}
+                <div className="p-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: getColorValue(stat.color), fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.value}+
+                    </div>
+                    <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      {stat.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     
 
       {/* What We Offer Section - Brand colors and typography */}
@@ -629,167 +749,59 @@ export default function Home() {
       </section>
      
 
-      {/* Statistics Section - Brand colors and typography */}
-      <section className="py-16 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
-            </h2>
-            <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-               Trusted by healthcare professionals worldwide for delivering high-quality pharmaceutical solutions.
-            </p>
-          </div>
-
-          <div key={`stats-${refreshKey}`} className="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
-            {statistics.map((stat: any, index: number) => (
-              <div key={stat.id} className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 cursor-pointer border-l-4" style={{ borderColor: getColorValue(stat.color) }} data-aos="zoom-in" data-aos-delay={300 + (index * 150)} data-aos-duration="600">
-                {/* Card Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={stat.image}
-                    alt={stat.title}
-                    className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-600/20 to-transparent"></div>
-                </div>
-                
-                {/* Card Content */}
-                <div className="p-6">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300" style={{ color: getColorValue(stat.color), fontFamily: 'Montserrat, sans-serif' }}>
-                      {stat.value}+
-                    </div>
-                    <h3 className="text-base font-bold text-gray-800 mb-2 transition-colors duration-300 group-hover:text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      {stat.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      {stat.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+ 
 
       {/* Vision & Mission Section - Brand colors and typography */}
+      <section className="py-12 bg-white">
+  <div className="max-w-6xl mx-auto px-6 text-center">
+    <h2 className="text-3xl font-bold mb-4 text-gray-900">Regulatory Approvals</h2>
+    <p className="text-gray-700 mb-10 leading-relaxed text-justify">
+      Reflex Life Sciences operates a worldwide network of state-of-the-art manufacturing facilities seamlessly
+      integrated into the group. These facilities comply with the highest international quality standards with
+      accreditations from:
+    </p>
+
+    <div className="text-center">
+   
+
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-1 gap-y-4 text-gray-800 justify-center mx-auto max-w-3xl mr-2">
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#2879b6] mr-3 mt-[2px]"></span>
+    <span>US FDA</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#f97316] mr-3 mt-[2px]"></span>
+    <span>EU GMP</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#10b981] mr-3 mt-[2px]"></span>
+    <span>EDQM</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#6366f1] mr-3 mt-[2px]"></span>
+    <span>Health Canada</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#e11d48] mr-3 mt-[2px]"></span>
+    <span>ANVISA</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#14b8a6] mr-3 mt-[2px]"></span>
+    <span>PMDA</span>
+  </li>
+  <li className="flex items-center justify-center md:justify-start">
+    <span className="w-3 h-3 rounded-full bg-[#facc15] mr-3 mt-[2px]"></span>
+    <span>WHO-GMP</span>
+  </li>
+</ul>
+
+    </div>
+  </div>
+</section>
     
 
       {/* Regulatory Approvals Section - Enhanced with Interactive Controls */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-           
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Regulatory Approvals
-            </h2>
-            <p className="text-base text-gray-600 max-w-3xl mx-auto" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Our Group Companies have been validated by global regulatory authorities.
-            </p>
-          </div>
-
-          {/* Logo Only Carousel with Navigation Arrows - Shows exactly 3 logos */}
-          <div className="relative mb-16">
-            {/* Left Arrow */}
-            <button 
-              onClick={prevRegulatorySlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 rounded-full shadow-xl border border-gray-200 hover:border-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110"
-            >
-              <i className="ri-arrow-left-line text-xl text-gray-600 hover:text-blue-600"></i>
-            </button>
-
-            {/* Right Arrow */}
-            <button 
-              onClick={nextRegulatorySlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 rounded-full shadow-xl border border-gray-200 hover:border-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110"
-            >
-              <i className="ri-arrow-right-line text-xl text-gray-600 hover:text-blue-600"></i>
-            </button>
-
-            {/* Carousel Container - Shows up to 4 logos */}
-            <div key={`regulatory-${refreshKey}`} className="overflow-hidden px-16">
-              <div className="flex justify-center items-center space-x-8">
-                {regulatoryApi.length > 0 ? (
-                  (() => {
-                    const itemsToShow = Math.min(4, regulatoryApprovals.length);
-                    const startIndex = currentRegulatorySlide;
-                    const endIndex = Math.min(startIndex + itemsToShow, regulatoryApprovals.length);
-                    const items = regulatoryApprovals.slice(startIndex, endIndex);
-                    
-                    console.log('🎠 Carousel Debug:', {
-                      totalItems: regulatoryApprovals.length,
-                      currentSlide: currentRegulatorySlide,
-                      itemsToShow: itemsToShow,
-                      startIndex: startIndex,
-                      endIndex: endIndex,
-                      itemsCount: items.length,
-                      items: items.map(item => ({ title: item.title, isActive: item.isActive }))
-                    });
-                    
-                    return items.map((item, index) => (
-                      <div
-                        key={`${currentRegulatorySlide}-${index}`}
-                        className="flex-shrink-0 flex items-center justify-center mb-2 mt-2"
-                      >
-                        <div className="flex items-center justify-center h-32 w-64 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
-                           <h1>{item.title}</h1>
-                          {/* <img
-                            src={item.image || 'https://via.placeholder.com/200x100?text=Logo'}
-                            alt={item.title || 'Regulatory Approval'}
-                            className="max-h-20 max-w-48 object-contain transition-transform duration-500 cursor-pointer"
-                            style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
-                            onError={(e) => {
-                              e.currentTarget.src = 'https://via.placeholder.com/200x100?text=Logo+Not+Available';
-                            }}
-                          /> */}
-                        </div>
-                      </div>
-                    ));
-                  })()
-                ) : (
-                  <div className="text-center text-gray-500 py-8">
-                    <i className="ri-shield-check-line text-4xl mb-2"></i>
-                    <p>No regulatory approvals available</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Dot Indicators - Updated for proper pagination */}
-            <div className="flex justify-center mt-10 space-x-2">
-              {regulatoryApprovals.length > 0 && (() => {
-                const maxSlide = Math.max(0, regulatoryApprovals.length - 4);
-                const totalSlides = maxSlide + 1;
-                console.log('🔘 Dot Indicators Debug:', {
-                  totalItems: regulatoryApprovals.length,
-                  maxSlide: maxSlide,
-                  totalSlides: totalSlides,
-                  currentSlide: currentRegulatorySlide
-                });
-                
-                return Array.from({ length: totalSlides }, (_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToRegulatorySlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      currentRegulatorySlide === index
-                        ? 'bg-blue-600 w-8'
-                        : 'bg-gray-300 hover:bg-gray-400'
-                    }`}
-                  />
-                ));
-              })()}
-            </div>
-
-          </div>
-
-          {/* Bottom CTA Section */}
-        
-        </div>
-      </section>
+  
 
 
    <Footer/>

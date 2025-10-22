@@ -14,188 +14,111 @@ const Footer = () => {
 
       {/* Main Footer Content */}
       <div className="w-full px-6 lg:px-8 py-20 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 items-stretch">
+  <div className="max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+      
+      {/* Company Info */}
+   
 
-            {/* Company Info */}
-            <div className="lg:col-span-1 space-y-8">
-              <div>
-                <div className="flex items-center space-x-3 mb-6">
-                  <img
-                    style={{ cursor: "pointer" }}
-                    src="https://static.readdy.ai/image/fee7c46f86ab0abd00d243769e1016cd/1d58d4112a718d2b16f06f3a09a7875a.png"
-                    alt="Refex Life Sciences"
-                    className="h-12 w-auto filter"
-                  />
-                </div>
-                <p className="text-gray-300 leading-relaxed font-montserrat text-base max-w-md">
-                  A leading pharmaceutical platform built on 40+ years of API excellence,
-                  global partnerships in advanced intermediates, and CRDMO expertise in
-                  speciality formulations and antibiotics — driven by innovation and
-                  protected by high entry barriers.
-                </p>
-              </div>
+      {/* Quick Links */}
+      <div className="w-full md:w-1/3 space-y-6" style={{ paddingLeft: '100px' }}>
+        <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
+          Quick Links
+          <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-blue rounded-full"></div>
+        </h3>
+        <ul className="space-y-4">
+          <li>
+            <Link
+              to="/about"
+              state={{ scrollTop: true }}
+              className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
+            >
+              <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
+              About RLS
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about"
+              state={{ activeTab: 'journey' }}
+              className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
+            >
+              <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
+              Our Journey
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about"
+              state={{ activeTab: 'leadership' }}
+              className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
+            >
+              <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
+              Leadership Team
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/products"
+              className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
+            >
+              <i className="ri-arrow-right-s-line text-refex-green mr-2 group-hover:text-white transition-colors duration-200"></i>
+              Products
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/contact"
+              className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
+            >
+              <i className="ri-arrow-right-s-line text-refex-orange mr-2 group-hover:text-white transition-colors duration-200"></i>
+              Contact Us
+            </Link>
+          </li>
+        </ul>
+      </div>
 
-              {/* Contact Grid */}
-              <div className="grid grid-cols-1 gap-6">
-                {/* Email */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-refex-blue/30 transition-all duration-300">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-10 h-10 bg-refex-blue rounded-lg flex items-center justify-center flex-shrink-0">
-                      <i className="ri-mail-line text-white text-lg"></i>
-                    </div>
-                    <div style={{ cursor: "pointer" }}>
-                      <h4 className="text-white font-semibold font-montserrat mb-1">Email Us</h4>
-                      <p className="text-gray-300 font-montserrat text-sm">info@refex.co.in</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-refex-green/30 transition-all duration-300">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-10 h-10 bg-refex-green rounded-lg flex items-center justify-center flex-shrink-0">
-                      <i className="ri-phone-line text-white text-lg"></i>
-                    </div>
-                    <div style={{ cursor: "pointer" }}>
-                      <h4 className="text-white font-semibold font-montserrat mb-1">Call Us</h4>
-                      <p className="text-gray-300 font-montserrat text-sm">
-                        +91-44-43405900/950
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
-                Quick Links
-                <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-blue rounded-full"></div>
-              </h3>
-              <ul className="space-y-4">
-                <li>
-                  <Link
-                    to="/about"
-                    state={{ scrollTop: true }}
-                    className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
-                  >
-                    <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    About RLS
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/about"
-                    state={{ activeTab: "journey" }}
-                    className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
-                  >
-                    <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Our Journey
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/about"
-                    state={{ activeTab: "leadership" }}
-                    className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
-                  >
-                    <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Leadership Team
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/products"
-                    className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
-                  >
-                    <i className="ri-arrow-right-s-line text-refex-green mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/contact"
-                    className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
-                  >
-                    <i className="ri-arrow-right-s-line text-refex-orange mr-2 group-hover:text-white transition-colors duration-200"></i>
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Connect With Us */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
-                Connect With Us
-                <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-green rounded-full"></div>
-              </h3>
-
-              {/* Social Links */}
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="https://www.linkedin.com/company/refex-group/"
-                  target="_blank"
-                  className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
-                >
-                  <i className="ri-linkedin-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
-                </a>
-
-                <a
-                  href="https://x.com/GroupRefex"
-                  target="_blank"
-                  className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
-                >
-                  <i className="ri-twitter-x-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
-                </a>
-
-                <a
-                  href="https://www.facebook.com/refexindustrieslimited/"
-                  target="_blank"
-                  className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
-                >
-                  <i className="ri-facebook-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
-                </a>
-
-                <a
-                  href="https://www.instagram.com/refexgroup/"
-                  target="_blank"
-                  className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
-                >
-                  <i className="ri-instagram-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
-                </a>
-              </div>
-
-              {/* Partner Logos */}
-              <div className="flex flex-wrap mt-16 justify-center gap-7" style={{
-                 marginTop:"250px",
-                 cursor:"pointer"
-              }}>
-                <div className="bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 p-4 w-25 h-25"
-                    onClick={() => window.open('https://www.rlfinechem.com/', '_blank')}>
-                  <img src={Rlfc} alt="RLFC Logo" className="w-20 h-20 object-contain" />
-                </div>
-
-                <div className="bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 p-4 w-25 h-25"
-                    onClick={() => window.open('https://modepro.co.in/', '_blank')}>
-                  <img
-                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png"
-                    alt="Modepro Logo"
-                    className="w-20 h-20 object-contain"
-                  />
-                </div>
-
-                <div className="bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 p-4 w-25 h-25"
-                  onClick={() => window.open('https://www.extrovis.com/', '_blank')}>
-                  <img src={Extrovis} alt="Extrovis Logo" className="w-20 h-20 object-contain" />
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Connect With Us */}
+      <div className="w-full md:w-1/3 space-y-6">
+        <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
+          Connect With Us
+          <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-green rounded-full"></div>
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="https://www.linkedin.com/company/refex-group/"
+            target="_blank"
+            className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+          >
+            <i className="ri-linkedin-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
+          </a>
+          <a
+            href="https://x.com/GroupRefex"
+            target="_blank"
+            className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+          >
+            <i className="ri-twitter-x-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
+          </a>
+          <a
+            href="https://www.facebook.com/refexindustrieslimited/"
+            target="_blank"
+            className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+          >
+            <i className="ri-facebook-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/refexgroup/"
+            target="_blank"
+            className="group w-12 h-12 border-2 border-gray-600 hover:border-white rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+          >
+            <i className="ri-instagram-fill text-gray-400 hover:text-white text-xl group-hover:scale-110 transition-all duration-300"></i>
+          </a>
         </div>
       </div>
+
+    </div>
+  </div>
+</div>
 
       {/* Divider */}
       <div className="border-t border-white/10"></div>

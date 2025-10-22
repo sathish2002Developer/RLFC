@@ -252,18 +252,18 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
-                      {data?.contactGetInTouch?.location?.title || 'Our Location'}
+                       Our Address
                     </h3>
                     <p className="text-gray-600 font-montserrat">
-                      2nd Floor, No.313, Refex Towers,
-Sterling Road, Valluvar Kottam High Road,
-Nungambakkam, Chennai – 600034
-Tamil Nadu, India
-                    </p>
+  2nd Floor, No.313, Refex Towers,<br />
+  Sterling Road, Valluvar Kottam High Road,<br />
+  Nungambakkam, Chennai – 600034,<br />
+  Tamil Nadu, India
+</p>
                   </div>
                 </div>
 
-                <div 
+                {/* <div 
                   className="flex items-start space-x-4"
                   data-aos="fade-right"
                   data-aos-duration="800"
@@ -285,7 +285,7 @@ Tamil Nadu, India
                     </p>
                    
                   </div>
-                </div>
+                </div> */}
 
                 <div 
                   className="flex items-start space-x-4"
