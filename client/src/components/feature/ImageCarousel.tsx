@@ -8,6 +8,7 @@ interface ImageCarouselProps {
   autoPlayInterval?: number;
   showDots?: boolean;
   showArrows?: boolean;
+  onSlideChange?: (index: number) => void;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -18,8 +19,16 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   autoPlayInterval = 5000,
   showDots = true,
   showArrows = true,
+  onSlideChange,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Call onSlideChange callback when slide changes
+  useEffect(() => {
+    if (onSlideChange) {
+      onSlideChange(currentIndex);
+    }
+  }, [currentIndex, onSlideChange]);
 
   // Auto-play functionality
   useEffect(() => {

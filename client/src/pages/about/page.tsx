@@ -17,11 +17,26 @@ import User from "../../images/images.png"
     const [activeTab, setActiveTab] = useState('journey');
   const [selectedLeader, setSelectedLeader] = useState<any>(null);
   const [pendingTargetTab, setPendingTargetTab] = useState<string | null>(null);
+  const [currentJourneyHeading, setCurrentJourneyHeading] = useState('Our Journey');
   const { data } = useAdminAuth();
 
   // API data for About page
   const [aboutApi, setAboutApi] = useState<any>({ hero: null, visionMission: null, sections: [], leadership: [], values: [], journey: [], aboutJourney: null });
   const [isLoading, setIsLoading] = useState(true);
+
+  // Journey carousel headings for each image
+  const journeyHeadings = [
+    `Refex Life Science's Journey`,
+    `Refex's Journey`,
+ 
+  ];
+
+  // Callback function for carousel slide changes
+  const handleJourneySlideChange = (index: number) => {
+    if (journeyHeadings[index]) {
+      setCurrentJourneyHeading(journeyHeadings[index]);
+    }
+  };
   
   useEffect(() => {
     const loadAbout = async () => {
@@ -393,12 +408,15 @@ import User from "../../images/images.png"
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-12">
             <div className="text-center mb-12" data-aos="fade-down" data-aos-duration="1000">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 hover:scale-105 transition-transform duration-500 text-gray-800 font-montserrat">
-                {(aboutApi as any)?.aboutJourney?.title || 'Our Journey'}
+              <h2 
+                key={currentJourneyHeading}
+                className="text-3xl md:text-4xl font-bold mb-4 hover:scale-105 transition-all duration-500 text-gray-800 font-montserrat"
+              >
+                { currentJourneyHeading}
               </h2>
-              <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
+                {currentJourneyHeading  === "Refex's Journey" && <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
                 {(aboutApi as any)?.aboutJourney?.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.'}
-              </p>
+              </p>}
             </div>
 
             <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
@@ -407,16 +425,22 @@ import User from "../../images/images.png"
                   images={
                     (aboutApi as any)?.aboutJourney?.images && (aboutApi as any)?.aboutJourney?.images.length > 0
                       ? (aboutApi as any)?.aboutJourney?.images
-                      : (aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage
-                        ? [(aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage]
-                        : []
+                      : [
+                          journeyImage,
+                          "/images/2151111131.jpg",
+                          "/images/group-healthcare-experts-with-face-masks-talking-meeting-medical-clinic.jpg",
+                          "/images/doctor-from-future-concept (1).jpg",
+                          "/images/image -3.jpg",
+                          "/images/image-4.jpg"
+                        ]
                   }
                   alt="Refex Group Milestones Timeline"
                   className="w-full"
                   autoPlay={true}
-                  autoPlayInterval={6000}
+                  autoPlayInterval={5000}
                   showDots={true}
                   showArrows={true}
+                  onSlideChange={handleJourneySlideChange}
                 />
               </div>
             </div>
