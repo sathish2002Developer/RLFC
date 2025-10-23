@@ -9,8 +9,9 @@ router.get("/", ctrl.getAll);
 // Single upserts
 router.put("/hero",  ctrl.saveHero);
 router.put("/vision-mission",  ctrl.saveVisionMission);
-router.put("/journey", ctrl.saveAboutJourney);
 router.put("/journey/upload", handleMultipleImageUpload , ctrl.saveAboutJourneyWithImages);
+
+router.put("/journey", ctrl.saveAboutJourney);
 
 // Sections
 router.get("/sections", ctrl.sections.list);
