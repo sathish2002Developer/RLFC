@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import  journeyImage from "../../images/jou.png"
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
+import ImageCarousel from '../../components/feature/ImageCarousel';
 import Rlfc from "../../images/RLFC-Logo.jpg"
 import Extrovis from "../../images/Extrovis.png"
 import AboutFoot from "../../images/about-footer.jpg"
@@ -402,10 +403,20 @@ import User from "../../images/images.png"
 
             <div className="flex justify-center mb-16" data-aos="fade-up" data-aos-duration="1200">
               <div className="max-w-6xl w-full">
-                <img
-                  src={(aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage}
+                <ImageCarousel
+                  images={
+                    (aboutApi as any)?.aboutJourney?.images && (aboutApi as any)?.aboutJourney?.images.length > 0
+                      ? (aboutApi as any)?.aboutJourney?.images
+                      : (aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage
+                        ? [(aboutApi as any)?.aboutJourney?.image || data.aboutJourneyImage || journeyImage]
+                        : []
+                  }
                   alt="Refex Group Milestones Timeline"
-                  className="w-full h-auto object-contain  hover:shadow-3xl transition-all duration-500 transform hover:scale-105"
+                  className="w-full"
+                  autoPlay={true}
+                  autoPlayInterval={6000}
+                  showDots={true}
+                  showArrows={true}
                 />
               </div>
             </div>
@@ -448,7 +459,7 @@ import User from "../../images/images.png"
                           <img 
                             alt="Our Vision" 
                             className="w-full h-64 md:h-80 lg:h-96 object-cover object-center rounded-3xl shadow-2xl" 
-                            src={visionMission?.visionImage || "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"}
+                            src={ "https://refexlifesciences.com/" + visionMission?.visionImage || "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#2879b6]/20 to-transparent rounded-3xl"></div>
@@ -523,15 +534,16 @@ import User from "../../images/images.png"
                   <div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                       <div 
-                        className="w-full order-2 lg:order-2 h-full"
+                        className="w-full order-2 lg:order-2"
                         data-aos="fade-up"
                         data-aos-duration="800"
                       >
-                        <div className="relative h-full">
+                        <div className="relative ">
                           <img 
                             alt="Our Mission" 
-                            className="w-full h-full object-cover object-center rounded-3xl shadow-2xl" 
-                            src={visionMission?.missionImage || "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"}
+                            style={{height:'400px'}}
+                            className="w-full  object-cover object-center rounded-3xl shadow-2xl" 
+                            src={ "https://refexlifesciences.com/" + visionMission?.missionImage || "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#7dc244]/20 to-transparent rounded-3xl"></div>

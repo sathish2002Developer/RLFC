@@ -85,11 +85,66 @@ exports.saveAboutJourney = buildSingleUpsert(
   (b) => ({
     title: b.title,
     summary: b.summary,
-    image: b.image,
+    image: b.image, // Keep for backward compatibility
+    images: Array.isArray(b.images) ? b.images : (b.images ? (()=>{ try { return JSON.parse(b.images); } catch { return []; } })() : []),
     isActive: b.isActive !== false,
   }),
   undefined
 );
+
+// New function to handle About Journey with image uploads
+exports.saveAboutJourneyWithImages = asyncHandler(async (req, res) => {
+  try {
+    const { title, summary, image, isActive } = req.body;
+    
+    // Process uploaded images
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      imageUrls = req.files.map(file => `/uploads/images/${file.filename}`);
+    }
+    
+    // If images were provided in the request body (from existing data), merge them
+    let existingImages = [];
+    if (req.body.images) {
+      try {
+        existingImages = Array.isArray(req.body.images) ? req.body.images : JSON.parse(req.body.images);
+      } catch (e) {
+        existingImages = [];
+      }
+    }
+    
+    // Combine existing images with new uploaded images
+    const allImages = [...existingImages, ...imageUrls];
+    
+    // Find existing record or create new one
+    let journeyRecord = await AboutJourney.findOne({ order: [["id", "DESC"]] });
+    
+    if (journeyRecord) {
+      // Update existing record
+      await journeyRecord.update({
+        title: title || journeyRecord.title,
+        summary: summary || journeyRecord.summary,
+        image: image || journeyRecord.image,
+        images: allImages.length > 0 ? allImages : journeyRecord.images,
+        isActive: isActive !== undefined ? isActive : journeyRecord.isActive,
+      });
+    } else {
+      // Create new record
+      journeyRecord = await AboutJourney.create({
+        title: title || 'Our Journey',
+        summary: summary || '',
+        image: image || '',
+        images: allImages,
+        isActive: isActive !== undefined ? isActive : true,
+      });
+    }
+    
+    return status.responseStatus(res, 200, "About Journey saved successfully", journeyRecord);
+  } catch (error) {
+    console.error('Error saving About Journey with images:', error);
+    return status.responseStatus(res, 500, "Internal server error", { error: error.message });
+  }
+});
 
 function buildCrud(Model, mapIn, mapOut) {
   return {

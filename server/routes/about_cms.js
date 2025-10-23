@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const ctrl = require("../controllers/about_cms");
 const auth = require("../middlewares/auth");
+const { handleMultipleImageUpload } = require("../middlewares/uploadMultipleImages");
 
 // Aggregate
 router.get("/", ctrl.getAll);
@@ -9,6 +10,7 @@ router.get("/", ctrl.getAll);
 router.put("/hero",  ctrl.saveHero);
 router.put("/vision-mission",  ctrl.saveVisionMission);
 router.put("/journey", ctrl.saveAboutJourney);
+router.put("/journey/upload", handleMultipleImageUpload, ctrl.saveAboutJourneyWithImages);
 
 // Sections
 router.get("/sections", ctrl.sections.list);

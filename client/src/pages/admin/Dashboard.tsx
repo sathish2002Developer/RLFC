@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react';
 import { useAdminAuth } from '../../contexts/AdminContext';
+import ImageCarousel from '../../components/feature/ImageCarousel';
 
 interface AdminData {
   products: any[];
@@ -1195,16 +1196,48 @@ export default function AdminDashboard() {
       if (sectionKey === 'aboutJourneyImage') {
         (async () => {
           try {
-            const response = await fetch('/api/cms/about/journey', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
-              body: JSON.stringify({
-                title: formData.title || 'Our Journey',
-                summary: formData.summary || '',
-                image: formData.image || '',
-                isActive: formData.isActive ?? true
-              })
-            });
+            // Check if we have new images to upload
+            const hasNewImages = formData.images && formData.images.some((img: any) => img.isNew && img.file);
+            
+            let response;
+            if (hasNewImages) {
+              // Use FormData for file uploads
+              const formDataToSend = new FormData();
+              formDataToSend.append('title', formData.title || 'Our Journey');
+              formDataToSend.append('summary', formData.summary || '');
+              formDataToSend.append('image', formData.image || '');
+              formDataToSend.append('isActive', String(formData.isActive ?? true));
+              
+              // Add existing images (non-new images)
+              const existingImages = formData.images.filter((img: any) => !img.isNew).map((img: any) => img.url);
+              formDataToSend.append('images', JSON.stringify(existingImages));
+              
+              // Add new image files
+              const newImageFiles = formData.images.filter((img: any) => img.isNew && img.file);
+              for (const imageItem of newImageFiles) {
+                formDataToSend.append('images', imageItem.file);
+              }
+              
+              response = await fetch('/api/cms/about/journey/upload', {
+                method: 'PUT',
+                headers: { ...authHeaders() as any },
+                body: formDataToSend
+              });
+            } else {
+              // Use regular JSON for non-file updates
+              const imageUrls = formData.images ? formData.images.map((img: any) => img.url || img) : [];
+              response = await fetch('/api/cms/about/journey', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
+                body: JSON.stringify({
+                  title: formData.title || 'Our Journey',
+                  summary: formData.summary || '',
+                  image: formData.image || '',
+                  images: imageUrls,
+                  isActive: formData.isActive ?? true
+                })
+              });
+            }
             if (response.ok) {
               // Refresh the API data to update preview
               await fetchAboutData();
@@ -2154,7 +2187,7 @@ export default function AdminDashboard() {
               <div className="flex space-x-4 overflow-x-auto">
                 {[ 
                   { id: 'about-hero', label: 'About Hero', icon: 'ri-layout-top-line', count: 1 },
-                  { id: 'about-journey-image', label: 'Journey Image', icon: 'ri-image-line', count: 1 },
+                  { id: 'about-journey-image', label: 'Journey Carousel', icon: 'ri-image-line', count: 1 },
                   { id: 'vision-mission', label: 'Vision & Mission', icon: 'ri-eye-line', count: 1 },
                 
                   { id: 'advisory-board', label: 'Advisory Board', icon: 'ri-team-line', count: ((aboutApi as any)?.leadership || data.leadership || []).filter((m: any) => (m.category || '').toLowerCase() === 'advisory board').length },
@@ -2199,6 +2232,7 @@ export default function AdminDashboard() {
                         title: aj.title || 'Our Journey',
                         summary: aj.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.',
                         image: aj.image || '',
+                        images: aj.images ? aj.images.map((img: string) => ({ url: img, isNew: false })) : [],
                         isActive: aj.isActive ?? true
                       });
                       setShowModal(true);
@@ -2218,8 +2252,34 @@ export default function AdminDashboard() {
                       <p className="text-gray-900">{aboutApi.aboutJourney?.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.'}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 mb-2">Image</p>
-                      <img src={aboutApi.aboutJourney?.image} alt="Journey" className="w-full h-56 object-contain rounded bg-gray-50" />
+                      <p className="text-sm text-gray-500 mb-2">Journey Images</p>
+                      <div className="w-full h-56 bg-gray-50 rounded-lg overflow-hidden">
+                        <ImageCarousel
+                          images={
+                            aboutApi.aboutJourney?.images && aboutApi.aboutJourney?.images.length > 0
+                              ? aboutApi.aboutJourney?.images
+                              : aboutApi.aboutJourney?.image
+                                ? [aboutApi.aboutJourney?.image]
+                                : []
+                          }
+                          alt="Journey Preview"
+                          className="w-full h-full"
+                          autoPlay={true}
+                          autoPlayInterval={4000}
+                          showDots={true}
+                          showArrows={true}
+                        />
+                      </div>
+                      {aboutApi.aboutJourney?.images && aboutApi.aboutJourney?.images.length > 0 && (
+                        <p className="text-xs text-gray-500 mt-2">
+                          Carousel with {aboutApi.aboutJourney?.images.length} images
+                        </p>
+                      )}
+                      {aboutApi.aboutJourney?.image && (!aboutApi.aboutJourney?.images || aboutApi.aboutJourney?.images.length === 0) && (
+                        <p className="text-xs text-gray-500 mt-2">
+                          Single image (legacy mode)
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -5891,25 +5951,103 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Journey Image</label>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                const url = await uploadImage(file);
-                                if (url) handleInputChange('image', url);
-                              }
-                            }}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-                          {formData.image && (
-                            <div className="mt-2">
-                              <img src={formData.image} alt="Preview" className="w-32 h-20 object-cover rounded" />
-                              <p className="text-xs text-gray-500 mt-1">Current: {formData.image}</p>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Journey Images (Carousel)</label>
+                          <div className="space-y-4">
+                            {/* Multiple Image Upload */}
+                            <div>
+                              <label className="block text-sm font-medium text-gray-600 mb-2">Add New Images</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={async (e) => {
+                                  const files = Array.from(e.target.files || []);
+                                  if (files.length > 0) {
+                                    const newImages = [...(formData.images || [])];
+                                    // Store actual File objects instead of uploading immediately
+                                    for (const file of files) {
+                                      // Create a preview URL for display
+                                      const previewUrl = URL.createObjectURL(file);
+                                      // Store both the file and preview URL
+                                      newImages.push({
+                                        file: file,
+                                        preview: previewUrl,
+                                        name: file.name,
+                                        isNew: true
+                                      });
+                                    }
+                                    handleInputChange('images', newImages);
+                                  }
+                                }}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              />
+                              <p className="text-xs text-gray-500 mt-1">You can select multiple images at once</p>
                             </div>
-                          )}
+
+                            {/* Current Images Display */}
+                            {formData.images && formData.images.length > 0 && (
+                              <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-2">
+                                  Current Images ({formData.images.length})
+                                </label>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                  {formData.images.map((imageItem: any, index: number) => {
+                                    const imageUrl = typeof imageItem === 'string' ? imageItem : imageItem.preview || imageItem.url;
+                                    return (
+                                      <div key={index} className="relative group">
+                                        <img 
+                                          src={imageUrl} 
+                                          alt={`Journey ${index + 1}`} 
+                                          className="w-full h-24 object-cover rounded-lg border border-gray-200" 
+                                        />
+                                        <button
+                                          onClick={() => {
+                                            const newImages = formData.images.filter((_: any, i: number) => i !== index);
+                                            handleInputChange('images', newImages);
+                                          }}
+                                          className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                          title="Remove image"
+                                        >
+                                          ×
+                                        </button>
+                                        <div className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                          {index + 1}
+                                        </div>
+                                        {imageItem.isNew && (
+                                          <div className="absolute top-1 right-1 bg-green-500 text-white text-xs px-1 rounded">
+                                            NEW
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Legacy Single Image Support */}
+                            <div className="border-t pt-4">
+                              <label className="block text-sm font-medium text-gray-600 mb-2">Legacy Single Image (for backward compatibility)</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const url = await uploadImage(file);
+                                    if (url) handleInputChange('image', url);
+                                  }
+                                }}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              />
+                              {formData.image && (
+                                <div className="mt-2">
+                                  <img src={formData.image} alt="Legacy Preview" className="w-32 h-20 object-cover rounded" />
+                                  <p className="text-xs text-gray-500 mt-1">Legacy: {formData.image}</p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                           {uploadingImage && <p className="text-xs text-blue-600 mt-1">Uploading...</p>}
                         </div>
                         <div className="flex items-center">

@@ -479,8 +479,8 @@ export default function Home() {
        <HeroSlider slides={slides}/>
 
       {/* Enhanced Hero Banner with Bubble Effects */}
-           <section className="py-16 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+           <section className="py-8  relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
+        <div className="max-w-7xl mx-auto px-2 sm:px-2 lg:px-2 relative z-10">
           <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               {"Who We Are"}
@@ -489,7 +489,7 @@ export default function Home() {
             A leading pharmaceutical platform with 40+ years of API excellence, global partnerships in advanced intermediates, and CRDMO expertise in speciality formulations and antibiotics.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-12 mt-16" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+          <div className="flex flex-wrap justify-center items-center gap-12 mt-2" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
           <div 
                 className="group text-center cursor-pointer transform transition-all duration-500 hover:scale-110"
                 onClick={() => window.open('https://modepro.co.in/', '_blank')}
@@ -554,7 +554,7 @@ export default function Home() {
       </section>
 
            {/* Statistics Section - Brand colors and typography */}
-           <section className="py-16 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
+           <section className="py-5 relative" style={{ background: 'linear-gradient(135deg, rgba(125, 194, 68, 0.1), rgba(40, 121, 182, 0.1))' }} data-aos="fade-up" data-aos-duration="1000" data-counter-section>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -610,13 +610,13 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Enhanced Section Header */}
-          <div className="text-center mb-20" data-aos="slide-up" data-aos-duration="1000">
+          <div className="text-center mb-5" data-aos="slide-up" data-aos-duration="1000">
             {/* Floating Badge */}
            
 
             {/* Main Title with Staggered Animation */}
-            <div className="overflow-hidden mb-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 transform" 
+            <div className="overflow-hidden mb-2">
+              <h2 className="text-2xl md:text-4xl lg:text-4xl font-bold text-gray-800 transform" 
                   style={{ fontFamily: 'Montserrat, sans-serif' }}
                   data-aos="slide-up" data-aos-delay="400" data-aos-duration="1000">
                 <span className="inline-block" data-aos="fade-right" data-aos-delay="500" data-aos-duration="800">What</span>
@@ -634,7 +634,7 @@ export default function Home() {
             </p>
 
             {/* Animated Divider */}
-            <div className="flex justify-center mt-8" data-aos="scale-in" data-aos-delay="1300" data-aos-duration="800">
+            <div className="flex justify-center mt-3" data-aos="scale-in" data-aos-delay="1300" data-aos-duration="800">
               <div className="flex space-x-2">
                 <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: '#2879b6', animationDelay: '0s' }}></div>
                 <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: '#7dc244', animationDelay: '0.2s' }}></div>
@@ -644,7 +644,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Card Grid Layout with Advanced Animations */}
-          <div key={refreshKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+          <div key={refreshKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-2">
             {offeringsData && offeringsData.length > 0 ? offeringsData.map((offering, index) => {
     // Correctly calculates a different delay for each card to create a staggered effect.
     // The delay increases by 100ms for each card.
