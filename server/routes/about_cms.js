@@ -10,7 +10,7 @@ router.get("/", ctrl.getAll);
 router.put("/hero",  ctrl.saveHero);
 router.put("/vision-mission",  ctrl.saveVisionMission);
 router.put("/journey", ctrl.saveAboutJourney);
-router.put("/journey/upload", handleMultipleImageUpload, ctrl.saveAboutJourneyWithImages);
+router.put("/journey/upload", handleMultipleImageUpload , ctrl.saveAboutJourneyWithImages);
 
 // Sections
 router.get("/sections", ctrl.sections.list);
