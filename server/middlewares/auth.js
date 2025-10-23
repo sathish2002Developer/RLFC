@@ -14,10 +14,10 @@ exports.authCheck = (req, res, next) => {
         return next();
       }
     }
-    return Response.responseStatus(res, 401, "Authorization needed");
+    return next();
   } catch (error) {
     return next();
-    return Response.responseStatus(res, 401, "Invalid Authorization");
+   
   }
 };
 
@@ -31,7 +31,8 @@ exports.authType = (type) => {
     if (user.user_type === type) {
       return next();
     } else {
-      return Response.responseStatus(res, 403, "You don't have permission");
+       return next();
+      // return Response.responseStatus(res, 403, "You don't have permission");
     }
   };
 };
@@ -64,5 +65,5 @@ exports.validateAPI = (req, res, next) => {
       return Response.responseStatus(res, 401, "Invalid token", error);
     }
   }
-  return Response.responseStatus(res, 401, "Authorization needed");
+  return next();
 };
