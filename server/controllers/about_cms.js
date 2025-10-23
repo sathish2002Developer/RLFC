@@ -95,6 +95,14 @@ exports.saveAboutJourney = buildSingleUpsert(
 // New function to handle About Journey with image uploads
 exports.saveAboutJourneyWithImages = asyncHandler(async (req, res) => {
   try {
+    console.log('About Journey upload endpoint accessed:', {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      body: req.body,
+      files: req.files ? req.files.length : 0
+    });
+    
     const { title, summary, image, isActive } = req.body;
     
     // Process uploaded images

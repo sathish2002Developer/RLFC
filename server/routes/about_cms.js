@@ -6,12 +6,23 @@ const { handleMultipleImageUpload } = require("../middlewares/uploadMultipleImag
 // Aggregate
 router.get("/", ctrl.getAll);
 
+// Test endpoint to verify route accessibility
+router.get("/test", (req, res) => {
+  res.json({ success: true, message: "About CMS route is accessible without authentication" });
+});
+
 // Single upserts
 router.put("/hero",  ctrl.saveHero);
 router.put("/vision-mission",  ctrl.saveVisionMission);
-router.put("/journey/upload", handleMultipleImageUpload , ctrl.saveAboutJourneyWithImages);
 
+// Journey routes - order matters, more specific routes first
+router.put("/journey/upload", handleMultipleImageUpload, ctrl.saveAboutJourneyWithImages);
 router.put("/journey", ctrl.saveAboutJourney);
+
+// Test endpoint for journey upload
+router.get("/journey/upload/test", (req, res) => {
+  res.json({ success: true, message: "Journey upload endpoint is accessible without authentication" });
+});
 
 // Sections
 router.get("/sections", ctrl.sections.list);

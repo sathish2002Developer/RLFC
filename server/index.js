@@ -63,7 +63,6 @@ app.use("/api/cms/about", require("./routes/about_cms"));
 app.use("/api/cms/capabilities", require("./routes/capabilities_cms"));
 app.use("/api/cms/sustainability", require("./routes/sustainability_cms"));
 app.use("/api/cms/products", require("./routes/products_cms"));
-app.use("/api", require("./routes/contact"));
 
 
 

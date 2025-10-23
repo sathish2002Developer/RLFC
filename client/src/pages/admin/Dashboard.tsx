@@ -115,7 +115,7 @@ export default function AdminDashboard() {
   });
   const fetchAboutData = async () => {
     try {
-      const res = await fetch('/api/cms/about');
+      const res = await fetch('https://refexlifesciences.com/api/cms/about');
       if (res.ok) {
         const json = await res.json();
         console.log('🔍 About API Response:', json);
@@ -1218,7 +1218,7 @@ export default function AdminDashboard() {
                 formDataToSend.append('images', imageItem.file);
               }
               
-              response = await fetch('/api/cms/about/journey/upload', {
+              response = await fetch('https://refexlifesciences.com/api/cms/about/journey/upload', {
                 method: 'PUT',
                 headers: { ...authHeaders() as any },
                 body: formDataToSend
