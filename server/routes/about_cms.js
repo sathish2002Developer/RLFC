@@ -33,7 +33,7 @@ router.delete("/values/:id", auth.authCheck, ctrl.values.remove);
 // Journey
 router.get("/journey", ctrl.journey.list);
 router.post("/journey", auth.authCheck, ctrl.journey.create);
-router.put("/journey/:id", auth.authCheck, ctrl.journey.update);
+// router.put("/journey/:id", auth.authCheck, ctrl.journey.update);
 router.delete("/journey/:id", auth.authCheck, ctrl.journey.remove);
 
 module.exports = router;
