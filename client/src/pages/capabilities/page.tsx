@@ -180,35 +180,41 @@ const Capabilities = () => {
       </section>
 
       {/* Tab Navigation */}
-      <section className="py-8 bg-white border-b border-gray-200 sticky top-20 z-40 tab-content-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center overflow-x-auto pb-2">
-            <div className="flex space-x-3 md:space-x-6 min-w-max px-4 md:px-0">
-              <button
-                onClick={() => manufacturingRef.current && manufacturingRef.current.scrollIntoView({ behavior: 'smooth' })}
-                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                  activeTab === 'manufacturing'
-                    ? 'bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110'
-                    : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
-                }`}
-              >
-                Manufacturing Excellence
-              </button>
+      <section className="py-4 sm:py-8 bg-white border-b border-gray-200 sticky top-20 z-40 tab-content-section">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-6">
+      <button
+        onClick={() =>
+          manufacturingRef.current &&
+          manufacturingRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+        className={`px-3 sm:px-4 md:px-6 py-2 sm:py-3 rounded-2xl font-semibold text-xs sm:text-sm md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+          activeTab === 'manufacturing'
+            ? 'bg-gradient-to-r from-[#2879b6] to-[#2879b6] text-white shadow-xl transform scale-110'
+            : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
+        }`}
+      >
+        Manufacturing Excellence
+      </button>
 
-              <button
-                onClick={() => researchRef.current && researchRef.current.scrollIntoView({ behavior: 'smooth' })}
-                className={`px-4 md:px-6 py-3 rounded-2xl font-semibold text-xs md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
-                  activeTab === 'research'
-                    ? 'bg-gradient-to-r from-[#7dc244] to-[#7dc244] text-white shadow-xl transform scale-110'
-                    : 'text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20'
-                }`}
-              >
-                Research & Development Excellence
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <button
+        onClick={() =>
+          researchRef.current &&
+          researchRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+        className={`px-3 sm:px-4 md:px-6 py-2 sm:py-3 rounded-2xl font-semibold text-xs sm:text-sm md:text-sm transition-all duration-500 whitespace-nowrap hover:scale-110 cursor-pointer font-montserrat ${
+          activeTab === 'research'
+            ? 'bg-gradient-to-r from-[#7dc244] to-[#7dc244] text-white shadow-xl transform scale-110'
+            : 'text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20'
+        }`}
+      >
+        Research & Development Excellence
+      </button>
+    </div>
+  </div>
+</section>
+
+
         <section ref={manufacturingRef} className="py-5 bg-white">
         
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

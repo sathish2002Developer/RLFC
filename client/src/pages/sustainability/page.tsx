@@ -39,7 +39,7 @@ const Sustainability = () => {
   useEffect(() => {
     const fetchSustainability = async () => {
       try {
-        const res = await fetch("/api/cms/sustainability", {
+        const res = await fetch("https://refexlifesciences.com/api/cms/sustainability", {
           credentials: "include",
         });
         if (res.ok) {
@@ -325,7 +325,7 @@ const Sustainability = () => {
       </section>
 
      {/* Heart Section - dynamic from CMS */}
-{heart?.isActive !== false && (
+     {heart?.isActive !== false && (
   <section className="py-16 bg-white relative overflow-hidden scroll-smooth">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
@@ -350,7 +350,9 @@ const Sustainability = () => {
         {heartSections.map((sec: any, idx: number) => (
           <div
             key={idx}
-            className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`}
+            className={`flex flex-col lg:flex-row ${
+              idx % 2 === 0 ? '' : 'lg:flex-row-reverse'
+            } items-center gap-8 lg:gap-16`}
             data-aos={idx % 2 === 0 ? 'fade-right' : 'fade-left'}
             data-aos-duration="2500"
             data-aos-delay={`${(idx + 1) * 150}`}
@@ -359,7 +361,7 @@ const Sustainability = () => {
             {/* Text Card */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
               <div
-                className={`bg-gradient-to-br rounded-3xl p-8 border transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
+                className={`bg-gradient-to-br rounded-3xl p-6 sm:p-8 border transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
                   idx === 0
                     ? 'from-[#7dc244]/10 to-[#7dc244]/5 border-[#7dc244]/20'
                     : idx === 1
@@ -367,7 +369,7 @@ const Sustainability = () => {
                     : 'from-[#ee6a31]/10 to-[#ee6a31]/5 border-[#ee6a31]/20'
                 }`}
               >
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-6">
                   <div
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
                       idx === 0
@@ -395,7 +397,7 @@ const Sustainability = () => {
                     <p className="text-gray-600 font-montserrat leading-relaxed mb-6">
                       {sec.description}
                     </p>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {(sec.metrics || []).slice(0, 2).map((m: any, mi: number) => (
                         <div
                           key={mi}
@@ -431,11 +433,11 @@ const Sustainability = () => {
 
             {/* Image Section */}
             <div className="w-full lg:w-1/2 order-1 lg:order-2">
-              <div className="relative group">
+              <div className="relative w-full">
                 <img
                   src={sec.image}
                   alt={sec.title}
-                  className="w-full h-80 object-cover rounded-3xl shadow-2xl transition-transform duration-[2500ms] ease-in-out group-hover:scale-105"
+                  className="w-full h-auto max-h-80 object-cover rounded-3xl shadow-2xl transition-transform duration-[2500ms] ease-in-out group-hover:scale-105"
                 />
                 <div
                   className={`absolute inset-0 rounded-3xl transition-all duration-1000 ${
@@ -454,7 +456,7 @@ const Sustainability = () => {
 
       {/* Commitments Grid */}
       <div
-        className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 md:p-12 shadow-inner"
+        className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-6 sm:p-8 md:p-12 shadow-inner"
         data-aos="fade-up"
         data-aos-duration="2500"
         data-aos-delay="400"
@@ -467,7 +469,7 @@ const Sustainability = () => {
             Measurable targets driving our transformation towards a sustainable future
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {heartCommitments.map((c: any, ci: number) => (
             <div
               key={ci}
@@ -508,6 +510,7 @@ const Sustainability = () => {
     </div>
   </section>
 )}
+
 
 
       {/* Sustainability Philosophy Section */}
