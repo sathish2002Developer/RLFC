@@ -230,9 +230,9 @@ const Contact = () => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 font-montserrat">
                   {data?.contactGetInTouch?.title || 'Get in Touch'}
                 </h2>
-                <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
+                {/* <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
                   {data?.contactGetInTouch?.description || 'We\'re here to help you navigate the complex world of pharmaceutical development. Whether you need API manufacturing, formulation development, or regulatory support, our team is ready to assist.'}
-                </p>
+                </p> */}
               </div>
 
               {/* Contact Details */}
