@@ -243,21 +243,21 @@ const Contact = () => {
                   data-aos-duration="800"
                   data-aos-delay="100"
                 >
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  {/* <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     data?.contactGetInTouch?.location?.color === 'refex-blue' ? 'bg-refex-blue' :
                     data?.contactGetInTouch?.location?.color === 'refex-green' ? 'bg-refex-green' :
                     'bg-refex-orange'
                   }`}>
                     <i className={`${data?.contactGetInTouch?.location?.icon || 'ri-map-pin-line'} text-white text-xl`}></i>
-                  </div>
+                  </div> */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
                        Our Address
                     </h3>
                     <p className="text-gray-600 font-montserrat">
-  2nd Floor, No.313, Refex Towers,<br />
-  Sterling Road, Valluvar Kottam High Road,<br />
-  Nungambakkam, Chennai – 600034,<br />
+  67, Bazullah Road,<br />
+  Partha Sarathy Puram,<br />
+  T Nagar, Chennai – 600017<br />
   Tamil Nadu, India
 </p>
                   </div>
@@ -286,6 +286,55 @@ const Contact = () => {
                    
                   </div>
                 </div> */}
+                   <div 
+                  className="flex items-start space-x-4"
+                  data-aos="fade-right"
+                  data-aos-duration="800"
+                  data-aos-delay="300"
+                >
+                  {/* <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    data?.contactGetInTouch?.email?.color === 'refex-blue' ? 'bg-refex-blue' :
+                    data?.contactGetInTouch?.email?.color === 'refex-green' ? 'bg-refex-green' :
+                    'bg-refex-orange'
+                  }`}>
+                    <i className={`${data?.contactGetInTouch?.email?.icon || 'ri-mail-line'} text-white text-xl`}></i>
+                  </div> */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
+                      {'Other Addresses'}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat">
+                    Phoenix Mall of Asia – Tower 2, 
+                    <br />
+                    Level 6, Unit 602, Yelahanka Hobli, 
+                    <br />
+                    Byatarayanapura, Bangalore – 560092,
+                    <br />
+                    Karnataka, India
+                    </p>
+                     <br />
+                     
+                    <p className="text-gray-600 font-montserrat">
+                    409, Bezzola Complex,
+                    <br />
+                    Sion Trombay Road,
+                    <br />
+                    Chembur, Mumbai - 400 071
+                    <br />
+Maharashtra, India.
+                    </p>
+                    <br />
+                    <p className="text-gray-600 font-montserrat">
+                    Bahnhof-Park 4, 
+                    <br />
+                    Baar 6340, 
+                    <br />
+Switzerland
+                    </p>
+
+                  
+                  </div>
+                </div>
 
                 <div 
                   className="flex items-start space-x-4"
@@ -293,13 +342,13 @@ const Contact = () => {
                   data-aos-duration="800"
                   data-aos-delay="300"
                 >
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  {/* <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     data?.contactGetInTouch?.email?.color === 'refex-blue' ? 'bg-refex-blue' :
                     data?.contactGetInTouch?.email?.color === 'refex-green' ? 'bg-refex-green' :
                     'bg-refex-orange'
                   }`}>
                     <i className={`${data?.contactGetInTouch?.email?.icon || 'ri-mail-line'} text-white text-xl`}></i>
-                  </div>
+                  </div> */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
                       {data?.contactGetInTouch?.email?.title || 'Email'}

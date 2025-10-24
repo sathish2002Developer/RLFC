@@ -324,74 +324,191 @@ const Sustainability = () => {
         </div>
       </section>
 
-      {/* Heart Section - dynamic from CMS */}
-      {heart?.isActive !== false && (
-        <section className="py-10 bg-white relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-16" data-aos="fade-down" data-aos-duration="1000">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 font-montserrat">
-                {heart?.mainTitle || 'Sustainability — The Heart of Our Progress'}
-              </h2>
-              <p className="text-base text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-                {heart?.mainSubtitle || "Refex Life Sciences operates under the Refex Group's ESG Strategy and Sustainability Roadmap. Our comprehensive approach ensures responsible growth across all dimensions."}
-              </p>
-            </div>
+     {/* Heart Section - dynamic from CMS */}
+{heart?.isActive !== false && (
+  <section className="py-16 bg-white relative overflow-hidden scroll-smooth">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      {/* Section Heading */}
+      <div
+        className="text-center mb-16"
+        data-aos="fade-down"
+        data-aos-duration="2000"
+        data-aos-offset="200"
+      >
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 font-montserrat">
+          {heart?.mainTitle || 'Sustainability — The Heart of Our Progress'}
+        </h2>
+        <p className="text-base text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
+          {heart?.mainSubtitle || 
+            "Refex Life Sciences operates under the Refex Group's ESG Strategy and Sustainability Roadmap. Our comprehensive approach ensures responsible growth across all dimensions."}
+        </p>
+      </div>
 
-            <div className="space-y-12 mb-20">
-              {heartSections.map((sec: any, idx: number) => (
-                <div key={idx} className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`} data-aos={idx % 2 === 0 ? 'slide-right' : 'slide-left'} data-aos-duration="1000" data-aos-delay={`${(idx+1)*100}`}>
-                  <div className="w-full lg:w-1/2 order-2 lg:order-1">
-                    <div className={`bg-gradient-to-br rounded-3xl p-8 border hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 ${idx===0?'from-[#7dc244]/10 to-[#7dc244]/5 border-[#7dc244]/20': idx===1?'from-[#2879b6]/10 to-[#2879b6]/5 border-[#2879b6]/20':'from-[#ee6a31]/10 to-[#ee6a31]/5 border-[#ee6a31]/20'}`}>
-                      <div className="flex items-start gap-6">
-                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 ${idx===0?'bg-gradient-to-br from-[#7dc244] to-[#6bb83a]': idx===1?'bg-gradient-to-br from-[#2879b6] to-[#3a8bc4]':'bg-gradient-to-br from-[#ee6a31] to-[#d55a28]'}`}>
-                          <i className={`${sec.icon || (idx===0?'ri-leaf-line': idx===1?'ri-group-line':'ri-shield-check-line')} text-2xl text-white`}></i>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">{sec.title}</h3>
-                          <p className="text-gray-600 font-montserrat leading-relaxed mb-6">{sec.description}</p>
-                          <div className="grid grid-cols-2 gap-4">
-                            {(sec.metrics||[]).slice(0,2).map((m:any, mi:number)=> (
-                              <div key={mi} className={`bg-white/50 rounded-xl p-4 ${idx===0?'border border-[#7dc244]/20': idx===1?'border border-[#2879b6]/20':'border border-[#ee6a31]/20'}`}>
-                                <div className={`text-lg font-bold mb-1 ${idx===0?'text-[#7dc244]': idx===1?'text-[#2879b6]':'text-[#ee6a31]'}`}>{m.title}</div>
-                                <div className="text-sm text-gray-600 font-montserrat">{m.subtitle}</div>
-                              </div>
-                            ))}
+      {/* Dynamic Heart Sections */}
+      <div className="space-y-16 mb-20">
+        {heartSections.map((sec: any, idx: number) => (
+          <div
+            key={idx}
+            className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`}
+            data-aos={idx % 2 === 0 ? 'fade-right' : 'fade-left'}
+            data-aos-duration="2500"
+            data-aos-delay={`${(idx + 1) * 150}`}
+            data-aos-offset="300"
+          >
+            {/* Text Card */}
+            <div className="w-full lg:w-1/2 order-2 lg:order-1">
+              <div
+                className={`bg-gradient-to-br rounded-3xl p-8 border transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
+                  idx === 0
+                    ? 'from-[#7dc244]/10 to-[#7dc244]/5 border-[#7dc244]/20'
+                    : idx === 1
+                    ? 'from-[#2879b6]/10 to-[#2879b6]/5 border-[#2879b6]/20'
+                    : 'from-[#ee6a31]/10 to-[#ee6a31]/5 border-[#ee6a31]/20'
+                }`}
+              >
+                <div className="flex items-start gap-6">
+                  <div
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
+                      idx === 0
+                        ? 'bg-gradient-to-br from-[#7dc244] to-[#6bb83a]'
+                        : idx === 1
+                        ? 'bg-gradient-to-br from-[#2879b6] to-[#3a8bc4]'
+                        : 'bg-gradient-to-br from-[#ee6a31] to-[#d55a28]'
+                    }`}
+                  >
+                    <i
+                      className={`${
+                        sec.icon ||
+                        (idx === 0
+                          ? 'ri-leaf-line'
+                          : idx === 1
+                          ? 'ri-group-line'
+                          : 'ri-shield-check-line')
+                      } text-2xl text-white`}
+                    ></i>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">
+                      {sec.title}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat leading-relaxed mb-6">
+                      {sec.description}
+                    </p>
+                    <div className="grid grid-cols-2 gap-4">
+                      {(sec.metrics || []).slice(0, 2).map((m: any, mi: number) => (
+                        <div
+                          key={mi}
+                          className={`bg-white/60 rounded-xl p-4 border backdrop-blur-sm ${
+                            idx === 0
+                              ? 'border-[#7dc244]/20'
+                              : idx === 1
+                              ? 'border-[#2879b6]/20'
+                              : 'border-[#ee6a31]/20'
+                          }`}
+                        >
+                          <div
+                            className={`text-lg font-bold mb-1 ${
+                              idx === 0
+                                ? 'text-[#7dc244]'
+                                : idx === 1
+                                ? 'text-[#2879b6]'
+                                : 'text-[#ee6a31]'
+                            }`}
+                          >
+                            {m.title}
+                          </div>
+                          <div className="text-sm text-gray-600 font-montserrat">
+                            {m.subtitle}
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-1/2 order-1 lg:order-2">
-                    <div className="relative">
-                      <img src={sec.image} alt={sec.title} className="w-full h-80 object-cover rounded-3xl shadow-2xl" />
-                      <div className={`absolute inset-0 rounded-3xl ${idx===0?'bg-gradient-to-t from-[#7dc244]/20 to-transparent': idx===1?'bg-gradient-to-t from-[#2879b6]/20 to-transparent':'bg-gradient-to-t from-[#ee6a31]/20 to-transparent'}`}></div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Commitments Grid */}
-            <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 md:p-12" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="400">
-              <div className="text-center mb-8">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 font-montserrat">Our Sustainability Commitments</h3>
-                <p className="text-gray-600 font-montserrat max-w-3xl mx-auto">Measurable targets driving our transformation towards a sustainable future</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {heartCommitments.map((c:any, ci:number)=> (
-                  <div key={ci} className="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${c.color==='refex-green'?'bg-gradient-to-br from-[#7dc244] to-[#6bb83a]': c.color==='refex-blue'?'bg-gradient-to-br from-[#2879b6] to-[#3a8bc4]':'bg-gradient-to-br from-[#ee6a31] to-[#d55a28]'}`}>
-                      <i className={`${c.icon||'ri-leaf-line'} text-2xl text-white`}></i>
-                    </div>
-                    <div className={`text-2xl font-bold mb-2 ${c.color==='refex-green'?'text-[#7dc244]': c.color==='refex-blue'?'text-[#2879b6]':'text-[#ee6a31]'}`}>{c.title}</div>
-                    <div className="text-sm text-gray-600 font-montserrat">{c.subtitle}</div>
-                  </div>
-                ))}
+            {/* Image Section */}
+            <div className="w-full lg:w-1/2 order-1 lg:order-2">
+              <div className="relative group">
+                <img
+                  src={sec.image}
+                  alt={sec.title}
+                  className="w-full h-80 object-cover rounded-3xl shadow-2xl transition-transform duration-[2500ms] ease-in-out group-hover:scale-105"
+                />
+                <div
+                  className={`absolute inset-0 rounded-3xl transition-all duration-1000 ${
+                    idx === 0
+                      ? 'bg-gradient-to-t from-[#7dc244]/20 to-transparent'
+                      : idx === 1
+                      ? 'bg-gradient-to-t from-[#2879b6]/20 to-transparent'
+                      : 'bg-gradient-to-t from-[#ee6a31]/20 to-transparent'
+                  }`}
+                ></div>
               </div>
             </div>
           </div>
-        </section>
-      )}
+        ))}
+      </div>
+
+      {/* Commitments Grid */}
+      <div
+        className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 md:p-12 shadow-inner"
+        data-aos="fade-up"
+        data-aos-duration="2500"
+        data-aos-delay="400"
+      >
+        <div className="text-center mb-10">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 font-montserrat">
+            Our Sustainability Commitments
+          </h3>
+          <p className="text-gray-600 font-montserrat max-w-3xl mx-auto">
+            Measurable targets driving our transformation towards a sustainable future
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {heartCommitments.map((c: any, ci: number) => (
+            <div
+              key={ci}
+              className="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2"
+              data-aos="zoom-in"
+              data-aos-duration="2000"
+              data-aos-delay={`${(ci + 1) * 100}`}
+            >
+              <div
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+                  c.color === 'refex-green'
+                    ? 'bg-gradient-to-br from-[#7dc244] to-[#6bb83a]'
+                    : c.color === 'refex-blue'
+                    ? 'bg-gradient-to-br from-[#2879b6] to-[#3a8bc4]'
+                    : 'bg-gradient-to-br from-[#ee6a31] to-[#d55a28]'
+                }`}
+              >
+                <i className={`${c.icon || 'ri-leaf-line'} text-2xl text-white`}></i>
+              </div>
+              <div
+                className={`text-2xl font-bold mb-2 ${
+                  c.color === 'refex-green'
+                    ? 'text-[#7dc244]'
+                    : c.color === 'refex-blue'
+                    ? 'text-[#2879b6]'
+                    : 'text-[#ee6a31]'
+                }`}
+              >
+                {c.title}
+              </div>
+              <div className="text-sm text-gray-600 font-montserrat">
+                {c.subtitle}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
 
       {/* Sustainability Philosophy Section */}
    

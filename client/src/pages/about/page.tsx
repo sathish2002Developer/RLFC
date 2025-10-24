@@ -6,8 +6,9 @@ import  journeyImage from "../../images/jou.png"
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import ImageCarousel from '../../components/feature/ImageCarousel';
-import Rlfc from "../../images/RLFC-Logo.jpg"
+import Rlfc from "../../images/RLFC_Web.png"
 import Extrovis from "../../images/Extrovis.png"
+import ModeProLogo from "../../images/ModePro_Web.png"
 import AboutFoot from "../../images/about-footer.jpg"
 import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
@@ -253,7 +254,7 @@ import User from "../../images/images.png"
             </h1>
             {(aboutApi as any)?.hero?.subtitle || data.aboutHero?.subtitle ? (
             <p
-              className="text-base text-white max-w-4xl mx-auto font-montserrat mb-2"
+              className="text-base text-white max-w-4xl mx-auto font-montserrat mb-2 md:text-lg "
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="200"
@@ -266,7 +267,7 @@ import User from "../../images/images.png"
             {(aboutApi as any)?.hero?.description || data.aboutHero?.description ? (
              
             <p
-              className="text-base text-white max-w-4xl mx-auto font-montserrat"
+              className="text-base text-white max-w-4xl mx-auto font-montserrat md:text-lg"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="400"
@@ -287,7 +288,7 @@ import User from "../../images/images.png"
               >
                 <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                   <img 
-                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
+                    src={ModeProLogo}
                     alt="Modepro Logo" 
                     className="w-60 h-60 object-contain"
                   />
@@ -414,8 +415,12 @@ import User from "../../images/images.png"
               >
                 { currentJourneyHeading}
               </h2>
-                {currentJourneyHeading  === "Refex's Journey" && <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
+                {currentJourneyHeading  === "Refex's Journey" ?
+                <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
                 {(aboutApi as any)?.aboutJourney?.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.'}
+              </p>:
+                 <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
+                 As an ambitious and leading global force, our journey is one of science, innovation, and human progress.
               </p>}
             </div>
 
@@ -437,10 +442,11 @@ import User from "../../images/images.png"
                   alt="Refex Group Milestones Timeline"
                   className="w-full"
                   autoPlay={true}
-                  autoPlayInterval={5000}
+                  autoPlayInterval={15000}
                   showDots={true}
                   showArrows={true}
                   onSlideChange={handleJourneySlideChange}
+                  height="h-80"
                 />
               </div>
             </div>
@@ -483,7 +489,7 @@ import User from "../../images/images.png"
                           <img 
                             alt="Our Vision" 
                             className="w-full h-64 md:h-80 lg:h-96 object-cover object-center rounded-3xl shadow-2xl" 
-                            src={ "https://refexlifesciences.com/" + visionMission?.visionImage || "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"}
+                            src={  visionMission?.visionImage || "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#2879b6]/20 to-transparent rounded-3xl"></div>
@@ -567,7 +573,7 @@ import User from "../../images/images.png"
                             alt="Our Mission" 
                             style={{height:'400px'}}
                             className="w-full  object-cover object-center rounded-3xl shadow-2xl" 
-                            src={ "https://refexlifesciences.com/" + visionMission?.missionImage || "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"}
+                            src={  visionMission?.missionImage || "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish"}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#7dc244]/20 to-transparent rounded-3xl"></div>
@@ -762,7 +768,7 @@ import User from "../../images/images.png"
           {/* Management Section */}
       <section id="management" className=" bg-white">
    
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-5">
       <div
         className="text-center mb-16"
         data-aos="fade-down"
@@ -828,75 +834,11 @@ import User from "../../images/images.png"
       <section id="leadership" className="bg-white " >
         {/* Add your full leadership content here, same as before */}
         
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-      
-        className="text-center mb-16"
-        data-aos="fade-down"
-        data-aos-duration="1000"
-      >
-        {/* <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat" style={{
-         marginTop:"10px"
-      }} >
-          Leadership Team
-        </h2>
-        <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-          Visionary leaders driving pharmaceutical innovation and global healthcare transformation
-        </p> */}
-      </div>
-         <div className="mb-16">
-        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Technical  Team
-        </h3>
-        <div className="flex flex-wrap justify-center gap-8 items-center">
-          {TechnicalLeaders && TechnicalLeaders.length > 0 ? TechnicalLeaders.map((leader: any, index: number) => {
-            const colors = getColorClasses(leader.color);
-            return (
-              <div
-                key={leader.id}
-                className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                onClick={() => setSelectedLeader(leader)}
-                data-aos="zoom-in"
-                data-aos-duration="800"
-                data-aos-delay={index * 100}
-              >
-                <div
-                  className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
-                >
-                  <img
-                    src={leader.image || User}
-                    alt={leader.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      // Fallback to default image if the image fails to load
-                      e.currentTarget.src = User;
-                    }}
-                  />
-                </div>
-
-                {/* Always Visible Name and Position */}
-                <div className="mt-4 text-center">
-                  <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
-                    {leader.name}
-                  </p>
-                  <p
-                    className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
-                  >
-                    {leader.position}
-                  </p>
-                </div>
-              </div>
-            );
-          }) : (
-            <div className="text-center text-gray-500 font-montserrat">
-              <p>Technical Leadership Team information is being updated.</p>
-            </div>
-          )}
-        </div>
-      </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+     
 
       {/* Advisory Board */}
-      <div className="mb-16">
+      <div className="mb-16 mt-2">
         <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
           Advisory Board
         </h3>
@@ -1001,7 +943,7 @@ import User from "../../images/images.png"
                       <div>
                         <h3 className="text-2xl font-bold mb-2 font-montserrat">{selectedLeader.name}</h3>
                         <p className="text-white/90 font-semibold font-montserrat">{selectedLeader.position}</p>
-                        <p className="text-white/80 text-sm font-montserrat mt-1">{selectedLeader.category}</p>
+                        {/* <p className="text-white/80 text-sm font-montserrat mt-1">{selectedLeader.category}</p> */}
                         {/* <div className="flex items-center gap-4 mt-3">
                           <div className="flex items-center gap-2">
                             <i className="ri-time-line text-white/80"></i>
@@ -1062,7 +1004,7 @@ import User from "../../images/images.png"
                   data-aos-delay="600"
                  
                 >
-                 Refex’s journey of excellence began two decades ago with a focus on learning, resilience, and agility. From Refrigerant gas to Ash Utilization & Coal handling, Renewables, MedTech, Green Mobility, and Pharmaceuticals, we have expanded our horizons.
+                Refex’s journey of excellence began two decades ago, guided by learning, resilience, and agility. From refrigerant gases to Renewables, MedTech, Green Mobility, Airports, Pharmaceuticals, and Ash Utilisation & Coal Handling, we have expanded our horizons multifold.
                 </p>
            
               <div 

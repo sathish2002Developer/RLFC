@@ -9,6 +9,7 @@ interface ImageCarouselProps {
   showDots?: boolean;
   showArrows?: boolean;
   onSlideChange?: (index: number) => void;
+  headings?: string[];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -20,6 +21,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   showDots = true,
   showArrows = true,
   onSlideChange,
+  headings = [],
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 

@@ -4,8 +4,9 @@ import HeroSlider from '../../components/feature/HeroSlider';
 import Footer from '../../components/feature/Footer';
 import Header from '../../components/feature/Header';
 import { useAdminAuth } from '../../contexts/AdminContext';
-import Rlfc from "../../images/RLFC-Logo.jpg"
+import Rlfc from "../../images/RLFC_Web.png"
 import Extrovis from "../../images/Extrovis.png"
+import ModeProLogo from "../../images/ModePro_Web.png"
 
 
 export default function Home() {
@@ -499,7 +500,7 @@ export default function Home() {
               >
                 <div className="w-60 h-60 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
                   <img 
-                    src="https://static.readdy.ai/image/7319831acd7ae6004cda33ed0f992ba8/2bfdf90f2291d5a627c6ad1606471a6b.png" 
+                    src={ModeProLogo}
                     alt="Modepro Logo" 
                     className="w-60 h-60 object-contain"
                   />
@@ -561,7 +562,7 @@ export default function Home() {
               {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-               Trusted by healthcare professionals worldwide for delivering high-quality pharmaceutical solutions.
+            Trusted by partners worldwide for delivering meaningful innovations through science.
             </p>
           </div>
 
