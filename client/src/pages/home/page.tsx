@@ -179,7 +179,7 @@ export default function Home() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/cms/home/slides');
+        const res = await fetch('https://refexlifesciences.com/api/cms/home/slides');
         if (res.ok) {
           const json = await res.json();
           const rows = Array.isArray(json?.data) ? json.data : json; // controller returns rows as data
@@ -765,37 +765,37 @@ export default function Home() {
 
     <div className="text-center">
    
-
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-1 gap-y-4 text-gray-800 justify-center mx-auto max-w-3xl mr-2">
-  <li className="flex items-center justify-center md:justify-start">
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-800 max-w-3xl mx-auto">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#2879b6] mr-3 mt-[2px]"></span>
     <span>US FDA</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#f97316] mr-3 mt-[2px]"></span>
     <span>EU GMP</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#10b981] mr-3 mt-[2px]"></span>
     <span>EDQM</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#6366f1] mr-3 mt-[2px]"></span>
     <span>Health Canada</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#e11d48] mr-3 mt-[2px]"></span>
     <span>ANVISA</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#14b8a6] mr-3 mt-[2px]"></span>
     <span>PMDA</span>
   </li>
-  <li className="flex items-center justify-center md:justify-start">
+  <li className="flex items-center justify-start">
     <span className="w-3 h-3 rounded-full bg-[#facc15] mr-3 mt-[2px]"></span>
     <span>WHO-GMP</span>
   </li>
 </ul>
+
 
     </div>
   </div>

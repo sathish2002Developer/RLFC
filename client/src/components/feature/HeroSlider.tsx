@@ -107,7 +107,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
   };
 
   return (
-    <div className="relative h-[600px] lg:h-[700px] overflow-hidden">
+    <div className="relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px]  overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
