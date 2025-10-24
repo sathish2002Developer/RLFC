@@ -627,9 +627,9 @@ import User from "../../images/images.png"
                               <div className="flex items-start gap-3 lg:gap-4">
                                 <div className="mt-1 w-3 h-3 bg-[#7dc244] rounded-full flex-shrink-0"></div>
                                 <div>
-                                  <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">
+                                  {/* <h4 className="font-bold text-gray-800 mb-2 group-hover:scale-105 transition-transform duration-300 font-montserrat text-sm lg:text-base">
                                     {point.title || point.text}
-                                  </h4>
+                                  </h4> */}
                                   <p className="text-gray-600 text-xs lg:text-sm leading-relaxed font-montserrat">
                                     {point.description || point.text}
                                   </p>
