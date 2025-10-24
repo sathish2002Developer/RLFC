@@ -4,7 +4,7 @@ import HeroSlider from '../../components/feature/HeroSlider';
 import Footer from '../../components/feature/Footer';
 import Header from '../../components/feature/Header';
 import { useAdminAuth } from '../../contexts/AdminContext';
-import ModeProLogo from "../../images/ModePro-web.png"
+import ModeProLogo from "../../images/Modepro-web.png"
 
 import Rlfc from "../../images/RLFC-web.png"
 import Extrovis from "../../images/Extrovis.png"

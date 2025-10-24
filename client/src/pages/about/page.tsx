@@ -8,7 +8,7 @@ import Footer from '../../components/feature/Footer';
 import ImageCarousel from '../../components/feature/ImageCarousel';
 import Rlfc from "../../images/RLFC-web.png"
 import Extrovis from "../../images/Extrovis.png"
-import ModeProLogo from "../../images/ModePro-web.png"
+import ModeProLogo from "../../images/Modepro-web.png"
 import AboutFoot from "../../images/about-footer.jpg"
 import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
