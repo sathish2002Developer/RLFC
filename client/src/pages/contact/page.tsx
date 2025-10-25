@@ -354,7 +354,7 @@ Switzerland
                       {data?.contactGetInTouch?.email?.title || 'Email'}
                     </h3>
                     <p className="text-gray-600 font-montserrat">
-                      {data?.contactGetInTouch?.email?.address || 'info[at]refex.co.in'}
+                      { 'info@refexlifeseciences.com'}
                     </p>
                   
                   </div>

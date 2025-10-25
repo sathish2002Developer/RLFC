@@ -75,7 +75,7 @@ export default function Header() {
             </Link>
             <Link
               to="/about"
-              state={{ activeTab: 'leadership' }}
+              state={{ activeTab: 'management' }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
@@ -160,7 +160,7 @@ export default function Header() {
                     <div className="ml-4 space-y-1 border-l-2 border-gray-200 pl-3">
                       <Link
                         to="/about"
-                        state={{ scrollTop: true }}
+                        state={{  activeTab: 'journey'}}
                         className="block text-sm text-gray-700 hover:text-green-600"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
@@ -169,7 +169,7 @@ export default function Header() {
                       </Link>
                     <Link
                       to="/about"
-                      state={{ scrollTop: true }}
+                      state={{  activeTab: 'vision' }}
                       className="block text-sm text-gray-700 hover:text-green-600"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                       onClick={() => setMobileMenuOpen(false)}
@@ -178,14 +178,14 @@ export default function Header() {
                     </Link>
                       <Link
                         to="/about"
-                        state={{ scrollTop: true }}
+                        state={{ activeTab: 'management' }}
                         className="block text-sm text-gray-700 hover:text-green-600"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Leadership Team
                       </Link>
-                    <Link
+                    {/* <Link
                       to="/about"
                       state={{ scrollTop: true }}
                       className="block text-sm text-gray-700 hover:text-green-600"
@@ -193,7 +193,7 @@ export default function Header() {
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Management Team
-                    </Link>
+                    </Link> */}
                     </div>
                   </div>
                 );
