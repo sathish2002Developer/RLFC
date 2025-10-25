@@ -766,7 +766,7 @@ import User from "../../images/images.png"
       </section>
 
           {/* Management Section */}
-      <section id="management" className=" bg-white">
+      <section id="leadership" className=" bg-white">
    
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-5">
       <div
@@ -831,7 +831,7 @@ import User from "../../images/images.png"
   </section>
 
       {/* Leadership Section */}
-      <section id="leadership" className="bg-white " >
+      <section id="management" className="bg-white " >
         {/* Add your full leadership content here, same as before */}
         
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">

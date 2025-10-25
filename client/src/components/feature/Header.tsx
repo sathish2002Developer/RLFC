@@ -75,7 +75,7 @@ export default function Header() {
             </Link>
             <Link
               to="/about"
-              state={{ activeTab: 'management' }}
+              state={{ activeTab: 'leadership' }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
@@ -178,7 +178,7 @@ export default function Header() {
                     </Link>
                       <Link
                         to="/about"
-                        state={{ activeTab: 'management' }}
+                        state={{ activeTab: 'leadership' }}
                         className="block text-sm text-gray-700 hover:text-green-600"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
