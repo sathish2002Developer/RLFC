@@ -1,6 +1,5 @@
 
-import { useState, useEffect } from 'react';
-import imag1 from "../../images/2151111131.jpg"
+import { useState, useEffect, useRef } from 'react';
 import imag4 from "../../images/image-4.jpg"
 import imag3 from "../../images/image -3.jpg"
 
@@ -17,6 +16,8 @@ interface HeroSliderProps {
 
 const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   
   // Default slides as fallback
   const defaultSlides = [
@@ -64,13 +65,28 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
     slidesLength: slides.length
   });
 
+  // Auto-play with pause/resume functionality
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
 
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    // Only start timer if not paused and slides exist
+    if (!isPaused && slides.length > 0) {
+      timerRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 6000);
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [slides.length, isPaused]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,8 +122,54 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  // Pause auto-play when cursor is on the slider
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  // Resume auto-play when cursor leaves
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
+  // Pause on mouse down (for dragging)
+  const handleMouseDown = () => {
+    setIsPaused(true);
+  };
+
+  // Resume on mouse up
+  const handleMouseUp = () => {
+    // Only resume if mouse is not still hovering (mouseLeave will handle that)
+    // Small delay to check if we're still hovering
+    setTimeout(() => {
+      const sliderElement = document.querySelector('.hero-slider-container');
+      if (sliderElement && !sliderElement.matches(':hover')) {
+        setIsPaused(false);
+      }
+    }, 100);
+  };
+
+  // Touch events for mobile
+  const handleTouchStart = () => {
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 500);
+  };
+
   return (
-    <div className="relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px]  overflow-hidden">
+    <div 
+      className="relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px]  overflow-hidden hero-slider-container"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -205,7 +267,7 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
         </div>
       </div> */}
 
-      <style jsx>{`
+      <style>{`
         @keyframes zoomIn {
           0% {
             transform: scale(1);
