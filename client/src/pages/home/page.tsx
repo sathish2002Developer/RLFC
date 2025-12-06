@@ -1,16 +1,21 @@
 
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import HeroSlider from '../../components/feature/HeroSlider';
 import Footer from '../../components/feature/Footer';
 import Header from '../../components/feature/Header';
 import { useAdminAuth } from '../../contexts/AdminContext';
 import ModeProLogo from "../../images/Modepro-web.png"
-
 import Rlfc from "../../images/RLFC-web.png"
 import Extrovis from "../../images/Extrovis.png"
+import imag3 from "../../images/image -3.jpg"
+import imag4 from "../../images/image-4.jpg"
 
 
 export default function Home() {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+  const isEnglish = currentLang === 'en';
   const [currentSlide, setCurrentSlide] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [currentRegulatorySlide, setCurrentRegulatorySlide] = useState(0);
@@ -174,9 +179,47 @@ export default function Home() {
     markets: 0
   });
 
-  // API: Load hero slides from server (override localStorage for slides only)
+  // Default slides for non-English languages
+  const defaultSlides = useMemo(() => [
+    {
+      title: t("heroSlide1Title"),
+      subtitle: t("heroSlide1Subtitle"),
+      image: "https://t4.ftcdn.net/jpg/08/83/70/29/360_F_883702967_ADnz4xZ6cugBxb4zKxyJ3gKRApXXyFEH.jpg",
+      order: 1,
+      isActive: true
+    },
+    {
+      title: t("heroSlide2Title"),
+      subtitle: t("heroSlide2Subtitle"),
+      image: "https://media.istockphoto.com/id/1169660398/photo/global-network-concept-map-of-japan-and-group-of-people.jpg?s=612x612&w=0&k=20&c=JBxjOX1yHQbxUYlYkdrLwh8Gz8LdRFnmhlnSpHhYnGM=",
+      order: 2,
+      isActive: true
+    },
+    {
+      title: t("heroSlide3Title"),
+      subtitle: t("heroSlide3Subtitle"),
+      image: imag3,
+      order: 3,
+      isActive: true
+    },
+    {
+      title: t("heroSlide4Title"),
+      subtitle: t("heroSlide4Subtitle"),
+      image: imag4,
+      order: 4,
+      isActive: true
+    }
+  ], [t, currentLang]);
+
+  // API: Load hero slides from server (only for English)
   const [apiSlides, setApiSlides] = useState<any[]>([]);
   useEffect(() => {
+    if (!isEnglish) {
+      // Don't fetch API data for non-English languages
+      setApiSlides([]);
+      return;
+    }
+    
     const load = async () => {
       try {
         const res = await fetch('https://refexlifesciences.com/api/cms/home/slides');
@@ -191,17 +234,25 @@ export default function Home() {
     const handler = () => load();
     window.addEventListener('heroSlidesChanged', handler);
     return () => window.removeEventListener('heroSlidesChanged', handler);
-  }, []);
+  }, [isEnglish]);
 
-  // API: Load offerings, statistics, regulatory from server (override localStorage)
+  // API: Load offerings, statistics, regulatory from server (only for English)
   const [offeringsApi, setOfferingsApi] = useState<any[]>([]);
   const [statisticsApi, setStatisticsApi] = useState<any[]>([]);
   const [regulatoryApi, setRegulatoryApi] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!isEnglish) {
+      // Don't fetch API data for non-English languages
+      setOfferingsApi([]);
+      setStatisticsApi([]);
+      setRegulatoryApi([]);
+      return;
+    }
+
     const loadAll = async () => {
       try {
-        console.log('🔄 Loading API data...');
+        console.log('🔄 Loading API data for English...');
         const [offRes, statRes, regRes] = await Promise.all([
           fetch('/api/cms/home/offerings'),
           fetch('/api/cms/home/statistics'),
@@ -252,44 +303,265 @@ export default function Home() {
       }
     };
     loadAll();
-  }, []);
+  }, [isEnglish]);
 
-  // Filter and sort data choosing API over localStorage (optimized with useMemo)
-  const heroSlides = useMemo(() => 
-    (apiSlides.length > 0 ? apiSlides : adminData.heroSlides)
-      .filter(slide => slide.isActive)
-      .sort((a, b) => a.order - b.order), 
-    [apiSlides, adminData.heroSlides]
-  );
+  // Static translated data for non-English languages
+  const getStaticStatistics = () => [
+    {
+      id: 'stat-1',
+      title: t("statScientistsTitle"),
+      value: 200,
+      description: t("statScientistsDescription"),
+      image: "https://readdy.ai/api/search-image?query=Professional%20pharmaceutical%20scientists%20and%20researchers%20working%20in%20modern%20laboratory&width=400&height=300",
+      color: "#2879b6",
+      order: 1,
+      isActive: true
+    },
+    {
+      id: 'stat-2',
+      title: t("statProductsTitle"),
+      value: 150,
+      description: t("statProductsDescription"),
+      image: "https://readdy.ai/api/search-image?query=Comprehensive%20portfolio%20of%20high-quality%20pharmaceutical%20products&width=400&height=300",
+      color: "#7dc244",
+      order: 2,
+      isActive: true
+    },
+    {
+      id: 'stat-3',
+      title: t("statMarketsTitle"),
+      value: 80,
+      description: t("statMarketsDescription"),
+      image: "https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20markets%20and%20international%20healthcare%20distribution&width=400&height=300",
+      color: "#ee6a31",
+      order: 3,
+      isActive: true
+    }
+  ];
+
+  const getStaticOfferings = () => [
+    {
+      id: 'off-1',
+      title: t("offeringLegacyTitle"),
+      description: t("offeringLegacyDescription"),
+      icon: "ri-award-line",
+      color: "#2879b6",
+      metric: "40+",
+      unit: t("years") || "Years",
+      order: 1,
+      isActive: true
+    },
+    {
+      id: 'off-2',
+      title: t("offeringGlobalTrustTitle"),
+      description: t("offeringGlobalTrustDescription"),
+      icon: "ri-global-line",
+      color: "#7dc244",
+      metric: "80+",
+      unit: t("countries") || "Countries",
+      order: 2,
+      isActive: true
+    },
+    {
+      id: 'off-3',
+      title: t("offeringDiversePortfolioTitle"),
+      description: t("offeringDiversePortfolioDescription"),
+      icon: "ri-briefcase-line",
+      color: "#ee6a31",
+      metric: "CNS",
+      unit: t("leadership") || "Leadership",
+      order: 3,
+      isActive: true
+    },
+    {
+      id: 'off-4',
+      title: t("offeringQualityComplianceTitle"),
+      description: t("offeringQualityComplianceDescription"),
+      icon: "ri-line-chart-line",
+      color: "#2879b6",
+      metric: "100%",
+      unit: t("quality") || "Quality",
+      order: 4,
+      isActive: true
+    },
+    {
+      id: 'off-5',
+      title: t("offeringIntegratedValueChainTitle"),
+      description: t("offeringIntegratedValueChainDescription"),
+      icon: "ri-links-line",
+      color: "#7dc244",
+      metric: "E2E",
+      unit: t("solutions") || "Solutions",
+      order: 5,
+      isActive: true
+    },
+    {
+      id: 'off-6',
+      title: t("offeringWorldClassManufacturingTitle"),
+      description: t("offeringWorldClassManufacturingDescription"),
+      icon: "ri-flask-line",
+      color: "#ee6a31",
+      metric: "6",
+      unit: t("facilities") || "Facilities",
+      order: 6,
+      isActive: true
+    },
+    {
+      id: 'off-7',
+      title: t("offeringRegulatoryExcellenceTitle"),
+      description: t("offeringRegulatoryExcellenceDescription"),
+      icon: "ri-shield-check-line",
+      color: "#2879b6",
+      metric: "Global",
+      unit: t("approvals") || "Approvals",
+      order: 7,
+      isActive: true
+    },
+    {
+      id: 'off-8',
+      title: t("offeringPartnerOfChoiceTitle"),
+      description: t("offeringPartnerOfChoiceDescription"),
+      icon: "ri-line-chart-line",
+      color: "#7dc244",
+      metric: "550+",
+      unit: t("customers") || "Customers",
+      order: 8,
+      isActive: true
+    },
+    {
+      id: 'off-9',
+      title: t("offeringAgileSupplyChainTitle"),
+      description: t("offeringAgileSupplyChainDescription"),
+      icon: "ri-truck-line",
+      color: "#ee6a31",
+      metric: "Resilient",
+      unit: t("operations") || "Operations",
+      order: 9,
+      isActive: true
+    },
+    {
+      id: 'off-10',
+      title: t("offeringSustainabilityCommitmentTitle"),
+      description: t("offeringSustainabilityCommitmentDescription"),
+      icon: "ri-leaf-line",
+      color: "#7dc244",
+      metric: "ESG",
+      unit: t("focused") || "Focused",
+      order: 10,
+      isActive: true
+    },
+    {
+      id: 'off-11',
+      title: t("offeringFutureReadyGrowthTitle"),
+      description: t("offeringFutureReadyGrowthDescription"),
+      icon: "ri-rocket-line",
+      color: "#2879b6",
+      metric: "Global",
+      unit: t("vision") || "Vision",
+      order: 11,
+      isActive: true
+    }
+  ];
+
+  // Filter and sort data - use API for English, static for other languages
+  const heroSlides = useMemo(() => {
+    if (isEnglish) {
+      // English: Use API data
+      return (apiSlides.length > 0 ? apiSlides : adminData.heroSlides)
+        .filter(slide => slide.isActive)
+        .sort((a, b) => a.order - b.order);
+    } else {
+      // Non-English: Use static translated slides
+      return defaultSlides;
+    }
+  }, [apiSlides, adminData.heroSlides, isEnglish]);
   
-  const offerings = useMemo(() => 
-    (offeringsApi.length > 0 ? offeringsApi : adminData.offerings)
-      .filter(offering => offering.isActive)
-      .sort((a, b) => a.order - b.order), 
-    [offeringsApi, adminData.offerings]
-  );
+  const offerings = useMemo(() => {
+    if (isEnglish) {
+      // English: Use API data
+      return (offeringsApi.length > 0 ? offeringsApi : adminData.offerings)
+        .filter(offering => offering.isActive)
+        .sort((a, b) => a.order - b.order);
+    } else {
+      // Non-English: Use static translated data
+      return getStaticOfferings();
+    }
+  }, [offeringsApi, adminData.offerings, isEnglish, currentLang, t]);
   
-  const statistics = useMemo(() => 
-    (statisticsApi.length > 0 ? statisticsApi : adminData.statistics)
-      .filter(stat => stat.isActive)
-      .sort((a, b) => a.order - b.order), 
-    [statisticsApi, adminData.statistics]
-  );
+  const statistics = useMemo(() => {
+    if (isEnglish) {
+      // English: Use API data
+      return (statisticsApi.length > 0 ? statisticsApi : adminData.statistics)
+        .filter(stat => stat.isActive)
+        .sort((a, b) => a.order - b.order);
+    } else {
+      // Non-English: Use static translated data
+      return getStaticStatistics();
+    }
+  }, [statisticsApi, adminData.statistics, isEnglish, currentLang, t]);
   
+  // Get static regulatory approvals for non-English languages
+  const getStaticRegulatoryApprovals = () => {
+    return [
+      { id: 'reg-1', title: t("regulatoryApproval1"), color: '#2879b6', isActive: true, order: 1 },
+      { id: 'reg-2', title: t("regulatoryApproval2"), color: '#f97316', isActive: true, order: 2 },
+      { id: 'reg-3', title: t("regulatoryApproval3"), color: '#10b981', isActive: true, order: 3 },
+      { id: 'reg-4', title: t("regulatoryApproval4"), color: '#6366f1', isActive: true, order: 4 },
+      { id: 'reg-5', title: t("regulatoryApproval5"), color: '#e11d48', isActive: true, order: 5 },
+      { id: 'reg-6', title: t("regulatoryApproval6"), color: '#14b8a6', isActive: true, order: 6 },
+      { id: 'reg-7', title: t("regulatoryApproval7"), color: '#facc15', isActive: true, order: 7 }
+    ];
+  };
+
+  // Map API regulatory approval titles to translation keys
+  const getRegulatoryApprovalTranslationKey = (title: string): string | null => {
+    const titleMap: { [key: string]: string } = {
+      'FDA': 'regulatoryApproval1',
+      'US FDA': 'regulatoryApproval1',
+      'EU GMP': 'regulatoryApproval2',
+      'EDQM': 'regulatoryApproval3',
+      'Health Canada': 'regulatoryApproval4',
+      'ANVISA': 'regulatoryApproval5',
+      'PMDA': 'regulatoryApproval6',
+      'WHO-GMP': 'regulatoryApproval7',
+      'WHO GMP': 'regulatoryApproval7',
+    };
+    return titleMap[title] || null;
+  };
+
   const regulatoryApprovals = useMemo(() => {
-    // Force use of API data only - no localStorage fallback
-    const data = regulatoryApi
-      .filter(approval => approval.isActive)
-      .sort((a, b) => a.order - b.order);
-    console.log('🔍 Regulatory Approvals Data (API Only):', {
-      regulatoryApi: regulatoryApi.length,
-      adminData: adminData.regulatoryApprovals?.length || 0,
-      finalData: data.length,
-      data: data,
-      usingApi: true
-    });
-    return data;
-  }, [regulatoryApi]);
+    if (isEnglish) {
+      // English: Use API data, but check for translated fields or map to translation keys
+      const data = regulatoryApi
+        .filter(approval => approval.isActive)
+        .sort((a, b) => a.order - b.order)
+        .map((approval: any) => {
+          // First check for translated fields from API
+          if (approval.titleTranslated) {
+            return {
+              ...approval,
+              title: approval.titleTranslated,
+              description: approval.descriptionTranslated || approval.description
+            };
+          }
+          // Otherwise, try to map to translation key
+          const translationKey = getRegulatoryApprovalTranslationKey(approval.title);
+          if (translationKey) {
+            return {
+              ...approval,
+              title: t(translationKey),
+              description: approval.descriptionTranslated || approval.description
+            };
+          }
+          // Fallback to original title
+          return approval;
+        });
+      return data.length > 0 ? data : getStaticRegulatoryApprovals();
+    } else {
+      // Non-English: Use static translated data
+      return getStaticRegulatoryApprovals();
+    }
+  }, [regulatoryApi, isEnglish, t, currentLang]);
 
   // Listen for API data changes and refresh (optimized to prevent loops)
   useEffect(() => {
@@ -485,10 +757,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-2 sm:px-2 lg:px-2 relative z-10">
           <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              {"Who We Are"}
+              {t("whoWeAre")}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            A leading pharmaceutical platform with 40+ years of API excellence, global partnerships in advanced intermediates, and CRDMO expertise in speciality formulations and antibiotics.
+            {t("whoWeAreDescription")}
             </p>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-12 mt-2" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
@@ -560,10 +832,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12" data-aos="fade-up" data-aos-duration="800">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 hover:scale-105 transition-transform  duration-500" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              {data?.homeGlobalImpact?.title || adminData?.homeGlobalImpact?.title || 'Global Impact & Excellence'}
+              {t("globalImpactExcellence")}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Trusted by partners worldwide for delivering meaningful innovations through science.
+            {t("globalImpactDescription")}
             </p>
           </div>
 
@@ -621,9 +893,7 @@ export default function Home() {
               <h2 className="text-2xl md:text-4xl lg:text-4xl font-bold text-gray-800 transform" 
                   style={{ fontFamily: 'Montserrat, sans-serif' }}
                   data-aos="slide-up" data-aos-delay="400" data-aos-duration="1000">
-                <span className="inline-block" data-aos="fade-right" data-aos-delay="500" data-aos-duration="800">What</span>
-                <span className="inline-block mx-4" data-aos="fade-up" data-aos-delay="700" data-aos-duration="800">We</span>
-                <span className="inline-block" data-aos="fade-left" data-aos-delay="900" data-aos-duration="800" style={{ color: '#2879b6' }}>Offer</span>
+                {t("whatWeOffer")}
               </h2>
             </div>
             
@@ -631,8 +901,7 @@ export default function Home() {
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed" 
                style={{ fontFamily: 'Montserrat, sans-serif' }}
                data-aos="fade-up" data-aos-delay="1100" data-aos-duration="1000">
-              Comprehensive pharmaceutical solutions backed by decades of expertise and global reach, 
-              delivering innovation from lab to life across diverse therapeutic areas.
+              {t("whatWeOfferDescription")}
             </p>
 
             {/* Animated Divider */}
@@ -756,47 +1025,56 @@ export default function Home() {
       {/* Vision & Mission Section - Brand colors and typography */}
       <section className="py-12 bg-white">
   <div className="max-w-6xl mx-auto px-6 text-center">
-    <h2 className="text-3xl font-bold mb-4 text-gray-900">Regulatory Approvals</h2>
+    <h2 className="text-3xl font-bold mb-4 text-gray-900">{t("regulatoryApprovals")}</h2>
     <p className="text-gray-700 mb-10 leading-relaxed text-justify">
-      Refex Life Sciences operates a worldwide network of state-of-the-art manufacturing facilities seamlessly
-      integrated into the group. These facilities comply with the highest international quality standards with
-      accreditations from:
+      {t("regulatoryApprovalsDescription")}
     </p>
 
     <div className="text-center">
-   
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-800 max-w-3xl mx-auto">
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#2879b6] mr-3 mt-[2px]"></span>
-    <span>US FDA</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#f97316] mr-3 mt-[2px]"></span>
-    <span>EU GMP</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#10b981] mr-3 mt-[2px]"></span>
-    <span>EDQM</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#6366f1] mr-3 mt-[2px]"></span>
-    <span>Health Canada</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#e11d48] mr-3 mt-[2px]"></span>
-    <span>ANVISA</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#14b8a6] mr-3 mt-[2px]"></span>
-    <span>PMDA</span>
-  </li>
-  <li className="flex items-center justify-start">
-    <span className="w-3 h-3 rounded-full bg-[#facc15] mr-3 mt-[2px]"></span>
-    <span>WHO-GMP</span>
-  </li>
-</ul>
-
-
+      {regulatoryApprovals.length > 0 ? (
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-800 max-w-3xl mx-auto">
+          {regulatoryApprovals.map((approval: any) => {
+            const color = approval.color || '#2879b6';
+            return (
+              <li key={approval.id || approval.title} className="flex items-center justify-start">
+                <span className="w-3 h-3 rounded-full mr-3 mt-[2px]" style={{ backgroundColor: color }}></span>
+                <span>{approval.title}</span>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-800 max-w-3xl mx-auto">
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#2879b6] mr-3 mt-[2px]"></span>
+            <span>US FDA</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#f97316] mr-3 mt-[2px]"></span>
+            <span>EU GMP</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#10b981] mr-3 mt-[2px]"></span>
+            <span>EDQM</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#6366f1] mr-3 mt-[2px]"></span>
+            <span>Health Canada</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#e11d48] mr-3 mt-[2px]"></span>
+            <span>ANVISA</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#14b8a6] mr-3 mt-[2px]"></span>
+            <span>PMDA</span>
+          </li>
+          <li className="flex items-center justify-start">
+            <span className="w-3 h-3 rounded-full bg-[#facc15] mr-3 mt-[2px]"></span>
+            <span>WHO-GMP</span>
+          </li>
+        </ul>
+      )}
     </div>
   </div>
 </section>

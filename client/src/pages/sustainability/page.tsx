@@ -1,10 +1,14 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAdminAuth } from '../../contexts/AdminContext';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 
 const Sustainability = () => {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+  const isEnglish = currentLang === 'en';
   // Initialize AOS when component mounts
   useEffect(() => {
     const initAOS = async () => {
@@ -54,23 +58,188 @@ const Sustainability = () => {
   // Use API data with fallback to local data
   const vm = sustainabilityApi?.visionMission || (data as any)?.sustainability?.visionMission;
   const innovationSection = sustainabilityApi?.innovationTransformation || (data as any)?.sustainability?.innovationAndTransformation;
-  const digitalSolutions = (sustainabilityApi?.digitalSolutions || []).filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
-  const researchInnovation = (sustainabilityApi?.researchInnovations || []).filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
+  // Get translated digital solutions for non-English languages
+  const digitalSolutions = useMemo(() => {
+    if (isEnglish && sustainabilityApi?.digitalSolutions && sustainabilityApi.digitalSolutions.length > 0) {
+      return sustainabilityApi.digitalSolutions.filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
+    }
+    // Return static translated cards for non-English
+    return [
+      { id: 'dig-1', cardTitle: t("esgDigitalCard1Title"), cardDescription: t("esgDigitalCard1Description"), isActive: true, order: 1 },
+      { id: 'dig-2', cardTitle: t("esgDigitalCard2Title"), cardDescription: t("esgDigitalCard2Description"), isActive: true, order: 2 },
+      { id: 'dig-3', cardTitle: t("esgDigitalCard3Title"), cardDescription: t("esgDigitalCard3Description"), isActive: true, order: 3 }
+    ];
+  }, [isEnglish, sustainabilityApi?.digitalSolutions, t, i18n.language]);
+
+  // Get translated research innovation for non-English languages
+  const researchInnovation = useMemo(() => {
+    if (isEnglish && sustainabilityApi?.researchInnovations && sustainabilityApi.researchInnovations.length > 0) {
+      return sustainabilityApi.researchInnovations.filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
+    }
+    // Return static translated cards for non-English
+    return [
+      { id: 'res-1', cardTitle: t("esgResearchCard1Title"), cardDescription: t("esgResearchCard1Description"), isActive: true, order: 1 },
+      { id: 'res-2', cardTitle: t("esgResearchCard2Title"), cardDescription: t("esgResearchCard2Description"), isActive: true, order: 2 },
+      { id: 'res-3', cardTitle: t("esgResearchCard3Title"), cardDescription: t("esgResearchCard3Description"), isActive: true, order: 3 }
+    ];
+  }, [isEnglish, sustainabilityApi?.researchInnovations, t, i18n.language]);
   const socialResponsibility = sustainabilityApi?.social || (data as any)?.sustainability?.socialResponsibility;
   const footerSection = sustainabilityApi?.footer || (data as any)?.sustainability?.footerSection;
   const heart = sustainabilityApi?.heart;
-  const csrCards = (socialResponsibility?.csrCards || []).filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
-  const csrImpactItems = (socialResponsibility?.csrImpactItems || []).filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
-  const visionDescription = vm?.visionDescription || 'To become a trusted and sustainable healthcare partner, delivering impactful life science solutions that improve lives while preserving the environment for future generations.';
-  const missionPoints = (vm?.missionPoints || [
-    { id: 'mp-1', text: 'Deliver innovative, affordable, and high-quality healthcare solutions', order: 1, isActive: true },
-    { id: 'mp-2', text: 'Embed sustainability and ethics at the heart of every decision', order: 2, isActive: true },
-    { id: 'mp-3', text: 'Empower communities through accessible healthcare and education', order: 3, isActive: true },
-    { id: 'mp-4', text: "Contribute to India's sustainable development and climate goals", order: 4, isActive: true }
-  ]).filter((p: any) => p.isActive).sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+  
+  // Get translated CSR cards for non-English languages
+  const csrCards = useMemo(() => {
+    if (isEnglish && socialResponsibility?.csrCards && socialResponsibility.csrCards.length > 0) {
+      return socialResponsibility.csrCards.filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
+    }
+    // Return static translated cards for non-English
+    return [
+      { 
+        id: 'csr-1', 
+        cardTitle: t("esgCsrCard1Title"), 
+        cardSubtitle: t("esgCsrCard1Subtitle"), 
+        cardDescription: t("esgCsrCard1Description"), 
+        highlightText: t("esgCsrCard1Highlight"),
+        icon: 'ri-book-open-line', 
+        gradientColors: '#2879b6,#3a8bc4', 
+        isActive: true, 
+        order: 1 
+      },
+      { 
+        id: 'csr-2', 
+        cardTitle: t("esgCsrCard2Title"), 
+        cardSubtitle: t("esgCsrCard2Subtitle"), 
+        cardDescription: t("esgCsrCard2Description"), 
+        highlightText: t("esgCsrCard2Highlight"),
+        icon: 'ri-heart-pulse-line', 
+        gradientColors: '#7dc244,#6bb83a', 
+        isActive: true, 
+        order: 2 
+      },
+      { 
+        id: 'csr-3', 
+        cardTitle: t("esgCsrCard3Title"), 
+        cardSubtitle: t("esgCsrCard3Subtitle"), 
+        cardDescription: t("esgCsrCard3Description"), 
+        highlightText: t("esgCsrCard3Highlight"),
+        icon: 'ri-leaf-line', 
+        gradientColors: '#26bde2,#1a9bc7', 
+        isActive: true, 
+        order: 3 
+      }
+    ];
+  }, [isEnglish, socialResponsibility?.csrCards, t, i18n.language]);
+  
+  // Get translated CSR impact items for non-English languages
+  const csrImpactItems = useMemo(() => {
+    if (isEnglish && socialResponsibility?.csrImpactItems && socialResponsibility.csrImpactItems.length > 0) {
+      return socialResponsibility.csrImpactItems.filter((c: any) => c.isActive !== false).sort((a: any, b: any) => (a.order||0) - (b.order||0));
+    }
+    // Return static translated items for non-English
+    return [
+      { 
+        id: 'csri-1', 
+        title: t("esgCsrImpact1Title"), 
+        description: t("esgCsrImpact1Description"), 
+        icon: 'ri-graduation-cap-line', 
+        gradientColors: '#2879b6,#3a8bc4', 
+        isActive: true, 
+        order: 1 
+      },
+      { 
+        id: 'csri-2', 
+        title: t("esgCsrImpact2Title"), 
+        description: t("esgCsrImpact2Description"), 
+        icon: 'ri-hospital-line', 
+        gradientColors: '#7dc244,#6bb83a', 
+        isActive: true, 
+        order: 2 
+      },
+      { 
+        id: 'csri-3', 
+        title: t("esgCsrImpact3Title"), 
+        description: t("esgCsrImpact3Description"), 
+        icon: 'ri-plant-line', 
+        gradientColors: '#26bde2,#1a9bc7', 
+        isActive: true, 
+        order: 3 
+      }
+    ];
+  }, [isEnglish, socialResponsibility?.csrImpactItems, t, i18n.language]);
+  const visionDescription = isEnglish && vm?.visionDescription ? vm.visionDescription : t("esgVisionDescription");
+  const missionPoints = (() => {
+    if (isEnglish && vm?.missionPoints && vm.missionPoints.length > 0) {
+      return vm.missionPoints.filter((p: any) => p.isActive).sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+    }
+    // Use static translations for non-English
+    return [
+      { id: 'mp-1', text: t("esgMissionPoint1"), order: 1, isActive: true },
+      { id: 'mp-2', text: t("esgMissionPoint2"), order: 2, isActive: true },
+      { id: 'mp-3', text: t("esgMissionPoint3"), order: 3, isActive: true },
+      { id: 'mp-4', text: t("esgMissionPoint4"), order: 4, isActive: true }
+    ];
+  })();
 
-  const heartSections = (heart?.sections || []).slice(0, 3);
-  const heartCommitments = (heart?.commitments || []).slice(0, 4);
+  // Get translated heart sections for non-English languages
+  const getTranslatedHeartSections = () => {
+    if (isEnglish && heart?.sections && heart.sections.length > 0) {
+      return heart.sections.slice(0, 3);
+    }
+    // Return static translated sections for non-English
+    return [
+      {
+        title: t("esgHeartEnvironmentalTitle"),
+        description: t("esgHeartEnvironmentalDescription"),
+        icon: "ri-leaf-line",
+        color: "#7dc244",
+        metrics: [
+          { title: t("esgHeartMetricNetZero") || "Net Zero", subtitle: t("esgHeartMetricCarbon2040") || "Carbon by 2040" },
+          { title: t("esgHeartMetricGreenTech") || "Green Tech", subtitle: t("esgHeartMetricInnovation") || "Innovation Focus" }
+        ],
+        image: "https://readdy.ai/api/search-image?query=Environmental%20sustainability%20in%20pharmaceutical%20manufacturing&width=600&height=400"
+      },
+      {
+        title: t("esgHeartSocialTitle"),
+        description: t("esgHeartSocialDescription"),
+        icon: "ri-group-line",
+        color: "#2879b6",
+        metrics: [
+          { title: t("esgHeartMetricHealthcare") || "Healthcare", subtitle: t("esgHeartMetricAccessAll") || "Access for All" },
+          { title: t("esgHeartMetricEducation") || "Education", subtitle: t("esgHeartMetricCommunityGrowth") || "Community Growth" }
+        ],
+        image: "https://readdy.ai/api/search-image?query=Social%20equity%20and%20community%20healthcare%20programs&width=600&height=400"
+      },
+      {
+        title: t("esgHeartGovernanceTitle"),
+        description: t("esgHeartGovernanceDescription"),
+        icon: "ri-shield-check-line",
+        color: "#ee6a31",
+        metrics: [
+          { title: t("esgHeartMetricZeroHarm") || "Zero Harm", subtitle: t("esgHeartMetricAllOperations") || "All Operations" },
+          { title: t("esgHeartMetric100Percent") || "100%", subtitle: t("esgHeartMetricTransparency") || "Transparency" }
+        ],
+        image: "https://readdy.ai/api/search-image?query=Corporate%20governance%20and%20compliance&width=600&height=400"
+      }
+    ];
+  };
+
+  const heartSections = getTranslatedHeartSections();
+  
+  // Get translated heart commitments for non-English languages
+  const getTranslatedHeartCommitments = () => {
+    if (isEnglish && heart?.commitments && heart.commitments.length > 0) {
+      return heart.commitments.slice(0, 4);
+    }
+    // Return static translated commitments for non-English
+    return [
+      { title: t("esgHeartCommitmentNetZero") || "Net Zero", subtitle: t("esgHeartCommitmentCarbon2040") || "Carbon Emissions by 2040", icon: "ri-leaf-line", color: "refex-green" },
+      { title: t("esgHeartCommitmentWaterPositive") || "Water Positive", subtitle: t("esgHeartCommitmentWaterPositiveSub") || "Operations by 2030", icon: "ri-drop-line", color: "refex-blue" },
+      { title: t("esgHeartCommitmentZeroWaste") || "Zero Waste", subtitle: t("esgHeartCommitmentZeroWasteSub") || "To Landfill by 2025", icon: "ri-recycle-line", color: "refex-green" },
+      { title: t("esgHeartCommitmentRenewableEnergy") || "100% Renewable", subtitle: t("esgHeartCommitmentRenewableEnergySub") || "Energy by 2035", icon: "ri-sun-line", color: "refex-orange" }
+    ];
+  };
+
+  const heartCommitments = getTranslatedHeartCommitments();
 
   // Use API data for SDG cards with fallback to hardcoded data
   const sdgData = (() => {
@@ -164,8 +333,8 @@ const Sustainability = () => {
               data-aos-duration="1000"
               data-aos-delay="400"
             >
-              <span className="block">{ sustainabilityApi?.hero.title.split(',')[0]?.trim() || 'Transforming Health,'}</span>
-              <span className="block mt-1">{sustainabilityApi?.hero?.title?.includes('Empowering') ? sustainabilityApi.hero.title.split(',')[1]?.trim() : 'Empowering Sustainability'}</span>
+              <span className="block">{isEnglish && sustainabilityApi?.hero?.title ? sustainabilityApi.hero.title.split(',')[0]?.trim() : t("esgHeroTitle1")}</span>
+              <span className="block mt-1">{isEnglish && sustainabilityApi?.hero?.title?.includes('Empowering') ? sustainabilityApi.hero.title.split(',')[1]?.trim() : t("esgHeroTitle2")}</span>
             </h1>
             <p
               className="text-lg text-white/90 max-w-4xl mx-auto leading-relaxed font-montserrat mb-8"
@@ -173,7 +342,7 @@ const Sustainability = () => {
               data-aos-duration="1000"
               data-aos-delay="600"
             >
-              {sustainabilityApi?.hero?.description || 'Refex Life Sciences represents our collective vision of building a healthier, cleaner, and more sustainable world. Anchored in innovation and responsibility, we seek to redefine healthcare through affordable technology, ethical practices, and environmental stewardship.'}
+              {isEnglish && sustainabilityApi?.hero?.description ? sustainabilityApi.hero.description : t("esgHeroDescription")}
             </p>
             <p
               className="text-sm text-white/80 max-w-5xl mx-auto font-montserrat"
@@ -181,7 +350,7 @@ const Sustainability = () => {
               data-aos-duration="1000"
               data-aos-delay="800"
             >
-              We aspire to bridge the gap between modern science and sustainable living — creating value that benefits individuals, communities, and the planet alike.
+              {t("esgHeroSubDescription")}
             </p>
           </div>
         </div>
@@ -200,10 +369,10 @@ const Sustainability = () => {
                data-aos-duration="1000">
           
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 font-montserrat">
-              {vm?.sectionTitle || 'Vision & Mission'}
+              {isEnglish && vm?.sectionTitle ? vm.sectionTitle : t("esgVisionMissionTitle")}
             </h2>
             <p className="text-base text-gray-600 max-w-3xl mx-auto font-montserrat">
-              {vm?.sectionSubtitle || 'Our commitment to sustainable healthcare and environmental stewardship'}
+              {isEnglish && vm?.sectionSubtitle ? vm.sectionSubtitle : t("esgVisionMissionSubtitle")}
             </p>
           </div>
 
@@ -224,8 +393,8 @@ const Sustainability = () => {
                   <div className="flex items-center gap-4 mb-6">
                     
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 font-montserrat">{vm?.visionTitle || 'Our Vision'}</h3>
-                      <p className="text-[#2879b6] font-semibold font-montserrat text-sm">{vm?.visionSubtitle || 'Sustainable Healthcare Partner'}</p>
+                      <h3 className="text-xl font-bold text-gray-800 font-montserrat">{isEnglish && vm?.visionTitle ? vm.visionTitle : t("esgVisionTitle")}</h3>
+                      <p className="text-[#2879b6] font-semibold font-montserrat text-sm">{isEnglish && vm?.visionSubtitle ? vm.visionSubtitle : t("esgVisionSubtitle")}</p>
                     </div>
                   </div>
 
@@ -282,8 +451,8 @@ const Sustainability = () => {
                   <div className="flex items-center gap-4 mb-6">
                    
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 font-montserrat">{vm?.missionTitle || 'Our Mission'}</h3>
-                      <p className="text-[#7dc244] font-semibold font-montserrat text-sm">{vm?.missionSubtitle || 'Impactful Solutions'}</p>
+                      <h3 className="text-xl font-bold text-gray-800 font-montserrat">{isEnglish && vm?.missionTitle ? vm.missionTitle : t("esgMissionTitle")}</h3>
+                      <p className="text-[#7dc244] font-semibold font-montserrat text-sm">{isEnglish && vm?.missionSubtitle ? vm.missionSubtitle : t("esgMissionSubtitle")}</p>
                     </div>
                   </div>
 
@@ -337,11 +506,10 @@ const Sustainability = () => {
         data-aos-offset="200"
       >
         <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 font-montserrat">
-          {heart?.mainTitle || 'Sustainability — The Heart of Our Progress'}
+          {isEnglish && heart?.mainTitle ? heart.mainTitle : t("esgHeartTitle")}
         </h2>
         <p className="text-base text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-          {heart?.mainSubtitle || 
-            "Refex Life Sciences operates under the Refex Group's ESG Strategy and Sustainability Roadmap. Our comprehensive approach ensures responsible growth across all dimensions."}
+          {isEnglish && heart?.mainSubtitle ? heart.mainSubtitle : t("esgHeartSubtitle")}
         </p>
       </div>
 
@@ -463,10 +631,10 @@ const Sustainability = () => {
       >
         <div className="text-center mb-10">
           <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 font-montserrat">
-            Our Sustainability Commitments
+            {t("esgHeartCommitmentsTitle")}
           </h3>
           <p className="text-gray-600 font-montserrat max-w-3xl mx-auto">
-            Measurable targets driving our transformation towards a sustainable future
+            {t("esgHeartCommitmentsSubtitle")}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -524,10 +692,10 @@ const Sustainability = () => {
                data-aos-duration="1000">
       
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 font-montserrat">
-              Alignment with UN Sustainable Development Goals
+              {t("esgSdgTitle")}
             </h2>
             <p className="text-base text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-              We align our efforts with key SDGs that mirror our mission and actions, contributing meaningfully to global sustainable development.
+              {t("esgSdgSubtitle")}
             </p>
           </div>
 
@@ -553,9 +721,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[0].contribution}
+                      {isEnglish ? sdgData[0].contribution : t("esgSdg3Contribution")}
                     </p>
                   </div>
                 </div>
@@ -579,9 +747,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[1].contribution}
+                      {isEnglish ? sdgData[1].contribution : t("esgSdg6Contribution")}
                     </p>
                   </div>
                 </div>
@@ -608,9 +776,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[2].contribution}
+                      {isEnglish ? sdgData[2].contribution : t("esgSdg7Contribution")}
                     </p>
                   </div>
                 </div>
@@ -634,9 +802,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[3].contribution}
+                      {isEnglish ? sdgData[3].contribution : t("esgSdg9Contribution")}
                     </p>
                   </div>
                 </div>
@@ -663,9 +831,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[4].contribution}
+                      {isEnglish ? sdgData[4].contribution : t("esgSdg12Contribution")}
                     </p>
                   </div>
                 </div>
@@ -689,9 +857,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[5].contribution}
+                      {isEnglish ? sdgData[5].contribution : t("esgSdg13Contribution")}
                     </p>
                   </div>
                 </div>
@@ -718,9 +886,9 @@ const Sustainability = () => {
 >
 </div>
                   <div className="p-8 md:w-2/3 flex flex-col justify-center">
-                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">Our Contribution</h4>
+                    <h4 className="font-bold text-gray-800 mb-4 text-lg font-montserrat">{t("esgSdgContribution")}</h4>
                     <p className="text-gray-600 leading-relaxed font-montserrat">
-                      {sdgData[6].contribution}
+                      {isEnglish ? sdgData[6].contribution : t("esgSdg17Contribution")}
                     </p>
                   </div>
                 </div>
@@ -753,11 +921,15 @@ const Sustainability = () => {
                  data-aos="fade-down"
                  data-aos-duration="1000">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
-                {innovationSection?.sectionTitle || 'Innovation and Digital Transformation'}
+                {isEnglish && innovationSection?.sectionTitle ? innovationSection.sectionTitle : t("esgInnovationTitle")}
               </h2>
-              {innovationSection?.sectionDescription && (
-                <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat" dangerouslySetInnerHTML={{ __html: innovationSection.sectionDescription }} />
-              )}
+              <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
+                {isEnglish && innovationSection?.sectionDescription ? (
+                  <span dangerouslySetInnerHTML={{ __html: innovationSection.sectionDescription }} />
+                ) : (
+                  t("esgInnovationDescription")
+                )}
+              </p>
             </div>
 
             {/* Tabs */}
@@ -768,14 +940,14 @@ const Sustainability = () => {
                   onClick={() => setActiveTab('digital')}
                   className={`px-5 py-2 text-sm font-semibold font-montserrat ${activeTab==='digital' ? 'bg-[#2879b6] text-white' : 'text-gray-700 hover:bg-gray-50'}`}
                 >
-                  Digital Solutions
+                  {t("esgDigitalSolutionsTab")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('research')}
                   className={`px-5 py-2 text-sm font-semibold font-montserrat ${activeTab==='research' ? 'bg-[#7dc244] text-white' : 'text-gray-700 hover:bg-gray-50'}`}
                 >
-                  Research & Innovation
+                  {t("esgResearchInnovationTab")}
                 </button>
               </div>
             </div>
@@ -785,8 +957,8 @@ const Sustainability = () => {
               <div className="mb-12" data-aos="fade-right" data-aos-duration="800">
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
                   <div className="mb-6">
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-2">Digital Solutions</h3>
-                    <p className="text-[#2879b6] font-semibold font-montserrat text-lg">Data-Driven Excellence</p>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-2">{t("esgDigitalSolutionsTitle")}</h3>
+                    <p className="text-[#2879b6] font-semibold font-montserrat text-lg">{t("esgDigitalSolutionsSubtitle")}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {digitalSolutions.map((card: any) => (
@@ -812,8 +984,8 @@ const Sustainability = () => {
               <div className="mb-12" data-aos="fade-left" data-aos-duration="800">
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
                   <div className="mb-6">
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-2">Research &amp; Innovation</h3>
-                    <p className="text-[#7dc244] font-semibold font-montserrat text-lg">Purposeful Innovation</p>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-2">{t("esgResearchInnovationTitle")}</h3>
+                    <p className="text-[#7dc244] font-semibold font-montserrat text-lg">{t("esgResearchInnovationSubtitle")}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {researchInnovation.map((card: any) => (
@@ -844,11 +1016,15 @@ const Sustainability = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16" data-aos="fade-down" data-aos-duration="1000">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 font-montserrat">
-                {socialResponsibility?.sectionTitle || 'Social Responsibility and Community Engagement'}
+                {isEnglish && socialResponsibility?.sectionTitle ? socialResponsibility.sectionTitle : t("esgSocialTitle")}
               </h2>
-              {(socialResponsibility?.sectionDescription) && (
-                <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat" dangerouslySetInnerHTML={{ __html: socialResponsibility.sectionDescription }} />
-              )}
+              <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
+                {isEnglish && socialResponsibility?.sectionDescription ? (
+                  <span dangerouslySetInnerHTML={{ __html: socialResponsibility.sectionDescription }} />
+                ) : (
+                  t("esgSocialDescription")
+                )}
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -895,10 +1071,14 @@ const Sustainability = () => {
                 <div className="w-20 h-20 bg-gradient-to-br from-[#7dc244] to-[#6bb83a] rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <i className="ri-community-line text-3xl text-white"></i>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 font-montserrat">{socialResponsibility?.csrImpactTitle || 'Community Impact Through Partnership'}</h3>
-                {(socialResponsibility?.csrImpactDescription) && (
-                  <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto font-montserrat" dangerouslySetInnerHTML={{ __html: socialResponsibility.csrImpactDescription }} />
-                )}
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 font-montserrat">{isEnglish && socialResponsibility?.csrImpactTitle ? socialResponsibility.csrImpactTitle : t("esgSocialImpactTitle")}</h3>
+                <p className="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto font-montserrat">
+                  {isEnglish && socialResponsibility?.csrImpactDescription ? (
+                    <span dangerouslySetInnerHTML={{ __html: socialResponsibility.csrImpactDescription }} />
+                  ) : (
+                    t("esgSocialImpactDescription")
+                  )}
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -937,10 +1117,10 @@ const Sustainability = () => {
               data-aos-duration="1000"
               data-aos-delay="400"
             >
-              {footerSection?.title || 'Towards a Sustainable Tomorrow'}
+              {isEnglish && footerSection?.title ? footerSection.title : t("esgFooterTitle")}
             </h2>
             <div className="max-w-5xl mx-auto">
-              {footerSection?.subtitle && (
+              {isEnglish && footerSection?.subtitle && (
                 <p 
                   className="text-xl text-white/90 leading-relaxed font-montserrat mb-8"
                   data-aos="fade-up"
@@ -956,7 +1136,7 @@ const Sustainability = () => {
                 data-aos-delay="800"
               >
                 <i className={`${footerSection?.ctaIcon || 'ri-heart-pulse-line'} mr-3 text-xl`}></i>
-                <span className="font-montserrat">{footerSection?.ctaText || 'Delivering "Health with Purpose" for Generations to Come'}</span>
+                <span className="font-montserrat">{isEnglish && footerSection?.ctaText ? footerSection.ctaText : t("esgFooterCta")}</span>
               </div>
             </div>
           </div>

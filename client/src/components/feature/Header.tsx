@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import RefexGroupLogo from "../../images/RLS_Logo.png"
+import LanguageSelector from "./LanguageSelector";
 
 export default function Header() {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Detect current route for active menu highlight
@@ -10,13 +13,13 @@ export default function Header() {
   const currentPath = location.pathname;
 
   const navItems = [
-  { name: "Home", href: "/" },
-  { name: "About Us", href: "/about" },
-  // { name: "Products", href: "/products" },
-  { name: "Capabilities", href: "/capabilities" },
-  { name: "ESG", href: "/sustainability" },
-  { name: "Careers", href: "https://www.refex.group/careers/", external: true }, // updated
-  { name: "Contact", href: "/contact" },
+  { nameKey: "home", href: "/" },
+  { nameKey: "aboutUs", href: "/about" },
+  // { nameKey: "products", href: "/products" },
+  { nameKey: "capabilities", href: "/capabilities" },
+  { nameKey: "esg", href: "/sustainability" },
+  { nameKey: "careers", href: "https://www.refex.group/careers/", external: true }, // updated
+  { nameKey: "contact", href: "/contact" },
 ];
 
   return (
@@ -39,13 +42,14 @@ export default function Header() {
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex space-x-8 items-center">
+          <LanguageSelector />
           {navItems.map((item) => {
   const isActive = currentPath === item.href;
   const linkClass = `font-semibold text-sm transition-all duration-300 cursor-pointer whitespace-nowrap ${
     isActive ? "text-blue-600" : "text-gray-700 hover:text-green-600"
   }`;
 
-  if (item.name === "About Us") {
+  if (item.nameKey === "aboutUs") {
     return (
       <div key={item.href} className="relative group">
         <Link
@@ -53,7 +57,7 @@ export default function Header() {
           className={linkClass}
           style={{ fontFamily: "Montserrat, sans-serif", fontSize:"17px" }}
         >
-          {item.name}
+          {t(item.nameKey)}
         </Link>
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-white shadow-lg rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
           <div className="py-2">
@@ -63,7 +67,7 @@ export default function Header() {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Our Journey
+              {t("ourJourney")}
             </Link>
             <Link
               to="/about"
@@ -71,7 +75,7 @@ export default function Header() {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Vision & Mission
+              {t("visionMission")}
             </Link>
             <Link
               to="/about"
@@ -79,7 +83,7 @@ export default function Header() {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Leadership Team
+              {t("leadershipTeam")}
             </Link>
             {/* <Link
               to="/about"
@@ -104,7 +108,7 @@ export default function Header() {
       className={linkClass}
       style={{ fontFamily: "Montserrat, sans-serif" ,fontSize:"17px" }}
     >
-      {item.name}
+      {t(item.nameKey)}
     </a>
   ) : (
     <Link
@@ -113,7 +117,7 @@ export default function Header() {
       className={linkClass}
       style={{ fontFamily: "Montserrat, sans-serif", fontSize:"17px" }}
     >
-      {item.name}
+      {t(item.nameKey)}
     </Link>
   );
 })}
@@ -140,13 +144,16 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t shadow-lg">
           <div className="px-4 py-4 space-y-3">
+            <div className="pb-3 border-b border-gray-200">
+              <LanguageSelector />
+            </div>
             {navItems.map((item) => {
               const isActive = currentPath === item.href;
               const linkClass = `block font-semibold text-sm transition-all duration-300 ${
                 isActive ? "text-blue-600" : "text-gray-700 hover:text-green-600"
               }`;
 
-              if (item.name === "About Us") {
+              if (item.nameKey === "aboutUs") {
                 return (
                   <div key={item.href} className="space-y-2">
                     <Link
@@ -155,7 +162,7 @@ export default function Header() {
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {item.name}
+                      {t(item.nameKey)}
                     </Link>
                     <div className="ml-4 space-y-1 border-l-2 border-gray-200 pl-3">
                       <Link
@@ -165,7 +172,7 @@ export default function Header() {
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        Our Journey
+                        {t("ourJourney")}
                       </Link>
                     <Link
                       to="/about"
@@ -174,7 +181,7 @@ export default function Header() {
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      Vision & Mission
+                      {t("visionMission")}
                     </Link>
                       <Link
                         to="/about"
@@ -183,7 +190,7 @@ export default function Header() {
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        Leadership Team
+                        {t("leadershipTeam")}
                       </Link>
                     {/* <Link
                       to="/about"
@@ -209,7 +216,7 @@ export default function Header() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item.name}
+                  {t(item.nameKey)}
                 </a>
               ) : (
                 <Link
@@ -219,7 +226,7 @@ export default function Header() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item.name}
+                  {t(item.nameKey)}
                 </Link>
               );
             })}

@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import { useAdminAuth } from '../../contexts/AdminContext';
@@ -16,6 +17,9 @@ declare global {
 }
 
 const Contact = () => {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+  const isEnglish = currentLang === 'en';
   const { data } = useAdminAuth();
   const [formData, setFormData] = useState({
     name: '',
@@ -168,28 +172,16 @@ const Contact = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
             >
-              {data?.contactHero?.title || 'Contact Us'}
+              {isEnglish && data?.contactHero?.title ? data.contactHero.title : t("contactHeroTitle")}
             </h1>
-            {data?.contactHero?.subtitle && (
-              <p 
-                className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-delay="200"
-              >
-                {data.contactHero.subtitle}
-              </p>
-            )}
-            {data?.contactHero?.description && (
-              <p 
-                className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-delay="200"
-              >
-                {data.contactHero.description}
-              </p>
-            )}
+            <p 
+              className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-montserrat mb-8"
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              data-aos-delay="200"
+            >
+              {isEnglish && data?.contactHero?.subtitle ? data.contactHero.subtitle : (isEnglish && data?.contactHero?.description ? data.contactHero.description : t("contactHeroSubtitle"))}
+            </p>
             {/* <div 
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               data-aos="fade-up"
@@ -228,7 +220,7 @@ const Contact = () => {
             >
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 font-montserrat">
-                  {data?.contactGetInTouch?.title || 'Get in Touch'}
+                  {isEnglish && data?.contactGetInTouch?.title ? data.contactGetInTouch.title : t("contactGetInTouchTitle")}
                 </h2>
                 {/* <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
                   {data?.contactGetInTouch?.description || 'We\'re here to help you navigate the complex world of pharmaceutical development. Whether you need API manufacturing, formulation development, or regulatory support, our team is ready to assist.'}
@@ -252,14 +244,9 @@ const Contact = () => {
                   </div> */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
-                       Our Address
+                       {t("contactOurAddress")}
                     </h3>
-                    <p className="text-gray-600 font-montserrat">
-  67, Bazullah Road,<br />
-  Partha Sarathy Puram,<br />
-  T Nagar, Chennai – 600017<br />
-  Tamil Nadu, India
-</p>
+                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{ __html: t("contactMainAddress") }}></p>
                   </div>
                 </div>
 
@@ -301,36 +288,14 @@ const Contact = () => {
                   </div> */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
-                      {'Other Addresses'}
+                      {t("contactOtherAddresses")}
                     </h3>
-                    <p className="text-gray-600 font-montserrat">
-                    Phoenix Mall of Asia – Tower 2, 
-                    <br />
-                    Level 6, Unit 602, Yelahanka Hobli, 
-                    <br />
-                    Byatarayanapura, Bangalore – 560092,
-                    <br />
-                    Karnataka, India
-                    </p>
+                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{ __html: t("contactAddressBangalore") }}></p>
                      <br />
                      
-                    <p className="text-gray-600 font-montserrat">
-                    409, Bezzola Complex,
+                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{ __html: t("contactAddressMumbai") }}></p>
                     <br />
-                    Sion Trombay Road,
-                    <br />
-                    Chembur, Mumbai - 400 071
-                    <br />
-Maharashtra, India.
-                    </p>
-                    <br />
-                    <p className="text-gray-600 font-montserrat">
-                    Bahnhof-Park 4, 
-                    <br />
-                    Baar 6340, 
-                    <br />
-Switzerland
-                    </p>
+                    <p className="text-gray-600 font-montserrat" dangerouslySetInnerHTML={{ __html: t("contactAddressSwitzerland") }}></p>
 
                   
                   </div>
@@ -351,7 +316,7 @@ Switzerland
                   </div> */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
-                      {data?.contactGetInTouch?.email?.title || 'Email'}
+                      {isEnglish && data?.contactGetInTouch?.email?.title ? data.contactGetInTouch.email.title : t("contactEmail")}
                     </h3>
                     <p className="text-gray-600 font-montserrat">
                       { 'info@refexlifeseciences.com'}
@@ -372,7 +337,7 @@ Switzerland
               data-aos-duration="1000"
               data-aos-offset="200"
             >
-              <h3 className="text-2xl font-bold text-gray-900 mb-8 font-montserrat">Send us a Message</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-8 font-montserrat">{t("contactFormTitle")}</h3>
               
               <form id="contact-form" data-readdy-form onSubmit={handleSubmit} className="space-y-6">
                 <div 
@@ -383,7 +348,7 @@ Switzerland
                 >
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-                      Full Name *
+                      {t("contactFormNameLabel")}
                     </label>
                     <input
                       type="text"
@@ -394,14 +359,14 @@ Switzerland
                       required
                       autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
-                      placeholder="Enter your full name"
+                      placeholder={t("contactFormNamePlaceholder")}
                     />
                   
                   </div>
                   
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-                      Email Address *
+                      {t("contactFormEmailLabel")}
                     </label>
                     <input
                       type="email"
@@ -412,7 +377,7 @@ Switzerland
                       required
                       autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
-                      placeholder="Enter your email address"
+                      placeholder={t("contactFormEmailPlaceholder")}
                     />
                   </div>
                 </div>
@@ -425,10 +390,10 @@ Switzerland
                 >
                   <div>
   <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-    Phone Number
+    {t("contactFormPhoneLabel")}
   </label>
   <PhoneInput
-    placeholder="Enter your phone number"
+    placeholder={t("contactFormPhonePlaceholder")}
     value={formData.phone}
     onChange={(value) => setFormData(prev => ({ ...prev, phone: value || '' }))}
     defaultCountry="IN"
@@ -440,7 +405,7 @@ Switzerland
                   
                   <div>
                     <label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-                      Company
+                      {t("contactFormCompanyLabel")}
                     </label>
                     <input
                       type="text"
@@ -450,7 +415,7 @@ Switzerland
                       onChange={handleInputChange}
                       autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
-                      placeholder="Enter your company name"
+                      placeholder={t("contactFormCompanyPlaceholder")}
                     />
                   </div>
                 </div>
@@ -461,7 +426,7 @@ Switzerland
                   data-aos-delay="300"
                 >
                   <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat">
-                    Message *
+                    {t("contactFormMessageLabel")}
                   </label>
                   <textarea
                     id="message"
@@ -473,10 +438,10 @@ Switzerland
                     rows={6}
                     autoComplete="off"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 resize-none text-sm font-montSerrat"
-                    placeholder="Tell us about your project or inquiry..."
+                    placeholder={t("contactFormMessagePlaceholder")}
                   />
                   <div className="text-right text-xs text-gray-500 mt-1 font-montserrat">
-                    {formData.message.length}/500 characters
+                    {formData.message.length}/500 {t("contactFormCharacters")}
                   </div>
                 </div>
 
@@ -489,7 +454,7 @@ Switzerland
                   >
                     <div className="flex items-center">
                       <i className="ri-check-circle-line text-refex-green text-xl mr-3"></i>
-                      <p className="text-refex-green font-montserrat">Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.</p>
+                      <p className="text-refex-green font-montserrat">{t("contactFormSuccess")}</p>
                     </div>
                   </div>
                 )}
@@ -502,7 +467,7 @@ Switzerland
                   >
                     <div className="flex items-center">
                       <i className="ri-error-warning-line text-refex-orange text-xl mr-3"></i>
-                      <p className="text-refex-orange font-montserrat">Sorry, there was an error sending your message. Please try again or contact us directly.</p>
+                      <p className="text-refex-orange font-montserrat">{t("contactFormError")}</p>
                     </div>
                   </div>
                 )}
@@ -532,12 +497,12 @@ Switzerland
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <i className="ri-loader-4-line animate-spin mr-2"></i>
-                      Sending...
+                      {t("contactFormSubmitting")}
                     </span>
                   ) : !recaptchaToken ? (
-                    'Please complete reCAPTCHA'
+                    t("contactFormRecaptchaRequired")
                   ) : (
-                    'Get in Touch'
+                    t("contactFormSubmitButton")
                   )}
                 </button>
               </form>

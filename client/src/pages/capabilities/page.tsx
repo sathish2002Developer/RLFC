@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAdminAuth } from '../../contexts/AdminContext';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
@@ -7,6 +8,9 @@ import Footer from '../../components/feature/Footer';
 
 
 const Capabilities = () => {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+  const isEnglish = currentLang === 'en';
   const [activeTab, setActiveTab] = useState('manufacturing');
   const [selectedFacility, setSelectedFacility] = useState<any>(null);
   const { data } = useAdminAuth();
@@ -142,8 +146,8 @@ const Capabilities = () => {
               data-aos-duration="1000"
               data-aos-delay="400"
             >
-              <span className="block">{capabilitiesData.hero?.title || data?.capabilitiesHero?.title || 'Capabilities'}</span>
-              {(capabilitiesData.hero?.subtitle || data?.capabilitiesHero?.subtitle) && (
+              <span className="block">{isEnglish && capabilitiesData.hero?.title ? capabilitiesData.hero.title : (isEnglish && data?.capabilitiesHero?.title ? data.capabilitiesHero.title : t("capabilitiesHeroTitle"))}</span>
+              {(isEnglish && (capabilitiesData.hero?.subtitle || data?.capabilitiesHero?.subtitle)) && (
                 <span className="block mt-1">{capabilitiesData.hero?.subtitle || data.capabilitiesHero.subtitle}</span>
               )}
             </h1>
@@ -194,7 +198,7 @@ const Capabilities = () => {
             : 'text-gray-600 hover:text-[#2879b6] hover:bg-blue-50 hover:shadow-lg border border-[#2879b6]/20'
         }`}
       >
-        Manufacturing Excellence
+        {t("capabilitiesTabManufacturing")}
       </button>
 
       <button
@@ -208,7 +212,7 @@ const Capabilities = () => {
             : 'text-gray-600 hover:text-[#7dc244] hover:bg-green-50 hover:shadow-lg border border-[#7dc244]/20'
         }`}
       >
-        Research & Development Excellence
+        {t("capabilitiesTabResearch")}
       </button>
     </div>
   </div>
@@ -222,16 +226,15 @@ const Capabilities = () => {
                  data-aos="fade-down"
                  data-aos-duration="1000">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
-                Manufacturing Excellence
+                {t("capabilitiesManufacturingTitle")}
               </h2>
               <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-                Our global manufacturing footprint spans APIs, intermediates, and finished formulations, supported by stringent regulatory approvals and world-class infrastructure. Together, these facilities enable us to deliver quality, scale, and reliability to partners across 80+ countries.
+                {t("capabilitiesManufacturingDescription")}
               </p>
             </div>
 
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Formulations & Complex Generics with Extrovis Capabilities
-</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">{t("capabilitiesFormulationsTitle")}</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
   {facilities
     .filter(
@@ -290,8 +293,8 @@ const Capabilities = () => {
 
             {/* Key Capabilities */}
             <div className="mb-4">
-              <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">
-                Capabilities:
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">
+                {t("capabilitiesLabel")}
               </h4>
               <div className="space-y-1 max-h-16 overflow-hidden">
                 {facility.capabilities.slice(0, 2).map(
@@ -307,7 +310,7 @@ const Capabilities = () => {
                 )}
                 {facility.capabilities.length > 2 && (
                   <div className="text-xs text-gray-500 font-montserrat">
-                    +{facility.capabilities.length - 2} more capabilities
+                    +{facility.capabilities.length - 2} {t("capabilitiesMore")}
                   </div>
                 )}
               </div>
@@ -346,7 +349,7 @@ const Capabilities = () => {
 
             {/* API Manufacturing Section */}
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">RLFC Capabilities</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">{t("capabilitiesRLFCTitle")}</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-stretch">
   {facilities
     .filter((facility: any) => facility.type === 'API Manufacturing')
@@ -395,7 +398,7 @@ const Capabilities = () => {
 
               {/* Key Capabilities */}
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">{t("capabilitiesLabel")}</h4>
                 <div className="space-y-1">
                   {facility.capabilities.map((capability: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2">
@@ -441,17 +444,17 @@ const Capabilities = () => {
                    data-aos-duration="1000">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <i className="ri-building-line text-2xl text-[#2879b6]"></i>
-                  <h4 className="text-lg font-bold text-gray-800 font-montserrat">Expansion</h4>
+                  <h4 className="text-lg font-bold text-gray-800 font-montserrat">{t("capabilitiesExpansionTitle")}</h4>
                 </div>
                 <p className="text-gray-700 font-montserrat">
-                  Foundation stone laid for a new manufacturing block in 2023, reflecting our growing scale.
+                  {t("capabilitiesExpansionDescription")}
                 </p>
               </div>
             </div>
 
             {/* Oncology & Specialty Intermediates Section */}
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">Oncology & Speciality Intermediates with Modepro Capabilities</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">{t("capabilitiesOncologyTitle")}</h3>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
   {facilities
     .filter((facility: any) => facility.type === 'Oncology & Specialty Intermediates')
@@ -500,7 +503,7 @@ const Capabilities = () => {
 
               {/* Key Capabilities */}
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">Capabilities:</h4>
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 font-montserrat">{t("capabilitiesLabel")}</h4>
                 <div className="space-y-1 max-h-16 overflow-hidden">
                   {facility.capabilities.slice(0, 2).map((capability: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2 text-xs text-gray-600 font-montserrat">
@@ -510,7 +513,7 @@ const Capabilities = () => {
                   ))}
                   {facility.capabilities.length > 2 && (
                     <div className="text-xs text-gray-500 font-montserrat">
-                      +{facility.capabilities.length - 2} more capabilities
+                      +{facility.capabilities.length - 2} {t("capabilitiesMore")}
                     </div>
                   )}
                 </div>
@@ -561,10 +564,10 @@ const Capabilities = () => {
                  data-aos="fade-down"
                  data-aos-duration="1000">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
-                {capabilitiesData.research?.title || data?.capabilitiesResearch?.title || 'Research & Development Excellence'}
+                {isEnglish && (capabilitiesData.research?.title || data?.capabilitiesResearch?.title) ? (capabilitiesData.research?.title || data.capabilitiesResearch.title) : t("capabilitiesResearchTitle")}
               </h2>
               <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
-                {capabilitiesData.research?.description || data?.capabilitiesResearch?.description || 'At Refex Life Sciences, innovation is our engine of growth. With world-class R&D centres and a team of over 200 scientists, we are advancing the frontiers of both API development and complex finished dosage formulations (FDFs). Our research is focused on creating differentiated, sustainable, and patient‑centric solutions that address unmet needs across global healthcare.'}
+                {isEnglish && (capabilitiesData.research?.description || data?.capabilitiesResearch?.description) ? (capabilitiesData.research?.description || data.capabilitiesResearch.description) : t("capabilitiesResearchDescription")}
               </p>
             </div>
 
@@ -578,8 +581,8 @@ const Capabilities = () => {
                       <i className={`${capabilitiesData.research?.apiCard?.icon || data?.capabilitiesResearch?.apiCard?.icon || 'ri-flask-line'} text-2xl text-white`}></i>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-800 font-montserrat">{capabilitiesData.research?.apiCard?.title || data?.capabilitiesResearch?.apiCard?.title || 'API R&D Strengths'}</h3>
-                      <p className={`text-[${capabilitiesData.research?.apiCard?.color || data?.capabilitiesResearch?.apiCard?.color || '#2879b6'}] font-semibold font-montserrat`}>{capabilitiesData.research?.apiCard?.subtitle || data?.capabilitiesResearch?.apiCard?.subtitle || 'Advanced Process Development'}</p>
+                      <h3 className="text-2xl font-bold text-gray-800 font-montserrat">{isEnglish && (capabilitiesData.research?.apiCard?.title || data?.capabilitiesResearch?.apiCard?.title) ? (capabilitiesData.research?.apiCard?.title || data.capabilitiesResearch.apiCard.title) : t("capabilitiesApiRDTitle")}</h3>
+                      <p className={`text-[${capabilitiesData.research?.apiCard?.color || data?.capabilitiesResearch?.apiCard?.color || '#2879b6'}] font-semibold font-montserrat`}>{isEnglish && (capabilitiesData.research?.apiCard?.subtitle || data?.capabilitiesResearch?.apiCard?.subtitle) ? (capabilitiesData.research?.apiCard?.subtitle || data.capabilitiesResearch.apiCard.subtitle) : t("capabilitiesApiRDSubtitle")}</p>
                     </div>
                   </div>
 
@@ -605,8 +608,8 @@ const Capabilities = () => {
                       <i className={`${capabilitiesData.research?.fdfCard?.icon || data?.capabilitiesResearch?.fdfCard?.icon || 'ri-capsule-line'} text-2xl text-white`}></i>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-800 font-montserrat">{capabilitiesData.research?.fdfCard?.title || data?.capabilitiesResearch?.fdfCard?.title || 'FDF R&D Strengths'}</h3>
-                      <p className={`text-[${capabilitiesData.research?.fdfCard?.color || data?.capabilitiesResearch?.fdfCard?.color || '#7dc244'}] font-semibold font-montserrat`}>{capabilitiesData.research?.fdfCard?.subtitle || data?.capabilitiesResearch?.fdfCard?.subtitle || 'Complex Formulation Development'}</p>
+                      <h3 className="text-2xl font-bold text-gray-800 font-montserrat">{isEnglish && (capabilitiesData.research?.fdfCard?.title || data?.capabilitiesResearch?.fdfCard?.title) ? (capabilitiesData.research?.fdfCard?.title || data.capabilitiesResearch.fdfCard.title) : t("capabilitiesFdfRDTitle")}</h3>
+                      <p className={`text-[${capabilitiesData.research?.fdfCard?.color || data?.capabilitiesResearch?.fdfCard?.color || '#7dc244'}] font-semibold font-montserrat`}>{isEnglish && (capabilitiesData.research?.fdfCard?.subtitle || data?.capabilitiesResearch?.fdfCard?.subtitle) ? (capabilitiesData.research?.fdfCard?.subtitle || data.capabilitiesResearch.fdfCard.subtitle) : t("capabilitiesFdfRDSubtitle")}</p>
                     </div>
                   </div>
 
@@ -633,9 +636,9 @@ const Capabilities = () => {
                 <div className={`w-20 h-20 bg-gradient-to-br from-[${data?.capabilitiesResearch?.fdfCard?.color || '#7dc244'}] to-[${data?.capabilitiesResearch?.fdfCard?.color || '#6bb83a'}] rounded-2xl flex items-center justify-center mx-auto mb-6`}>
                   <i className={`${data?.capabilitiesResearch?.promise?.icon || 'ri-lightbulb-line'} text-3xl text-white`}></i>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-montserrat">{data?.capabilitiesResearch?.promise?.title || 'Our R&D Promise'}</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-montserrat">{isEnglish && data?.capabilitiesResearch?.promise?.title ? data.capabilitiesResearch.promise.title : t("capabilitiesRDPromiseTitle")}</h3>
                 <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
-                  {data?.capabilitiesResearch?.promise?.description || 'Through a relentless focus on innovation, sustainability, and regulatory excellence, Refex Life Sciences is shaping the future of healthcare – from breakthrough APIs to complex formulations that improve patient outcomes worldwide'}
+                  {isEnglish && data?.capabilitiesResearch?.promise?.description ? data.capabilitiesResearch.promise.description : t("capabilitiesRDPromiseDescription")}
                 </p>
               </div>
             </div>
@@ -679,8 +682,8 @@ const Capabilities = () => {
                   <h3 className="text-3xl font-bold mb-2 font-montserrat">{selectedFacility.name}</h3>
                   <p className="text-white/90 font-semibold font-montserrat">{selectedFacility.location}</p>
                   <div className="flex items-center gap-4 mt-2">
-                    <span className="text-sm text-white/80 font-montserrat">Est. {selectedFacility.established}</span>
-                    <span className="text-sm text-white/80 font-montserrat">Capacity: {selectedFacility.capacity}</span>
+                    <span className="text-sm text-white/80 font-montserrat">{t("capabilitiesModalEstablished")} {selectedFacility.established}</span>
+                    <span className="text-sm text-white/80 font-montserrat">{t("capabilitiesModalCapacity")} {selectedFacility.capacity}</span>
                   </div>
                 </div>
               </div>
@@ -699,7 +702,7 @@ const Capabilities = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Capabilities */}
                   <div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Key Capabilities</h4>
+                    <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">{t("capabilitiesModalKeyCapabilities")}</h4>
                     <div className="space-y-3">
                       {selectedFacility.capabilities.map((capability: string, index: number) => (
                         <div key={index} className="flex items-start gap-3">
@@ -714,7 +717,7 @@ const Capabilities = () => {
                   <div>
                    {selectedFacility?.approvals?.length >0 ? 
                     <>
-                      <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">Regulatory Approvals</h4>
+                      <h4 className="text-xl font-bold text-gray-800 mb-4 font-montserrat">{t("capabilitiesModalRegulatoryApprovals")}</h4>
                     <div className="flex flex-wrap gap-2">
                       {selectedFacility?.approvals?.map((approval: string, index: number) => (
                          approval &&<div key={index} className="flex items-center justify-center p-2  bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-sm">

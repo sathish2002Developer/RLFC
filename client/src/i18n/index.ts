@@ -11,6 +11,11 @@ i18n
     fallbackLng: 'en',
     debug: false,
     resources: messages,
+    supportedLngs: ['en', 'fr', 'zh', 'de', 'it', 'hu'],
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    },
     interpolation: {
       escapeValue: false,
     },
