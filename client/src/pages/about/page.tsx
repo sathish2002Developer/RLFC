@@ -1,6 +1,6 @@
 
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import  journeyImage from "../../images/jou.png"
@@ -20,10 +20,24 @@ import User from "../../images/images.png"
     const currentLang = i18n.language || 'en';
     const isEnglish = currentLang === 'en';
     const [activeTab, setActiveTab] = useState('journey');
-  const [selectedLeader, setSelectedLeader] = useState<any>(null);
+  const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
   const [pendingTargetTab, setPendingTargetTab] = useState<string | null>(null);
   const { data } = useAdminAuth();
   const [currentJourneyHeading, setCurrentJourneyHeading] = useState('');
+  
+  // Helper function to convert relative image paths to full URLs
+  const getImageUrl = (imagePath: string | undefined | null): string => {
+    if (!imagePath) return User;
+    // If already a full URL (starts with http), return as is
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    // If relative path, prepend API base URL
+    if (imagePath.startsWith('/')) {
+      return `https://refexlifesciences.com${imagePath}`;
+    }
+    return imagePath;
+  };
   
   // Update journey heading when language changes
   useEffect(() => {
@@ -54,9 +68,12 @@ import User from "../../images/images.png"
         const res = await fetch('/api/cms/about');
         if (res.ok) {
           const json = await res.json();
-          setAboutApi(json.data || json);
+          // Handle different response structures
+          const apiData = json.data || json;
+          setAboutApi(apiData);
         }
-      } catch (_) {
+      } catch (error) {
+        console.error('Error loading about data:', error);
         // Keep fallback data if API fails
       } finally {
         setIsLoading(false);
@@ -151,28 +168,95 @@ import User from "../../images/images.png"
   // Note: we highlight tabs on scroll; clicking the tab buttons uses scrollToSection below
 
   const closePopup = () => {
-    setSelectedLeader(null);
+    setSelectedLeaderId(null);
   };
 
 
-   // Get leadership data from API
-  const AdvisoryBoard = (aboutApi as any)?.leadership?.filter((leader: any) => 
-    leader.category === 'Advisory Board' && leader.isActive
-  ) || data.leadership?.filter(leader => 
-    leader.category === 'Advisory Board' && leader.isActive
-  ) || [];
+   // Helper function to get translated leadership data
+  const getTranslatedLeader = useCallback((leader: any) => {
+    if (isEnglish) {
+      return {
+        ...leader,
+        image: getImageUrl(leader.image),
+        name: leader.name,
+        position: leader.position,
+        description: leader.description,
+        experience: leader.experience,
+        education: leader.education
+      };
+    }
+    
+    // For non-English: try to get translations, fallback to API data
+    const leaderKey = `leader${leader.id}`;
+    return {
+      ...leader,
+      image: getImageUrl(leader.image),
+      name: t(`${leaderKey}Name`) || leader.name,
+      position: t(`${leaderKey}Position`) || leader.position,
+      description: t(`${leaderKey}Description`) || leader.description,
+      experience: t(`${leaderKey}Experience`) || leader.experience,
+      education: t(`${leaderKey}Education`) || leader.education
+    };
+  }, [isEnglish, t, i18n.language]);
 
-  const ManagementTeam = (aboutApi as any)?.leadership?.filter((leader: any) => 
-    leader.category === 'Management Team' && leader.isActive
-  ) || data.leadership?.filter(leader => 
-    leader.category === 'Management Team' && leader.isActive
-  ) || [];
+  // Get leadership data from API with language support and image URL conversion
+  const AdvisoryBoard = useMemo(() => {
+    // Try multiple possible data structures
+    const leadershipData = (aboutApi as any)?.leadership || 
+                          (aboutApi as any)?.data?.leadership || 
+                          (data as any)?.leadership || 
+                          (data as any)?.data?.leadership || 
+                          [];
+    const apiLeaders = Array.isArray(leadershipData) ? leadershipData.filter((leader: any) => 
+      leader && leader.category === 'Advisory Board' && leader.isActive !== false
+    ) : [];
+    
+    return apiLeaders
+      .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+      .map((leader: any) => getTranslatedLeader(leader));
+  }, [aboutApi, data, getTranslatedLeader, i18n.language]);
 
-  const TechnicalLeaders = (aboutApi as any)?.leadership?.filter((leader: any) => 
-    leader.category === 'Technical Leadership Team' && leader.isActive
-  ) || data.leadership?.filter(leader => 
-    leader.category === 'Technical Leadership Team' && leader.isActive
-  ) || [];
+  const ManagementTeam = useMemo(() => {
+    // Try multiple possible data structures
+    const leadershipData = (aboutApi as any)?.leadership || 
+                          (aboutApi as any)?.data?.leadership || 
+                          (data as any)?.leadership || 
+                          (data as any)?.data?.leadership || 
+                          [];
+    const apiLeaders = Array.isArray(leadershipData) ? leadershipData.filter((leader: any) => 
+      leader && leader.category === 'Management Team' && leader.isActive !== false
+    ) : [];
+    
+    return apiLeaders
+      .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+      .map((leader: any) => getTranslatedLeader(leader));
+  }, [aboutApi, data, getTranslatedLeader, i18n.language]);
+
+  const TechnicalLeaders = useMemo(() => {
+    // Try multiple possible data structures
+    const leadershipData = (aboutApi as any)?.leadership || 
+                          (aboutApi as any)?.data?.leadership || 
+                          (data as any)?.leadership || 
+                          (data as any)?.data?.leadership || 
+                          [];
+    const apiLeaders = Array.isArray(leadershipData) ? leadershipData.filter((leader: any) => 
+      leader && leader.category === 'Technical Leadership Team' && leader.isActive !== false
+    ) : [];
+    
+    return apiLeaders
+      .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+      .map((leader: any) => getTranslatedLeader(leader));
+  }, [aboutApi, data, getTranslatedLeader, i18n.language]);
+
+  // Get current selected leader with translations (must be after leadership arrays are defined)
+  const selectedLeader = useMemo(() => {
+    if (!selectedLeaderId) return null;
+    
+    // Find leader in any of the leadership arrays
+    const allLeaders = [...AdvisoryBoard, ...ManagementTeam, ...TechnicalLeaders];
+    const leader = allLeaders.find((l: any) => l.id === selectedLeaderId);
+    return leader || null;
+  }, [selectedLeaderId, AdvisoryBoard, ManagementTeam, TechnicalLeaders, i18n.language]);
 
   const getColorClasses = (color: string) => {
     const colorMap = {
@@ -780,14 +864,17 @@ import User from "../../images/images.png"
 
       <div className="flex flex-wrap justify-center  gap-8 items-center mb-2">
         {
-          ManagementTeam
-                        .map((leader: any, index: number) => {
+          isLoading ? (
+            <div className="text-center py-8 text-gray-500">
+              <p>{t("loadingContent")}</p>
+            </div>
+          ) : ManagementTeam.length > 0 ? ManagementTeam.map((leader: any, index: number) => {
             const colors = getColorClasses(leader.color);
             return (
               <div
                 key={leader.id}
                 className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                onClick={() => setSelectedLeader(leader)}
+                onClick={() => setSelectedLeaderId(leader.id)}
                 data-aos="zoom-in"
                 data-aos-duration="800"
                 data-aos-delay={index * 100}
@@ -795,15 +882,15 @@ import User from "../../images/images.png"
                 <div
                   className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
                 >
-                  <img
-                    src={leader.image || User}
-                    alt={leader.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      // Fallback to default image if the image fails to load
-                      e.currentTarget.src = User;
-                    }}
-                  />
+                    <img
+                      src={getImageUrl(leader.image)}
+                      alt={leader.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        // Fallback to default image if the image fails to load
+                        e.currentTarget.src = User;
+                      }}
+                    />
                 </div>
 
                 {/* Always Visible Name and Position */}
@@ -819,7 +906,8 @@ import User from "../../images/images.png"
                 </div>
               </div>
             );
-          })}
+          }) : null
+        }
       </div>
 
    
@@ -834,20 +922,19 @@ import User from "../../images/images.png"
      
 
       {/* Advisory Board */}
-      <div className="mb-16 mt-2">
-        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Advisory Board
-        </h3>
-        <div className="flex flex-wrap justify-center gap-8 items-center">
-          {AdvisoryBoard
-            
-                        .map((leader: any, index: number) => {
+      {AdvisoryBoard.length > 0 && (
+        <div className="mb-16 mt-2">
+          <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
+            Advisory Board
+          </h3>
+          <div className="flex flex-wrap justify-center gap-8 items-center">
+            {AdvisoryBoard.map((leader: any, index: number) => {
               const colors = getColorClasses(leader.color);
               return (
                 <div
                   key={leader.id}
                   className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
-                  onClick={() => setSelectedLeader(leader)}
+                  onClick={() => setSelectedLeaderId(leader.id)}
                   data-aos="zoom-in"
                   data-aos-duration="800"
                   data-aos-delay={index * 100}
@@ -856,9 +943,12 @@ import User from "../../images/images.png"
                     className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
                   >
                     <img
-                      src={leader.image || User}
+                      src={getImageUrl(leader.image)}
                       alt={leader.name}
                       className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = User;
+                      }}
                     />
                   </div>
 
@@ -876,12 +966,58 @@ import User from "../../images/images.png"
                 </div>
               );
             })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Technical Leadership Team */}
-   
+      {TechnicalLeaders.length > 0 && (
+        <div className="mb-16 mt-2">
+          <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
+            Technical Leadership Team
+          </h3>
+          <div className="flex flex-wrap justify-center gap-8 items-center">
+            {TechnicalLeaders.map((leader: any, index: number) => {
+              const colors = getColorClasses(leader.color);
+              return (
+                <div
+                  key={leader.id}
+                  className="group relative cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-translate-y-4 flex flex-col items-center"
+                  onClick={() => setSelectedLeaderId(leader.id)}
+                  data-aos="zoom-in"
+                  data-aos-duration="800"
+                  data-aos-delay={index * 100}
+                >
+                  <div
+                    className={`w-40 h-40 rounded-full overflow-hidden shadow-2xl border-4 border-white ${colors.border} group-hover:shadow-3xl transition-all duration-500`}
+                  >
+                    <img
+                      src={getImageUrl(leader.image)}
+                      alt={leader.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = User;
+                      }}
+                    />
+                  </div>
 
+                  {/* Always Visible Name and Position */}
+                  <div className="mt-4 text-center">
+                    <p className="text-sm font-bold text-gray-800 font-montserrat leading-tight">
+                      {leader.name}
+                    </p>
+                    <p
+                      className={`text-xs text-gray-500 font-semibold font-montserrat mt-1 leading-tight`}
+                    >
+                      {leader.position}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
      
     </div>
   </section>
@@ -931,9 +1067,12 @@ import User from "../../images/images.png"
                     <div className="relative z-10 flex items-center gap-6">
                       <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-xl">
                         <img
-                          src={selectedLeader.image}
+                          src={getImageUrl(selectedLeader.image)}
                           alt={selectedLeader.name}
                           className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            e.currentTarget.src = User;
+                          }}
                         />
                       </div>
                       <div>

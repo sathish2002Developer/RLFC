@@ -33,5 +33,146 @@ export default {
   managementTeam: "管理团队",
   toKnowMore: "了解更多",
   footerJourneyText: "Refex的卓越之旅始于二十年前，以学习、韧性和敏捷性为指导。从制冷剂气体到可再生能源、医疗技术、绿色出行、机场、制药以及灰渣利用和煤炭处理，我们已多方面扩展了我们的视野。",
+  
+  // Leadership Translations - Advisory Board
+  leader1Name: "Dr. Brian Tempest",
+  leader1Position: "顾问",
+  leader1Description: "Dr. Brian Tempest在全球制药行业拥有超过45年的领导经验，曾担任包括Ranbaxy首席执行官在内的高级职位，在塑造其国际影响力方面发挥了关键作用。以其战略远见和对全球市场的深刻理解而闻名，他在治理、战略和行业转型方面为董事会和股东提供专业指导。 </br> </br> 今天，他作为值得信赖的顾问为全球领先的制药组织服务，被公认为推动整个行业变革和创新的思想领袖。",
+  leader1Experience: "45+ 年",
+  leader1Education: "制药领导力",
+  
+  leader2Name: "K. Raghavendra Rao",
+  leader2Position: "顾问",
+  leader2Description: "Dr. K. Raghavendra Rao在制药行业拥有超过45年的经验，以其强大的商业敏锐度和创业愿景而著称。成本会计师、公司秘书、B.Com毕业生，以及IIM Ahmedabad的MBA。 </br> </br> 他创立了Orchid Pharma，并在将其从成立之初建设成为全球受人尊敬的公司方面发挥了重要作用。凭借在产品选择、创新和战略方向方面的深厚专业知识，他持续推动增长和竞争力。作为关键行业影响者，他继续通过其领导力和洞察力塑造制药行业的演变。",
+  leader2Experience: "40+ 年",
+  leader2Education: "B.Com + MBA (IIM Ahmedabad)",
+  
+  // Leadership Translations - Technical Leadership Team
+  leader3Name: "Rajesh Naik",
+  leader3Position: "执行董事 – 运营, RLFC",
+  leader3Description: "Rajesh Naik先生是一位经验丰富的制药运营领导者，在领先组织拥有超过26年的经验，包括Dr. Reddy's Laboratories、GSK、Daiichi Sankyo（前Daiichi-Ranbaxy）、Piramal Enterprises、Teva、Biocon和Zydus Life Sciences。奥兰加巴德Jawaharlal Nehru工程学院的化学工程毕业生，以及印度管理学院科泽科德的执行商业管理课程（CXO）。 </br> </br>\n 他在技术商业运营方面带来深厚的专业知识，涵盖制造、供应链管理、工程和项目、EHS、新产品开发项目管理、运营卓越和技术服务（工艺工程）。Rajesh在推动多个站点的运营效率、合规性和可持续制造实践方面发挥了关键作用。他向董事总经理兼首席执行官汇报，并领导一个结构化团队，包括生产、技术服务、仓库和PPIC职能，确保交付管理、监管合规和盈利能力的卓越。\n",
+  leader3Experience: "26+ 年",
+  leader3Education: "技术运营",
+  
+  leader4Name: "Dr. Ramasubramanian S",
+  leader4Position: "研发负责人, RLFC",
+  leader4Description: "Dr. Ramasubramanian Shanmuganathan是一位成就卓著的制药研发领导者，在领先组织拥有超过29年的经验，包括AstraZeneca、Syngene、Cadila Pharma、Jubilant Chemsys、Innovassynth Technologies、Recon、Sanmar Speciality Chemicals、Piramal Healthcare和Sai Advantium。 </br> </br> 他拥有哥印拜陀Bharathiar大学的化学博士学位，在推动创新、管道开发和研究卓越方面带来深厚的科学专业知识。在他的职业生涯中，Dr. Ramasubramanian在推进研发能力、促进科学创新、运营卓越以及为制药行业强大产品管道的增长做出贡献方面发挥了关键作用。",
+  leader4Experience: "29+ 年",
+  leader4Education: "博士，制药科学",
+  
+  leader5Name: "Mathijs Steegstra",
+  leader5Position: "全球科学事务负责人, Extrovis",
+  leader5Description: "Mathijs Steegstra在制药行业工作了20多年，始终担任质量和监管角色，覆盖美国、欧洲和MENA。在创新者和仿制药方面都有经验，他为新成立的公司建立了RA基础设施，并为已建立的公司进行了优化。 </br> </br>\n\n他获得了多种类型产品的多个营销授权批准，从NCE到重新用途的分子到复杂仿制药。他负责多个站点的质量，包括无菌生产站点，并处理了多个站点的修复项目。他来自荷兰，在格罗宁根大学学习药学，拥有药剂师学位，专攻分子药理学。",
+  leader5Experience: "20+ 年",
+  leader5Education: "药学毕业生，格罗宁根",
+  
+  // Leadership Translations - Management Team
+  leader7Name: "Anil Jain",
+  leader7Position: "董事长兼董事总经理 – Refex Group",
+  leader7Description: "Anil Jain是Refex Group的董事总经理。自童年起就天生具有进取心和冒险精神，商业对Anil来说很自然。在17岁时，Anil开始在他家族的不锈钢贸易业务中花费时间。他对识别机会的热情使他在与大型空调制造商的会面中进入了制冷剂气体领域。2002年，他奠定了建立第一家制冷剂气体充装厂的基础，名称为Refex Refrigerants Limited（现为Refex Industries Limited）。从那时起，就没有回头路了！Anil缓慢而稳定地扩展了他的商业视野，Refex进入了各种商业领域，如可再生能源、灰渣和煤炭、制药、风险投资、机场运输、医疗技术、绿色出行和电力交易。</br></br>\n在他的旅程中，Anil一直是许多企业家的导师。他希望能够指导更多的初创公司，并为他们提供成功所需的资源和平台。他成功创建了许多这样的企业家。</br></br>\nAnil强烈致力于可持续发展，并确保Refex的商业模式反映相同的理念。对于所有这些以及更多，Anil赢得了多项行业荣誉，如'泰米尔纳德邦开拓者'、Times Group的'年轻企业家'、来自英国的Stevie奖、Dun & Bradstreet Top 100中小企业奖等。在他领导下的Refex Group已被GPTW连续2年认证为'最佳工作场所'。\n",
+  leader7Experience: "40+ 年",
+  leader7Education: "创业领导力",
+  
+  leader8Name: "Dinesh Agarwal",
+  leader8Position: "集团首席执行官 – Refex Group",
+  leader8Description: "Dinesh Kumar Agarwal先生在不同商业领域拥有精炼的创业技能，为他的所有商业努力贡献了一致的成功。自2014年以来，他的专业知识，结合他对发展公司业务的热情和热忱，加速了我们的增长轨迹。 </br> </br> Dinesh先生在数字方面的敏锐促进了多个业务的增长，而他在企业财务方面的专业知识，涵盖审计、财务会计和规划、税务和筹款，已帮助为他的客户筹集了超过₹ 5,000 Crores。他曾与Aircel和Brisk等知名组织合作，并在太阳能EPC细分市场和公用事业规模项目方面拥有多样化经验。他还曾为初创公司、中小企业、已建立的企业集团和国际非政府组织担任顾问，并因其对管理流和相关领域的贡献而赢得了多项行业认可",
+  leader8Experience: "20+ 年",
+  leader8Education: "特许会计师",
+  
+  leader9Name: "Hanumantha Rao Kamma",
+  leader9Position: "首席执行官 – RLS",
+  leader9Description: "Hanumanth Rao Kamma（Hans）拥有印度本地治里中央大学的国际管理硕士学位。他将对行业趋势和投资组合策略的深入了解与庞大的专业网络相结合。在他在瑞士Extrovis的角色之前，Hanumantha在Amneal、Ranbaxy和Dr. Reddy's的战略采购、投资组合管理和战略业务发展领域担任了各种管理职位。",
+  leader9Experience: "23+ 年",
+  leader9Education: "国际管理硕士",
+  
+  leader10Name: "Sharat Narasapur",
+  leader10Position: "首席执行官 – RLFC",
+  leader10Description: " Sharat Narasapur是一位经验丰富的领导者，在化学、农用化学品和制药行业拥有超过35年的经验。作为R L Fine Chem Pvt. Ltd.的董事总经理兼首席执行官，他带来深厚的技术专业知识、战略愿景和推动创新和运营卓越的实践方法。</br> </br>\n孟买化学技术学院和IIM加尔各答商业领袖计划的校友，Sharat在技术转移、GMP合规、监管事务、工艺工程和业务发展方面领导了关键职能。</br> </br>\n他在Dr. Reddy's Laboratories、Sequent Scientific、Aurobindo Pharma和Alivira Animal Health的领导角色反映了他管理复杂项目、优化流程和建立高绩效团队的成熟能力。</br> </br>\nSharat继续在制药行业倡导可持续增长和创新，并担任Alivira Animal Health Ltd.的非执行董事。",
+  leader10Experience: "25+ 年",
+  leader10Education: "化学与制药领导力",
+  
+  leader11Name: "Dr. Janos Vaczi",
+  leader11Position: "首席执行官 - Extrovis",
+  leader11Description: "Janos带来了来自跨国公司的数十年领导经验。在加入瑞士Extrovis之前，Janos在总部位于瑞士的Amneal、Alliance Healthcare（现为Walgreens Boots Alliance的一部分）、Ratiopharm（现为Teva Group的一部分）和Sanofi担任了各种一般管理和P&L职责。Janos拥有匈牙利塞格德Szent-Györgyi Albert医科大学的Summa Cum Laude学位。",
+  leader11Experience: "25+ 年",
+  leader11Education: "医学博士，匈牙利",
+  
+  leader12Name: "Amit Shrivastava",
+  leader12Position: "首席营销官 – RLFC",
+  leader12Description: "Amit Shrivastava是一位经验丰富的制药营销领导者，在全球业务发展和战略营销方面拥有超过25年的经验。他曾在Zenfold Sustainable Technologies、Smilax Laboratories、Sun Pharma和Biocon等组织担任领导职务，在那里他领导了全球的营销运营。Amit在市场分析、战略规划和制药销售方面拥有强大的背景。 </br> </br> 他拥有MBA学位，并完成了哈佛商学院的创业基础证书。Amit位于印度班加罗尔，继续推动制药行业的增长和创新。",
+  leader12Experience: "20+ 年",
+  leader12Education: "营销与商业策略",
+  
+  leader13Name: "PV Raghavendra Rao",
+  leader13Position: "首席财务官 – RLS",
+  leader13Description: "Raghav是一位成就卓著的特许会计师和财务领导者，在财务管理方面拥有约25年的经验。他的专业知识涵盖会计、财务规划、预算、转让定价、税务、成本核算和资金管理，包括现金流管理、对冲和从银行获得资金。</br></br>\n\nRaghav曾担任突出的财务领导职位，如Sequent Scientific Limited、Macleods Pharmaceuticals Ltd和Solara Active Pharma Sciences的首席财务官。他通过在Dr. Reddy's Laboratories的各种角色获得了大量的业务财务专业知识。</br></br>\n\nRaghav对战略制定和实施有深刻的理解。在他的职业生涯中，Raghav作为顾问和咨询师做出了贡献，在财务指导委员会、业务领导委员会和联合指导委员会中发挥了关键作用。 ",
+  leader13Experience: "25+ 年",
+  leader13Education: "CA，Goldratt Master Executive Certificate",
+  
+  leader14Name: "Srinivasan Pagadala",
+  leader14Position: "首席人力资源官 – RLS",
+  leader14Description: "Srini在制药和医疗保健行业的人力资源管理方面拥有超过25年的丰富经验。他专门从事业务HR、变革领导和转型、人才管理和员工关系。在他的职业生涯中，他曾在Dr. Reddy's、Novartis、GVK Bio和Biological E等顶级制药组织担任各种HR高级和负责任职位。在他在Extrovis的当前角色之前，Srini在Solara Active Pharma领导了HR职能。",
+  leader14Experience: "25+ 年",
+  leader14Education: "人力资源与组织发展",
+  
+  leader15Name: "Rajesh Naik",
+  leader15Position: "执行董事 – 运营, RLFC",
+  leader15Description: "Rajesh Naik先生是一位经验丰富的制药运营领导者，在领先组织拥有超过26年的经验，包括Dr. Reddy's Laboratories、GSK、Daiichi Sankyo（前Daiichi-Ranbaxy）、Piramal Enterprises、Teva、Biocon和Zydus Life Sciences。奥兰加巴德Jawaharlal Nehru工程学院的化学工程毕业生，以及印度管理学院科泽科德的执行商业管理课程（CXO）。 </br> </br>\n 他在技术商业运营方面带来深厚的专业知识，涵盖制造、供应链管理、工程和项目、EHS、新产品开发项目管理、运营卓越和技术服务（工艺工程）。Rajesh在推动多个站点的运营效率、合规性和可持续制造实践方面发挥了关键作用。他向董事总经理兼首席执行官汇报，并领导一个结构化团队，包括生产、技术服务、仓库和PPIC职能，确保交付管理、监管合规和盈利能力的卓越。\n",
+  leader15Experience: "26+ 年",
+  leader15Education: "",
+  
+  leader16Name: "Dr. Ramasubramanian S",
+  leader16Position: "研发负责人 – RLFC",
+  leader16Description: "Dr. Ramasubramanian Shanmuganathan是一位成就卓著的制药研发领导者，在领先组织拥有超过29年的经验，包括AstraZeneca、Syngene、Cadila Pharma、Jubilant Chemsys、Innovassynth Technologies、Recon、Sanmar Speciality Chemicals、Piramal Healthcare和Sai Advantium。 </br> </br> 他拥有哥印拜陀Bharathiar大学的化学博士学位，在推动创新、管道开发和研究卓越方面带来深厚的科学专业知识。在他的职业生涯中，Dr. Ramasubramanian在推进研发能力、促进科学创新、运营卓越以及为制药行业强大产品管道的增长做出贡献方面发挥了关键作用。",
+  leader16Experience: "29+ 年",
+  leader16Education: "博士，制药科学",
+  
+  leader17Name: "Mathijs Steegstra",
+  leader17Position: "全球科学事务负责人, Extrovis",
+  leader17Description: "Mathijs Steegstra在制药行业工作了20多年，始终担任质量和监管角色，覆盖美国、欧洲和MENA。在创新者和仿制药方面都有经验，他为新成立的公司建立了RA基础设施，并为已建立的公司进行了优化。 </br> </br>\n\n他获得了多种类型产品的多个营销授权批准，从NCE到重新用途的分子到复杂仿制药。他负责多个站点的质量，包括无菌生产站点，并处理了多个站点的修复项目。他来自荷兰，在格罗宁根大学学习药学，拥有药剂师学位，专攻分子药理学。",
+  leader17Experience: "20+ 年",
+  leader17Education: "药学毕业生，格罗宁根",
+  
+  leader18Name: "Amit Tiwari",
+  leader18Position: "首席营销官 – Extrovis",
+  leader18Description: "-",
+  leader18Experience: "",
+  leader18Education: "",
+  
+  leader19Name: "Danny Cracchiolo",
+  leader19Position: "站点负责人 - Kavis Pharma",
+  leader19Description: "Danny Cracchiolo是Kavis Pharma位于德克萨斯州Sugar Land的制造工厂的总经理，在那里他监督站点运营的所有方面，包括制造、质量、监管合规、供应链、工程和财务绩效。在制药行业拥有超过25年的经验，Danny在无菌、非无菌、专业和复杂产品平台方面领导了团队。 </br> </br>\n\nDanny的职业生涯始于Parkedale（King）Pharmaceuticals，在那里他支持质量运营和技术流程。他后来在JHP Pharmaceuticals和DPT Laboratories通过制造领导角色晋升，在GMP制造、复合、技术转移和运营卓越方面获得了广泛的专业知识。在DPT担任多个运营领导角色后，Danny晋升为Sugar Land工厂的运营总监。在站点过渡到Kavis Pharma后，Danny被任命为总经理，在新公司结构下继续领导站点运营。 </br> </br>\n\nDanny获得了奥克兰大学的生物化学理学学士学位。他以其在FDA、OSHA和EPA监管要求、精益制造、变革管理和组织发展方面的丰富经验而闻名。他的领导风格专注于建立高绩效团队、加强问责制和推动持续改进。Danny致力于确保Sugar Land工厂始终以可靠性、效率和强大的合规文化提供高质量的制药产品。\n",
+  leader19Experience: "",
+  leader19Education: "",
+  
+  leader20Name: "Andrea Gazzaneo ",
+  leader20Position: "全球MSAT负责人 - Latina Pharma",
+  leader20Description: "Andrea Gazzaneo在研发和生产方面拥有超过25年的经验，在意大利（Italfarmaco和Fidia Farmaceutici）和国际制药公司（Novartis、Pfizer、Corden Pharma）获得，涉及制药化学（API、光学活性API、无菌和冻干API、抗生素、疫苗、HPD）、技术转移（化学和制药领域）、工艺放大、各种制药形式的制造和包装（颗粒和口服固体（无菌和非无菌）、抗生素、疫苗（散装产品和成品剂型）、HPD、冻干产品、液体、固体、半固体形式的注射产品；纱布（无菌和非无菌）、软膏（无菌和非无菌）、乳膏（无菌和非无菌）、凝胶（无菌和非无菌）；预充式注射器、无菌单剂量眼药水、无菌多剂量眼药水、兽用药物、医疗器械）。",
+  leader20Experience: "",
+  leader20Education: "",
+  
+  leader21Name: "Krisztián Varga",
+  leader21Position: "站点负责人 – Pharma Pack",
+  leader21Description: "Krisztián在汽车、电子、化学和定制制造行业拥有超过二十年的领导经验。拥有机械工程、经济学学位和MBA，他的职业生涯建立在领导复杂项目、塑造和重组组织以及推动基于精益的运营卓越之上。他的背景包括管理生产单位、推动端到端流程改进，以及领导小型运营和办公室团队以及大型国际制造部门。 </br> </br>\n\n他于2020年加入Pharma Pack Hungary Kft.，明确授权建立一个符合GDP/GMP、灵活且长期可持续的制药组织。从那时起，他通过积极参与国内和国际GDP/GMP审计、当局检查和建立新制造站点，加强了他在制药方面的专业知识，他继续扩展和优化该站点。",
+  leader21Experience: "",
+  leader21Education: "",
+  
+  leader22Name: "Dr. Suryanarayana Regulagadda",
+  leader22Position: "全球分析科学负责人 - Extrovis",
+  leader22Description: "Dr. Suryanarayana Regulagadda在制药行业的分析研究与开发方面拥有超过二十年的经验。他的专业知识涵盖广泛的肽和复杂分子，优化实验室运营，确保稳健的方法开发和验证，并在监管框架内率先采用技术，满足USFDA、MHRA和ENVISA在API和制剂方面的发展。Surya是化学研究生——他曾与Eugia Pharma、Alembic、Dr Reddy's、Concord Laboratories、美国的Qualitest Pharmaceuticals合作。在Extrovis，Surya领导集团的分析开发和服务组合。",
+  leader22Experience: "",
+  leader22Education: "",
+  
+  leader23Name: "Maharshi Maitra",
+  leader23Position: "COS - Refex Group",
+  leader23Description: "-",
+  leader23Experience: "",
+  leader23Education: "",
+  
+  leader24Name: "Dr. Mallikarjuna Rao",
+  leader24Position: "负责人 – 印度运营, Extrovis",
+  leader24Description: "-",
+  leader24Experience: "",
+  leader24Education: "",
 };
 

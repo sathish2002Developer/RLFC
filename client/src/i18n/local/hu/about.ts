@@ -33,5 +33,146 @@ export default {
   managementTeam: "Vezetőségi csapat",
   toKnowMore: "További információ",
   footerJourneyText: "A Refex kiválósági útja két évtizede kezdődött, tanulás, ellenállóképesség és agilitás vezetésével. Hűtőközegektől a megújuló energiákig, MedTech, zöld mobilitás, repülőterek, gyógyszerek és hamu hasznosítás és szénkezelés, többszörösen bővítettük horizontjainkat.",
+  
+  // Leadership Translations - Advisory Board
+  leader1Name: "Dr. Brian Tempest",
+  leader1Position: "Tanácsadó",
+  leader1Description: "Dr. Brian Tempest több mint 45 év vezetői tapasztalattal rendelkezik a globális gyógyszeriparban, ahol vezető pozíciókat töltött be, köztük a Ranbaxy vezérigazgatójaként, ahol kulcsfontosságú szerepet játszott nemzetközi jelenlétének kialakításában. Stratégiai előrelátása és a globális piacok mély megértése révén ismert, a társaságok és részvényesek irányításában jártas a kormányzás, stratégia és ipari átalakítás terén. </br> </br> Ma a világ vezető gyógyszeripari szervezeteinek megbízható tanácsadójaként szolgál, gondolkodó vezetőként ismert, aki változást és innovációt hajt előre az egész ágazatban.",
+  leader1Experience: "45+ Év",
+  leader1Education: "Gyógyszeripari Vezetés",
+  
+  leader2Name: "K. Raghavendra Rao",
+  leader2Position: "Tanácsadó",
+  leader2Description: "Dr. K. Raghavendra Rao több mint 45 év tapasztalattal rendelkezik a gyógyszeriparban, erős üzleti érzékkel és vállalkozói látomással. Költségkönyvelő, Társasági Titkár, B.Com végzett, és MBA az IIM Ahmedabad-ból. </br> </br> Ő alapította az Orchid Pharma-t és kulcsfontosságú szerepet játszott abban, hogy a kezdetektől egy globálisan elismert vállalattá építse. Mély szakértelemmel rendelkezik a termékválasztás, innováció és stratégiai irányítás terén, és következetesen előmozdította a növekedést és versenyképességet. Kulcsfontosságú ipari befolyásolóként folytatja a gyógyszeripari szektor evolúciójának alakítását vezetésével és betekintéseivel.",
+  leader2Experience: "40+ Év",
+  leader2Education: "B.Com + MBA (IIM Ahmedabad)",
+  
+  // Leadership Translations - Technical Leadership Team
+  leader3Name: "Rajesh Naik",
+  leader3Position: "ED – Műveletek, RLFC",
+  leader3Description: "Rajesh Naik úr tapasztalt gyógyszeripari műveleti vezető, több mint 26 év tapasztalattal vezető szervezetekben, köztük a Dr. Reddy's Laboratories, GSK, Daiichi Sankyo (korábban Daiichi-Ranbaxy), Piramal Enterprises, Teva, Biocon és Zydus Life Sciences. Vegyészmérnöki végzettség a Jawaharlal Nehru Engineering College-ból, Aurangabad, és egy vezetői üzleti menedzsment program (CXO) - Indian Institute of Management Kozhikode. </br> </br>\n Mély szakértelemmel rendelkezik a techno-kereskedelmi műveletekben, amelyek magukban foglalják a gyártást, ellátási lánc menedzsmentet, mérnöki munkát és projekteket, EHS-t, új termékfejlesztési projektmenedzsmentet, működési kiválóságot és műszaki szolgáltatásokat (folyamatmérnöki munkát). Rajesh kulcsfontosságú szerepet játszott a működési hatékonyság, megfelelőség és fenntartható gyártási gyakorlatok előmozdításában több helyszínen. A vezérigazgatónak és CEO-nak jelent, és egy strukturált csapatot vezet, amely magában foglalja a termelést, műszaki szolgáltatásokat, raktárt és PPIC funkciókat, biztosítva a szállítási menedzsment, szabályozási megfelelőség és jövedelmezőség kiválóságát.\n",
+  leader3Experience: "26+ Év",
+  leader3Education: "Műszaki Műveletek",
+  
+  leader4Name: "Dr. Ramasubramanian S",
+  leader4Position: "K&F Vezető, RLFC",
+  leader4Description: "Dr. Ramasubramanian Shanmuganathan elismert gyógyszeripari K&F vezető, több mint 29 év tapasztalattal vezető szervezetekben, köztük az AstraZeneca, Syngene, Cadila Pharma, Jubilant Chemsys, Innovassynth Technologies, Recon, Sanmar Speciality Chemicals, Piramal Healthcare és Sai Advantium. </br> </br> Kémia PhD-t szerzett a Bharathiar University-n, Coimbatore, és mély tudományos szakértelemmel rendelkezik az innováció, pipeline fejlesztés és kutatási kiválóság előmozdításában. Karrierje során Dr. Ramasubramanian kulcsfontosságú szerepet játszott a K&F képességek fejlesztésében, tudományos innováció előmozdításában, működési kiválóságban és a robusztus termék pipeline-ek növekedéséhez való hozzájárulásban a gyógyszeripari szektorban.",
+  leader4Experience: "29+ Év",
+  leader4Education: "PhD, Gyógyszeripari Tudományok",
+  
+  leader5Name: "Mathijs Steegstra",
+  leader5Position: "Globális Tudományos Ügyek Vezetője, Extrovis",
+  leader5Description: "Mathijs Steegstra több mint 20 évet dolgozott a gyógyszeriparban, mindig Minőség és Szabályozási szerepkörökben, amelyek lefedik az USA-t, Európát és a MENA-t. Tapasztalattal mind az innovátorok, mind a generikusok terén, RA infrastruktúrákat állított fel újonnan alakult vállalatok számára és optimalizálta őket bevált vállalatok számára. </br> </br>\n\nTöbb Piactérjesztési Engedélyt szerzett különböző típusú termékekhez, NCE-kről újracélzott molekulákig komplex generikusokig. Felelős volt több helyszín minőségéért, köztük steril termelési helyszínekért, és kezelt helyreállítási projekteket több helyszín számára. Eredetileg Hollandiából, gyógyszerészetet tanult a Groningeni Egyetemen, és gyógyszerész diplomát szerzett, molekuláris farmakológiára specializálódva.",
+  leader5Experience: "20+ Év",
+  leader5Education: "Gyógyszerész Végzett, Groningen",
+  
+  // Leadership Translations - Management Team
+  leader7Name: "Anil Jain",
+  leader7Position: "Elnök és Ügyvezető – Refex Group",
+  leader7Description: "Anil Jain a Refex Group ügyvezető igazgatója. Gyermekkora óta természeténél fogva vállalkozó és kalandvágyó, az üzlet természetes volt Anil számára. 17 éves korában Anil elkezdett időt tölteni családja rozsdamentes acél kereskedelmi üzletében. Szenvedélye a lehetőségek azonosítása iránt vezette őt a hűtőközeg gázok birodalmába, egy nagy légkondicionáló gyártóval való találkozás során. 2002-ben letette az alapkövet első hűtőközeg gáz újratöltő üzemének felállításához a Refex Refrigerants Limited (most Refex Industries Limited) neve alatt. Azóta nincs visszapillantás! Anil lassan és folyamatosan bővítette üzleti horizontját, és a Refex különböző üzleti területekbe merészkedett, mint a Megújuló Energia, Hamu és Szén, Farma, Kockázati Tőke, Repülőtéri Közlekedés, Orvostechnológia, Zöld Mobilitás és Áramkereskedelem.</br></br>\nÚtja során Anil sok vállalkozó mentora volt. Szerette volna, ha több start-up-ot tudna mentorni és megadni nekik a szükséges erőforrásokat és platformot a sikerhez. Sikeresen létrehozott sok ilyen vállalkozót.</br></br>\nAnil erősen elkötelezett a fenntarthatóság mellett, és biztosítja, hogy a Refex üzleti modellje ugyanazt az etoszt tükrözi. Mindezért és még sok másért Anil számos ipari elismerést nyert, mint a 'Tamil Nadu Úttörő', a Times Group 'Fiatal Vállalkozó', a Stevie Award az Egyesült Királyságból, a Dun & Bradstreet Top 100 KKV díj stb. A Refex Group az ő vezetése alatt 2 évig egymás után 'Nagyszerű Munkahely'-ként lett tanúsítva a GPTW által.\n",
+  leader7Experience: "40+ Év",
+  leader7Education: "Vállalkozói Vezetés",
+  
+  leader8Name: "Dinesh Agarwal",
+  leader8Position: "Csoport CEO – Refex Group",
+  leader8Description: "Dinesh Kumar Agarwal úr finomított vállalkozói képességekkel rendelkezik különböző üzleti területeken, hozzájárulva következetes sikerhez minden üzleti törekvésében. 2014 óta szakértelme, szenvedélye és lelkesedése a Vállalat üzletének növelésére felgyorsította növekedési pályánkat. </br> </br> Dinesh úr számokban való éleslátása elősegítette több vállalkozás növekedését, miközben szakértelme a Vállalati Pénzügyekben, amely magában foglalja az Auditot, Pénzügyi Könyvelést és Tervezést, Adót és Tőkegyűjtést, segített több mint ₹ 5,000 Crore összegyűjtésében ügyfelei számára. Dolgozott elismert szervezetekkel, mint az Aircel és a Brisk, és különböző tapasztalattal rendelkezik a Napenergia EPC szegmensekben és Közüzemi projektekben. Szolgált tanácsadóként start-up-oknak, KKV-knak, bevált Vállalati Házaknak és Nemzetközi NGO-knak, és számos ipari elismerést nyert hozzájárulásáért a menedzsment ágazatban és kapcsolódó területeken",
+  leader8Experience: "20+ Év",
+  leader8Education: "Könyvvizsgáló",
+  
+  leader9Name: "Hanumantha Rao Kamma",
+  leader9Position: "CEO – RLS",
+  leader9Description: "Hanumanth Rao Kamma (Hans) nemzetközi menedzsment mesterdiplomával rendelkezik a Pondicherry Central University-ból, India. Erős iparági trendek és portfólió stratégia ismeretét kombinálja egy hatalmas professzionális hálózattal. Az Extrovis Svájcban betöltött szerepe előtt Hanumantha különböző vezetői pozíciókat töltött be a stratégiai beszerzés, portfólió menedzsment és stratégiai üzletfejlesztés területein az Amneal, Ranbaxy és Dr. Reddy's-nél.",
+  leader9Experience: "23+ Év",
+  leader9Education: "Mester Nemzetközi Menedzsmentben",
+  
+  leader10Name: "Sharat Narasapur",
+  leader10Position: "CEO – RLFC",
+  leader10Description: " Sharat Narasapur tapasztalt vezető, több mint 35 év tapasztalattal a kémiai, mezőgazdasági kémiai és gyógyszeripari szektorokban. Mint az R L Fine Chem Pvt. Ltd. ügyvezető igazgatója és CEO-ja, mély műszaki szakértelemmel, stratégiai látomással és gyakorlati megközelítéssel rendelkezik az innováció és működési kiválóság előmozdításában.</br> </br>\nA Mumbai-i Kémiai Technológiai Intézet és a Kalkuttai IIM Üzleti Vezetők Programjának végzettje, Sharat kulcsfontosságú funkciókat vezetett a technológia transzferben, GMP megfelelőségben, szabályozási ügyekben, folyamatmérnöki munkában és üzletfejlesztésben.</br> </br>\nVezetői szerepei a Dr. Reddy's Laboratories, Sequent Scientific, Aurobindo Pharma és Alivira Animal Health-nél tükrözik bevált képességét komplex projektek kezelésében, folyamatok optimalizálásában és nagy teljesítményű csapatok építésében.</br> </br>\nSharat folytatja a fenntartható növekedés és innováció támogatását a gyógyszeriparban, és nem végrehajtó igazgatóként is szolgál az Alivira Animal Health Ltd-nél.",
+  leader10Experience: "25+ Év",
+  leader10Education: "Kémiai és Gyógyszeripari Vezetés",
+  
+  leader11Name: "Dr. Janos Vaczi",
+  leader11Position: "CEO - Extrovis",
+  leader11Description: "Janos évtizedek vezetői tapasztalatot hoz multinacionális vállalatokból. Mielőtt csatlakozott az Extrovis-hez Svájcban, Janos különböző általános menedzsment és P&L felelősségeket töltött be az Amneal-nél Svájcban, az Alliance Healthcare-nél (most a Walgreens Boots Alliance része), a Ratiopharm-nál (most a Teva Group része) és a Sanofi-nál. Janos Summa Cum Laude diplomát szerzett a Szegedi Szent-Györgyi Albert Orvostudományi Egyetemen, Magyarország.",
+  leader11Experience: "25+ Év",
+  leader11Education: "Orvos, Magyarország",
+  
+  leader12Name: "Amit Shrivastava",
+  leader12Position: "CMO – RLFC",
+  leader12Description: "Amit Shrivastava tapasztalt gyógyszeripari marketing vezető, több mint 25 év tapasztalattal a globális üzletfejlesztésben és stratégiai marketingben. Vezetői szerepeket töltött be olyan szervezeteknél, mint a Zenfold Sustainable Technologies, Smilax Laboratories, Sun Pharma és Biocon, ahol a marketing műveleteket vezette a világon. Amit erős háttérrel rendelkezik a piacanalízis, stratégiai tervezés és gyógyszeripari értékesítés terén. </br> </br> MBA diplomával rendelkezik, és elvégezte az Entrepreneurship Essential tanúsítványt a Harvard Business School-ban. Bangalore-ban, Indiában, Amit folytatja a növekedés és innováció előmozdítását a gyógyszeripari szektorban.",
+  leader12Experience: "20+ Év",
+  leader12Education: "Marketing és Üzleti Stratégia",
+  
+  leader13Name: "PV Raghavendra Rao",
+  leader13Position: "CFO – RLS",
+  leader13Description: "Raghav elismert könyvvizsgáló és pénzügyi vezető, körülbelül 25 év tapasztalattal a pénzügyi menedzsmentben. Szakértelme magában foglalja a könyvelést, pénzügyi tervezést, költségvetést, transzfer árazást, adózást, költségszámítást és kincstárkezelést, beleértve a cash flow menedzsmentet, hedginget és bankoktól való források biztosítását.</br></br>\n\nRaghav kiemelkedő pénzügyi vezetői pozíciókat töltött be, mint a Chief Financial Officer a Sequent Scientific Limited-nél, a Macleods Pharmaceuticals Ltd-nél és a Solara Active Pharma Sciences-nél. Jelentős üzleti pénzügyi szakértelmet szerzett különböző szerepkörökben a Dr. Reddy's Laboratories-nél.</br></br>\n\nRaghav mély megértéssel rendelkezik a stratégia fejlesztés és megvalósítás terén. Karrierje során Raghav tanácsadóként és konzulensként járult hozzá, kulcsfontosságú szerepeket játszva pénzügyi irányító bizottságokon, üzleti vezetői tanácsokon és közös irányító bizottságokon. ",
+  leader13Experience: "25+ Év",
+  leader13Education: "CA, Goldratt Master Executive Certificate",
+  
+  leader14Name: "Srinivasan Pagadala",
+  leader14Position: "CHRO – RLS",
+  leader14Description: "Srini több mint 25 év kiterjedt tapasztalattal rendelkezik az emberi erőforrások menedzsmentjében a Farma és Egészségügyi szektorokban. Szpecializálódik az Üzleti HR, Változás Vezetés és Átalakítás, Tehetség Menedzsment és Alkalmazotti Kapcsolatok terén. Karrierje során különböző HR vezetői és felelős pozíciókat töltött be vezető gyógyszeripari szervezeteknél, mint a Dr. Reddy's, Novartis, GVK Bio és Biological E. Jelenlegi szerepe előtt az Extrovis-nál, Srini vezette az HR funkciót a Solara Active Pharma-nál.",
+  leader14Experience: "25+ Év",
+  leader14Education: "HR és Szervezeti Fejlesztés",
+  
+  leader15Name: "Rajesh Naik",
+  leader15Position: "ED – Műveletek, RLFC",
+  leader15Description: "Rajesh Naik úr tapasztalt gyógyszeripari műveleti vezető, több mint 26 év tapasztalattal vezető szervezetekben, köztük a Dr. Reddy's Laboratories, GSK, Daiichi Sankyo (korábban Daiichi-Ranbaxy), Piramal Enterprises, Teva, Biocon és Zydus Life Sciences. Vegyészmérnöki végzettség a Jawaharlal Nehru Engineering College-ból, Aurangabad, és egy vezetői üzleti menedzsment program (CXO) - Indian Institute of Management Kozhikode. </br> </br>\n Mély szakértelemmel rendelkezik a techno-kereskedelmi műveletekben, amelyek magukban foglalják a gyártást, ellátási lánc menedzsmentet, mérnöki munkát és projekteket, EHS-t, új termékfejlesztési projektmenedzsmentet, működési kiválóságot és műszaki szolgáltatásokat (folyamatmérnöki munkát). Rajesh kulcsfontosságú szerepet játszott a működési hatékonyság, megfelelőség és fenntartható gyártási gyakorlatok előmozdításában több helyszínen. A vezérigazgatónak és CEO-nak jelent, és egy strukturált csapatot vezet, amely magában foglalja a termelést, műszaki szolgáltatásokat, raktárt és PPIC funkciókat, biztosítva a szállítási menedzsment, szabályozási megfelelőség és jövedelmezőség kiválóságát.\n",
+  leader15Experience: "26+ Év",
+  leader15Education: "",
+  
+  leader16Name: "Dr. Ramasubramanian S",
+  leader16Position: "K&F Vezető – RLFC",
+  leader16Description: "Dr. Ramasubramanian Shanmuganathan elismert gyógyszeripari K&F vezető, több mint 29 év tapasztalattal vezető szervezetekben, köztük az AstraZeneca, Syngene, Cadila Pharma, Jubilant Chemsys, Innovassynth Technologies, Recon, Sanmar Speciality Chemicals, Piramal Healthcare és Sai Advantium. </br> </br> Kémia PhD-t szerzett a Bharathiar University-n, Coimbatore, és mély tudományos szakértelemmel rendelkezik az innováció, pipeline fejlesztés és kutatási kiválóság előmozdításában. Karrierje során Dr. Ramasubramanian kulcsfontosságú szerepet játszott a K&F képességek fejlesztésében, tudományos innováció előmozdításában, működési kiválóságban és a robusztus termék pipeline-ek növekedéséhez való hozzájárulásban a gyógyszeripari szektorban.",
+  leader16Experience: "29+ Év",
+  leader16Education: "PhD, Gyógyszeripari Tudományok",
+  
+  leader17Name: "Mathijs Steegstra",
+  leader17Position: "Globális Tudományos Ügyek Vezetője, Extrovis",
+  leader17Description: "Mathijs Steegstra több mint 20 évet dolgozott a gyógyszeriparban, mindig Minőség és Szabályozási szerepkörökben, amelyek lefedik az USA-t, Európát és a MENA-t. Tapasztalattal mind az innovátorok, mind a generikusok terén, RA infrastruktúrákat állított fel újonnan alakult vállalatok számára és optimalizálta őket bevált vállalatok számára. </br> </br>\n\nTöbb Piactérjesztési Engedélyt szerzett különböző típusú termékekhez, NCE-kről újracélzott molekulákig komplex generikusokig. Felelős volt több helyszín minőségéért, köztük steril termelési helyszínekért, és kezelt helyreállítási projekteket több helyszín számára. Eredetileg Hollandiából, gyógyszerészetet tanult a Groningeni Egyetemen, és gyógyszerész diplomát szerzett, molekuláris farmakológiára specializálódva.",
+  leader17Experience: "20+ Év",
+  leader17Education: "Gyógyszerész Végzett, Groningen",
+  
+  leader18Name: "Amit Tiwari",
+  leader18Position: "CMO – Extrovis",
+  leader18Description: "-",
+  leader18Experience: "",
+  leader18Education: "",
+  
+  leader19Name: "Danny Cracchiolo",
+  leader19Position: "Helyszín Vezető - Kavis Pharma",
+  leader19Description: "Danny Cracchiolo a Kavis Pharma Sugar Land, Texas-i gyártó létesítményének általános menedzsere, ahol felügyeli a helyszín műveletek minden aspektusát, beleértve a gyártást, minőséget, szabályozási megfelelőséget, ellátási láncot, mérnöki munkát és pénzügyi teljesítményt. Több mint 25 év tapasztalattal a gyógyszeripari szektorban, Danny csapatokat vezetett steril, nem steril, szakterületi és komplex termék platformokon. </br> </br>\n\nDanny karrierje a Parkedale (King) Pharmaceuticals-nál kezdődött, ahol támogatta a minőségi műveleteket és műszaki folyamatokat. Később gyártási vezetői szerepkörökön keresztül haladt előre a JHP Pharmaceuticals és DPT Laboratories-nál, széles szakértelmet szerzett a GMP gyártásban, keverésben, műszaki transzferben és működési kiválóságban. Több működési vezetői szerepkör betöltése után a DPT-nél, Danny előlépett a Sugar Land létesítmény Műveleti Igazgatójává. A helyszín átmenete után a Kavis Pharma-ra, Danny-t általános menedzserré nevezték ki, folytatva a helyszín műveletek vezetését az új vállalati struktúra alatt. </br> </br>\n\nDanny biokémia BSc diplomát szerzett az Oakland University-n. Ismert kiterjedt tapasztalatáról az FDA, OSHA és EPA szabályozási követelményekben, lean gyártásban, változásmenedzsmentben és szervezeti fejlesztésben. Vezetési stílusa a nagy teljesítményű csapatok építésére, a felelősség megerősítésére és a folyamatos javítás előmozdítására összpontosít. Danny elkötelezett abban, hogy a Sugar Land létesítmény következetesen szállítson magas minőségű gyógyszeripari termékeket megbízhatósággal, hatékonysággal és erős megfelelőségi kultúrával.\n",
+  leader19Experience: "",
+  leader19Education: "",
+  
+  leader20Name: "Andrea Gazzaneo ",
+  leader20Position: "Globális MSAT Vezető - Latina Pharma",
+  leader20Description: "Andrea Gazzaneo több mint 25 év tapasztalattal rendelkezik K&F-ben és Termelésben, olasz (Italfarmaco és Fidia Farmaceutici) és nemzetközi gyógyszeripari vállalatokban (Novartis, Pfizer, Corden Pharma) szerzett, gyógyszeripari kémiában (API-k, optikailag aktív API-k, steril és liofilizált API-k, antibiotikumok, vakcinák, HPD), Technológia Transzferben (mind a kémiai, mind a gyógyszeripari területen), folyamat nagyításban, különböző gyógyszeripari formák gyártásában és csomagolásában (granulátumok és orális szilárd anyagok (steril és nem steril), antibiotikumok, vakcinák (tömegtermék és kész dózis formák), HPD, fagyasztva szárított termékek, injektálható termékek folyékony, szilárd, fél-szilárd formában; gézek (steril és nem steril), kenőcsök (steril és nem steril), krémek (steril és nem steril), gelek (steril és nem steril); előre töltött fecskendők, steril egydózisú szemcseppek, steril többdózisú szemcseppek, állatorvosi használatra szánt gyógyszerek, orvostechnikai eszközök).",
+  leader20Experience: "",
+  leader20Education: "",
+  
+  leader21Name: "Krisztián Varga",
+  leader21Position: "Helyszín Vezető – Pharma Pack",
+  leader21Description: "Krisztián több mint két évtized vezetői tapasztalatot hoz az autóipar, elektronika, kémia és egyedi gyártás iparágakból. Gépészmérnöki, közgazdasági diplomákkal és MBA-val, karrierjét összetett projektek vezetésén, szervezetek alakításán és átstrukturálásán, valamint lean-alapú működési kiválóság előmozdításán építette. Háttérjébe tartozik a termelési egységek kezelése, végpontok közötti folyamatjavítások előmozdítása, valamint kis működési és irodai csapatok, valamint nagy nemzetközi gyártási osztályok vezetése. </br> </br>\n\n2020-ban csatlakozott a Pharma Pack Hungary Kft.-hez egyértelmű megbízással, hogy GDP/GMP-kompatibilis, rugalmas és hosszú távon fenntartható gyógyszeripari szervezetet építsen. Azóta megerősítette gyógyszeripari szakértelmét aktív részvétellel hazai és nemzetközi GDP/GMP auditokon, hatósági ellenőrzéseken és egy új gyártási helyszín létrehozásán, amelyet folytatva bővít és optimalizál.",
+  leader21Experience: "",
+  leader21Education: "",
+  
+  leader22Name: "Dr. Suryanarayana Regulagadda",
+  leader22Position: "Globális Analitikai Tudományok Vezetője - Extrovis",
+  leader22Description: "Dr. Suryanarayana Regulagadda több mint két évtized tapasztalattal rendelkezik a gyógyszeriparban az Analitikai Kutatás & Fejlesztésben. Szakértelme széles spektrumú peptidokat és komplex molekulákat ölel fel, optimalizálja a laboratóriumi műveleteket, biztosítja a robusztus módszer fejlesztést és validációt, és vezető szerepet játszik a technológia bevezetésében a szabályozási keretrendszeren belül, kielégítve az USFDA, MHRA és ENVISA fejlesztéseket API-kban és formulációkban. Surya kémia posztgraduális – dolgozott az Eugia Pharma, Alembic, Dr Reddy's, Concord Laboratories, Qualitest Pharmaceuticals-nál az USA-ban. Az Extrovis-nál Surya vezeti a csoport analitikai fejlesztés & szolgáltatások portfólióját.",
+  leader22Experience: "",
+  leader22Education: "",
+  
+  leader23Name: "Maharshi Maitra",
+  leader23Position: "COS - Refex Group",
+  leader23Description: "-",
+  leader23Experience: "",
+  leader23Education: "",
+  
+  leader24Name: "Dr. Mallikarjuna Rao",
+  leader24Position: "Vezető – India Műveletek, Extrovis",
+  leader24Description: "-",
+  leader24Experience: "",
+  leader24Education: "",
 };
 

@@ -9,6 +9,21 @@ const Sustainability = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'en';
   const isEnglish = currentLang === 'en';
+  
+  // Helper function to convert relative image paths to full URLs
+  const getImageUrl = (imagePath: string | undefined | null): string => {
+    if (!imagePath) return '';
+    // If already a full URL (starts with http), return as is
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    // If relative path, prepend API base URL
+    if (imagePath.startsWith('/')) {
+      return `https://refexlifesciences.com${imagePath}`;
+    }
+    return imagePath;
+  };
+  
   // Initialize AOS when component mounts
   useEffect(() => {
     const initAOS = async () => {
@@ -180,12 +195,53 @@ const Sustainability = () => {
     ];
   })();
 
-  // Get translated heart sections for non-English languages
-  const getTranslatedHeartSections = () => {
-    if (isEnglish && heart?.sections && heart.sections.length > 0) {
-      return heart.sections.slice(0, 3);
+  // Get translated heart sections for non-English languages - always use API images
+  const getTranslatedHeartSections = useMemo(() => {
+    if (heart?.sections && heart.sections.length > 0) {
+      const apiSections = heart.sections.slice(0, 3);
+      if (isEnglish) {
+        // Convert image URLs for English as well
+        return apiSections.map((sec: any) => ({
+          ...sec,
+          image: getImageUrl(sec.image)
+        }));
+      }
+      // For non-English: use API images but translated text
+      return apiSections.map((sec: any, index: number) => {
+        const translatedTitles = [
+          t("esgHeartEnvironmentalTitle"),
+          t("esgHeartSocialTitle"),
+          t("esgHeartGovernanceTitle")
+        ];
+        const translatedDescriptions = [
+          t("esgHeartEnvironmentalDescription"),
+          t("esgHeartSocialDescription"),
+          t("esgHeartGovernanceDescription")
+        ];
+        const translatedMetrics = [
+          [
+            { title: t("esgHeartMetricNetZero") || "Net Zero", subtitle: t("esgHeartMetricCarbon2040") || "Carbon by 2040" },
+            { title: t("esgHeartMetricGreenTech") || "Green Tech", subtitle: t("esgHeartMetricInnovation") || "Innovation Focus" }
+          ],
+          [
+            { title: t("esgHeartMetricHealthcare") || "Healthcare", subtitle: t("esgHeartMetricAccessAll") || "Access for All" },
+            { title: t("esgHeartMetricEducation") || "Education", subtitle: t("esgHeartMetricCommunityGrowth") || "Community Growth" }
+          ],
+          [
+            { title: t("esgHeartMetricZeroHarm") || "Zero Harm", subtitle: t("esgHeartMetricAllOperations") || "All Operations" },
+            { title: t("esgHeartMetric100Percent") || "100%", subtitle: t("esgHeartMetricTransparency") || "Transparency" }
+          ]
+        ];
+        return {
+          ...sec,
+          title: translatedTitles[index] || sec.title,
+          description: translatedDescriptions[index] || sec.description,
+          metrics: translatedMetrics[index] || sec.metrics,
+          image: getImageUrl(sec.image) // Always use API image with full URL
+        };
+      });
     }
-    // Return static translated sections for non-English
+    // Fallback if no API data
     return [
       {
         title: t("esgHeartEnvironmentalTitle"),
@@ -196,7 +252,7 @@ const Sustainability = () => {
           { title: t("esgHeartMetricNetZero") || "Net Zero", subtitle: t("esgHeartMetricCarbon2040") || "Carbon by 2040" },
           { title: t("esgHeartMetricGreenTech") || "Green Tech", subtitle: t("esgHeartMetricInnovation") || "Innovation Focus" }
         ],
-        image: "https://readdy.ai/api/search-image?query=Environmental%20sustainability%20in%20pharmaceutical%20manufacturing&width=600&height=400"
+        image: ""
       },
       {
         title: t("esgHeartSocialTitle"),
@@ -207,7 +263,7 @@ const Sustainability = () => {
           { title: t("esgHeartMetricHealthcare") || "Healthcare", subtitle: t("esgHeartMetricAccessAll") || "Access for All" },
           { title: t("esgHeartMetricEducation") || "Education", subtitle: t("esgHeartMetricCommunityGrowth") || "Community Growth" }
         ],
-        image: "https://readdy.ai/api/search-image?query=Social%20equity%20and%20community%20healthcare%20programs&width=600&height=400"
+        image: ""
       },
       {
         title: t("esgHeartGovernanceTitle"),
@@ -218,43 +274,86 @@ const Sustainability = () => {
           { title: t("esgHeartMetricZeroHarm") || "Zero Harm", subtitle: t("esgHeartMetricAllOperations") || "All Operations" },
           { title: t("esgHeartMetric100Percent") || "100%", subtitle: t("esgHeartMetricTransparency") || "Transparency" }
         ],
-        image: "https://readdy.ai/api/search-image?query=Corporate%20governance%20and%20compliance&width=600&height=400"
+        image: ""
       }
     ];
-  };
+  }, [heart?.sections, isEnglish, t, i18n.language]);
 
-  const heartSections = getTranslatedHeartSections();
+  const heartSections = getTranslatedHeartSections;
   
   // Get translated heart commitments for non-English languages
-  const getTranslatedHeartCommitments = () => {
-    if (isEnglish && heart?.commitments && heart.commitments.length > 0) {
-      return heart.commitments.slice(0, 4);
+  const heartCommitments = useMemo(() => {
+    if (heart?.commitments && heart.commitments.length > 0) {
+      const apiCommitments = heart.commitments.slice(0, 4);
+      if (isEnglish) {
+        return apiCommitments;
+      }
+      // For non-English: use API structure but translated text
+      return apiCommitments.map((commitment: any, index: number) => {
+        const translatedTitles = [
+          t("esgHeartCommitmentNetZero") || "Net Zero",
+          t("esgHeartCommitmentWaterPositive") || "Water Positive",
+          t("esgHeartCommitmentZeroWaste") || "Zero Waste",
+          t("esgHeartCommitmentRenewableEnergy") || "100% Renewable"
+        ];
+        const translatedSubtitles = [
+          t("esgHeartCommitmentCarbon2040") || "Carbon Emissions by 2040",
+          t("esgHeartCommitmentWaterPositiveSub") || "Operations by 2030",
+          t("esgHeartCommitmentZeroWasteSub") || "To Landfill by 2025",
+          t("esgHeartCommitmentRenewableEnergySub") || "Energy by 2035"
+        ];
+        return {
+          ...commitment,
+          title: translatedTitles[index] || commitment.title,
+          subtitle: translatedSubtitles[index] || commitment.subtitle
+        };
+      });
     }
-    // Return static translated commitments for non-English
+    // Fallback if no API data
     return [
       { title: t("esgHeartCommitmentNetZero") || "Net Zero", subtitle: t("esgHeartCommitmentCarbon2040") || "Carbon Emissions by 2040", icon: "ri-leaf-line", color: "refex-green" },
       { title: t("esgHeartCommitmentWaterPositive") || "Water Positive", subtitle: t("esgHeartCommitmentWaterPositiveSub") || "Operations by 2030", icon: "ri-drop-line", color: "refex-blue" },
       { title: t("esgHeartCommitmentZeroWaste") || "Zero Waste", subtitle: t("esgHeartCommitmentZeroWasteSub") || "To Landfill by 2025", icon: "ri-recycle-line", color: "refex-green" },
       { title: t("esgHeartCommitmentRenewableEnergy") || "100% Renewable", subtitle: t("esgHeartCommitmentRenewableEnergySub") || "Energy by 2035", icon: "ri-sun-line", color: "refex-orange" }
     ];
-  };
+  }, [heart?.commitments, isEnglish, t, i18n.language]);
 
-  const heartCommitments = getTranslatedHeartCommitments();
-
-  // Use API data for SDG cards with fallback to hardcoded data
-  const sdgData = (() => {
+  // Use API data for SDG cards with translated contributions for non-English
+  const sdgData = useMemo(() => {
     const apiCards = sustainabilityApi?.sdgCards || [];
     if (apiCards.length > 0) {
-      return apiCards
+      const sortedCards = apiCards
         .filter((c: any) => c.isActive !== false)
-        .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
-        .map((card: any) => ({
+        .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+      
+      if (isEnglish) {
+        return sortedCards.map((card: any) => ({
           number: card.number,
           title: card.title,
           contribution: card.contribution,
-          color: card.color, // Use the color directly as hex value
+          color: card.color,
           icon: card.icon
         }));
+      }
+      
+      // For non-English: use API structure but translated contributions
+      const contributionKeys: Record<number, string> = {
+        3: "esgSdg3Contribution",
+        6: "esgSdg6Contribution",
+        7: "esgSdg7Contribution",
+        9: "esgSdg9Contribution",
+        12: "esgSdg12Contribution",
+        13: "esgSdg13Contribution",
+        17: "esgSdg17Contribution"
+      };
+      
+      return sortedCards.map((card: any) => ({
+        number: card.number,
+        title: card.title,
+        contribution: t(contributionKeys[card.number] || `esgSdg${card.number}Contribution`) || card.contribution,
+        color: card.color,
+        icon: card.icon
+      }));
     }
     
     // Fallback to hardcoded data if no API data
@@ -309,7 +408,7 @@ const Sustainability = () => {
         icon: 'ri-team-line'
       }
     ];
-  })();
+  }, [sustainabilityApi?.sdgCards, isEnglish, t, i18n.language]);
 
   // policies rendered elsewhere; kept via admin
 
@@ -321,7 +420,7 @@ const Sustainability = () => {
       <section
         className="relative py-20 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${sustainabilityApi?.hero?.backgroundImage || 'https://readdy.ai/api/search-image?query=Sustainable%20pharmaceutical%20manufacturing%20with%20green%20technology%2C%20renewable%20energy%2C%20clean%20water%20systems%2C%20eco-friendly%20industrial%20facility%2C%20blue%20and%20green%20lighting%2C%20environmental%20responsibility%20in%20healthcare%2C%20modern%20sustainable%20infrastructure&width=1920&height=800&seq=sustainability-hero&orientation=landscape'}')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${getImageUrl(sustainabilityApi?.hero?.backgroundImage)}')`,
         }}
       >
         <div className="w-full px-6 lg:px-4">
@@ -602,11 +701,17 @@ const Sustainability = () => {
             {/* Image Section */}
             <div className="w-full lg:w-1/2 order-1 lg:order-2">
               <div className="relative w-full">
-                <img
-                  src={sec.image}
-                  alt={sec.title}
-                  className="w-full h-auto max-h-80 object-cover rounded-3xl shadow-2xl transition-transform duration-[2500ms] ease-in-out group-hover:scale-105"
-                />
+                {sec.image && (
+                  <img
+                    src={getImageUrl(sec.image)}
+                    alt={sec.title}
+                    className="w-full h-auto max-h-80 object-cover rounded-3xl shadow-2xl transition-transform duration-[2500ms] ease-in-out group-hover:scale-105"
+                    onError={(e) => {
+                      // Fallback if image fails to load
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                )}
                 <div
                   className={`absolute inset-0 rounded-3xl transition-all duration-1000 ${
                     idx === 0
@@ -1105,7 +1210,7 @@ const Sustainability = () => {
         <section 
           className="py-10 bg-cover bg-center bg-no-repeat relative"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('${footerSection?.backgroundImageUrl || ''}')`
+            backgroundImage: footerSection?.backgroundImageUrl ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('${getImageUrl(footerSection.backgroundImageUrl)}')` : 'none'
           }}
           data-aos="fade-in"
           data-aos-duration="1000"

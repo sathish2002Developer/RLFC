@@ -33,5 +33,145 @@ export default {
   managementTeam: "Management-Team",
   toKnowMore: "Mehr erfahren",
   footerJourneyText: "Refex's Reise der Exzellenz begann vor zwei Jahrzehnten, geleitet von Lernen, Widerstandsfähigkeit und Agilität. Von Kältemitteln bis zu erneuerbaren Energien, MedTech, grüner Mobilität, Flughäfen, Pharmazeutika und Ascheverwertung & Kohlehandhabung haben wir unsere Horizonte vielfach erweitert.",
+  
+  // Leadership Translations - Advisory Board
+  leader1Name: "Dr. Brian Tempest",
+  leader1Position: "Berater",
+  leader1Description: "Dr. Brian Tempest bringt über 45 Jahre Führungserfahrung in der globalen Pharmaindustrie mit, nachdem er leitende Positionen einschließlich CEO von Ranbaxy innehatte, wo er eine entscheidende Rolle bei der Gestaltung seiner internationalen Präsenz spielte. Bekannt für sein strategisches Vorausdenken und tiefes Verständnis der globalen Märkte, hat er Vorstände und Aktionäre mit Expertise in Governance, Strategie und Branchentransformation geleitet. </br> </br> Heute dient er als vertrauenswürdiger Berater führender pharmazeutischer Organisationen weltweit und wird als Vordenker anerkannt, der Wandel und Innovation in der gesamten Branche vorantreibt.",
+  leader1Experience: "45+ Jahre",
+  leader1Education: "Pharmazeutische Führung",
+  
+  leader2Name: "K. Raghavendra Rao",
+  leader2Position: "Berater",
+  leader2Description: "Dr. K. Raghavendra Rao verfügt über mehr als 45 Jahre Erfahrung in der Pharmaindustrie, ausgezeichnet durch sein starkes Geschäftsverständnis und unternehmerische Vision. Ein Kostenbuchhalter, Unternehmenssekretär, B.Com-Absolvent und MBA von IIM Ahmedabad. </br> </br> Er gründete Orchid Pharma und war maßgeblich am Aufbau von der Gründung bis zu einem weltweit respektierten Unternehmen beteiligt. Mit tiefgreifender Expertise in Produktauswahl, Innovation und strategischer Ausrichtung hat er konsequent Wachstum und Wettbewerbsfähigkeit vorangetrieben. Als einflussreicher Branchenführer prägt er weiterhin die Entwicklung des Pharmasektors durch seine Führung und Erkenntnisse.",
+  leader2Experience: "40+ Jahre",
+  leader2Education: "B.Com + MBA (IIM Ahmedabad)",
+  
+  // Leadership Translations - Technical Leadership Team
+  leader3Name: "Rajesh Naik",
+  leader3Position: "ED – Betrieb, RLFC",
+  leader3Description: "Herr Rajesh Naik ist ein erfahrener Führer für pharmazeutische Betriebe mit über 26 Jahren Erfahrung in führenden Organisationen, einschließlich Dr. Reddy's Laboratories, GSK, Daiichi Sankyo (ehemals Daiichi-Ranbaxy), Piramal Enterprises, Teva, Biocon und Zydus Life Sciences. Ein Absolvent des Chemieingenieurwesens vom Jawaharlal Nehru Engineering College, Aurangabad, und ein Executive Business Management-Programm (CXO) - Indian Institute of Management Kozhikode. </br> </br>\n Er bringt tiefgreifende Expertise in technisch-kommerziellen Operationen mit, umfassend Fertigung, Supply Chain Management, Engineering und Projekte, EHS, Projektmanagement für neue Produktentwicklung, operative Exzellenz und technische Dienstleistungen (Prozessingenieurwesen). Rajesh hat eine entscheidende Rolle bei der Steigerung der operativen Effizienz, Compliance und nachhaltigen Fertigungspraktiken an mehreren Standorten gespielt. Er berichtet an den Geschäftsführer & CEO und führt ein strukturiertes Team einschließlich Produktion, technische Dienstleistungen, Lager und PPIC-Funktionen, gewährleistet Exzellenz im Liefermanagement, regulatorische Compliance und Rentabilität.\n",
+  leader3Experience: "26+ Jahre",
+  leader3Education: "Technische Betriebe",
+  
+  leader4Name: "Dr. Ramasubramanian S",
+  leader4Position: "F&E-Leiter, RLFC",
+  leader4Description: "Dr. Ramasubramanian Shanmuganathan ist ein erfolgreicher F&E-Führer in der Pharmaindustrie mit über 29 Jahren Erfahrung in führenden Organisationen, einschließlich AstraZeneca, Syngene, Cadila Pharma, Jubilant Chemsys, Innovassynth Technologies, Recon, Sanmar Speciality Chemicals, Piramal Healthcare und Sai Advantium. </br> </br> Er hat einen Doktortitel in Chemie von der Bharathiar University, Coimbatore, und bringt tiefgreifende wissenschaftliche Expertise bei der Förderung von Innovation, Pipeline-Entwicklung und Forschungsexzellenz mit. Während seiner Karriere hat Dr. Ramasubramanian eine Schlüsselrolle bei der Weiterentwicklung von F&E-Fähigkeiten, der Förderung wissenschaftlicher Innovation, operativer Exzellenz und dem Beitrag zum Wachstum robuster Produktpipelines im Pharmasektor gespielt.",
+  leader4Experience: "29+ Jahre",
+  leader4Education: "PhD, Pharmazeutische Wissenschaften",
+  
+  leader5Name: "Mathijs Steegstra",
+  leader5Position: "Globaler Leiter Wissenschaftliche Angelegenheiten, Extrovis",
+  leader5Description: "Mathijs Steegstra hat mehr als 20 Jahre in der Pharmaindustrie gearbeitet, immer in Qualitäts- und Regulierungsrollen, die die USA, Europa und MENA abdecken. Mit Erfahrung sowohl bei Innovatoren als auch bei Generika hat er RA-Infrastrukturen für neu gegründete Unternehmen eingerichtet und für etablierte Unternehmen optimiert. </br> </br>\n\nEr hat mehrere Marketingzulassungsgenehmigungen für verschiedene Produkttypen erhalten, von NCEs bis zu umgewidmeten Molekülen bis zu komplexen Generika. Er war verantwortlich für die Qualität mehrerer Standorte, einschließlich steriler Produktionsstandorte, und hat Sanierungsprojekte für mehrere Standorte durchgeführt. Ursprünglich aus den Niederlanden, studierte er Pharmazie an der Universität Groningen und hat einen Pharmazeutengrad, spezialisiert auf molekulare Pharmakologie.",
+  leader5Experience: "20+ Jahre",
+  leader5Education: "Pharmazie-Absolvent, Groningen",
+  
+  // Leadership Translations - Management Team
+  leader7Name: "Anil Jain",
+  leader7Position: "Vorsitzender & MD – Refex Group",
+  leader7Description: "Anil Jain ist der Geschäftsführer der Refex Group. Von Natur aus unternehmerisch und wagemutig seit seiner Kindheit, kam das Geschäft Anil natürlich. Im zarten Alter von 17 Jahren begann Anil, Zeit im Edelstahlhandelsgeschäft seiner Familie zu verbringen. Seine Leidenschaft für die Identifizierung von Möglichkeiten führte ihn in den Bereich des Kältemittels, während eines Treffens mit einem großen Klimaanlagenhersteller. Im Jahr 2002 legte er den Grundstein für die Einrichtung seiner ersten Kältemittel-Nachfüllanlage unter dem Namen Refex Refrigerants Limited (jetzt Refex Industries Limited). Seitdem gab es kein Zurück mehr! Anil erweiterte langsam und stetig seinen Geschäftshorizont, und Refex wagte sich in verschiedene Geschäftsbereiche wie Erneuerbare Energien, Asche & Kohle, Pharma, Risikokapital, Flughafentransport, Medizintechnik, Grüne Mobilität und Stromhandel.</br></br>\nWährend seiner Reise war Anil ein Mentor für viele Unternehmer. Er wollte in der Lage sein, mehr Start-ups zu betreuen und ihnen die Ressourcen und die Plattform zu geben, die sie zum Erfolg brauchten. Er hat erfolgreich viele solcher Unternehmer geschaffen.</br></br>\nAnil ist stark dem Nachhaltigkeitsgedanken verpflichtet und stellt sicher, dass das Geschäftsmodell von Refex die gleiche Ethik widerspiegelt. Für all dies und vieles mehr hat Anil mehrere Branchenauszeichnungen gewonnen, wie 'Trailblazer von Tamil Nadu', 'Junger Unternehmer' von der Times Group, Stevie Award aus dem Vereinigten Königreich, Dun & Bradstreet Top 100 KMU-Preis usw. Die Refex Group unter seiner Führung wurde von GPTW 2 Jahre in Folge als 'Großartiger Arbeitsplatz' zertifiziert.\n",
+  leader7Experience: "40+ Jahre",
+  leader7Education: "Unternehmerische Führung",
+  
+  leader8Name: "Dinesh Agarwal",
+  leader8Position: "Gruppen-CEO – Refex Group",
+  leader8Description: "Herr Dinesh Kumar Agarwal verfügt über verfeinerte unternehmerische Fähigkeiten in verschiedenen Geschäftsbereichen und trägt zu konstantem Erfolg in all seinen Geschäftsunternehmen bei. Seit 2014 hat seine Expertise, kombiniert mit seiner Leidenschaft und seinem Eifer, das Geschäft des Unternehmens zu wachsen, unsere Wachstumstrajektorie beschleunigt. </br> </br> Herr Dineshs Scharfsinn bei Zahlen hat das Wachstum mehrerer Unternehmen erleichtert, während seine Expertise in Corporate Finance, umfassend Audit, Finanzbuchhaltung und -planung, Steuern und Fundraising, dabei geholfen hat, über ₹ 5.000 Crores für seine Kunden zu sammeln. Er hat mit renommierten Organisationen wie Aircel und Brisk gearbeitet und verfügt über vielfältige Erfahrung in Solar-EPC-Segmenten und Versorgungsprojekten. Er hat auch als Berater für Start-ups, KMU, etablierte Unternehmenshäuser und internationale NGOs gedient und mehrere Branchenanerkennungen für seinen Beitrag zum Managementbereich und verwandten Bereichen gewonnen",
+  leader8Experience: "20+ Jahre",
+  leader8Education: "Wirtschaftsprüfer",
+  
+  leader9Name: "Hanumantha Rao Kamma",
+  leader9Position: "CEO – RLS",
+  leader9Description: "Hanumanth Rao Kamma (Hans) hat einen Master-Abschluss in Internationalem Management von der Pondicherry Central University, Indien. Er kombiniert starkes Wissen über Branchentrends und Portfoliostrategie mit einem riesigen professionellen Netzwerk. Vor seiner Rolle bei Extrovis Schweiz hatte Hanumantha verschiedene Managementpositionen in den Bereichen strategisches Beschaffungswesen, Portfoliomanagement und strategische Geschäftsentwicklung bei Amneal, Ranbaxy und Dr. Reddy's inne.",
+  leader9Experience: "23+ Jahre",
+  leader9Education: "Master in Internationalem Management",
+  
+  leader10Name: "Sharat Narasapur",
+  leader10Position: "CEO – RLFC",
+  leader10Description: " Sharat Narasapur ist ein erfahrener Führer mit über 35 Jahren Erfahrung in den Bereichen Chemie, Agrochemie und Pharmazeutika. Als Geschäftsführer und CEO von R L Fine Chem Pvt. Ltd. bringt er tiefgreifende technische Expertise, strategische Vision und einen hands-on-Ansatz zur Förderung von Innovation und operativer Exzellenz mit.</br> </br>\nEin Absolvent des Institute of Chemical Technology, Mumbai, und des Business Leaders Program am IIM Calcutta, Sharat hat Schlüsselfunktionen in Technologietransfer, GMP-Compliance, Regulierungsangelegenheiten, Prozessingenieurwesen und Geschäftsentwicklung geleitet.</br> </br>\nSeine Führungsrollen bei Dr. Reddy's Laboratories, Sequent Scientific, Aurobindo Pharma und Alivira Animal Health spiegeln seine bewiesene Fähigkeit wider, komplexe Projekte zu managen, Prozesse zu optimieren und hochleistungsfähige Teams aufzubauen.</br> </br>\nSharat setzt sich weiterhin für nachhaltiges Wachstum und Innovation in der Pharmaindustrie ein und dient auch als Nicht-Exekutivdirektor bei Alivira Animal Health Ltd.",
+  leader10Experience: "25+ Jahre",
+  leader10Education: "Chemische & Pharmazeutische Führung",
+  
+  leader11Name: "Dr. Janos Vaczi",
+  leader11Position: "CEO - Extrovis",
+  leader11Description: "Janos bringt jahrzehntelange Führungserfahrung von multinationalen Konzernen mit. Vor seinem Beitritt zu Extrovis in der Schweiz hatte Janos verschiedene allgemeine Management- und P&L-Verantwortlichkeiten bei Amneal mit Sitz in der Schweiz, Alliance Healthcare (jetzt Teil von Walgreens Boots Alliance), Ratiopharm (jetzt Teil der Teva Group) und Sanofi inne. Janos hat einen Summa Cum Laude-Abschluss von der Szent-Györgyi Albert Medical University in Szeged, Ungarn.",
+  leader11Experience: "25+ Jahre",
+  leader11Education: "MD, Ungarn",
+  
+  leader12Name: "Amit Shrivastava",
+  leader12Position: "CMO – RLFC",
+  leader12Description: "Amit Shrivastava ist ein erfahrener Führer im pharmazeutischen Marketing mit über 25 Jahren Erfahrung in globaler Geschäftsentwicklung und strategischem Marketing. Er hat Führungspositionen bei Organisationen wie Zenfold Sustainable Technologies, Smilax Laboratories, Sun Pharma und Biocon innegehabt, wo er Marketingoperationen weltweit leitete. Amit hat einen starken Hintergrund in Marktanalyse, strategischer Planung und pharmazeutischem Verkauf. </br> </br> Er hat einen MBA und hat ein Zertifikat in Entrepreneurship Essential von der Harvard Business School abgeschlossen. Mit Sitz in Bangalore, Indien, treibt Amit weiterhin Wachstum und Innovation im Pharmasektor voran.",
+  leader12Experience: "20+ Jahre",
+  leader12Education: "Marketing & Geschäftsstrategie",
+  
+  leader13Name: "PV Raghavendra Rao",
+  leader13Position: "CFO – RLS",
+  leader13Description: "Raghav ist ein erfolgreicher Wirtschaftsprüfer und Finanzführer mit etwa 25 Jahren Erfahrung im Finanzmanagement. Seine Expertise umfasst Buchhaltung, Finanzplanung, Budgetierung, Verrechnungspreise, Besteuerung, Kostenrechnung und Treasury-Management, einschließlich Cashflow-Management, Hedging und Sicherung von Mitteln von Banken.</br></br>\n\nRaghav hat prominente Finanzführungspositionen wie den Chief Financial Officer bei Sequent Scientific Limited, Macleods Pharmaceuticals Ltd und bei Solara Active Pharma Sciences innegehabt. Er hat erhebliche Geschäftsfinanzexpertise durch verschiedene Rollen bei Dr. Reddy's Laboratories erworben.</br></br>\n\nRaghav besitzt ein tiefes Verständnis für Strategieentwicklung und -umsetzung. Während seiner Karriere hat Raghav als Berater und Consultant beigetragen und Schlüsselrollen in Finanzsteuerungsausschüssen, Geschäftsführungsräten und gemeinsamen Steuerungsausschüssen gespielt. ",
+  leader13Experience: "25+ Jahre",
+  leader13Education: "CA, Goldratt Master Executive Certificate",
+  
+  leader14Name: "Srinivasan Pagadala",
+  leader14Position: "CHRO – RLS",
+  leader14Description: "Srini kommt mit über 25 Jahren umfangreicher Erfahrung im Personalmanagement in den Bereichen Pharma und Gesundheitswesen. Er spezialisiert sich auf Business HR, Change Leadership und Transformation, Talent Management und Mitarbeiterbeziehungen. Während seiner Karriere hat er verschiedene HR-Senior- und Verantwortungspositionen in führenden pharmazeutischen Organisationen wie Dr. Reddy's, Novartis, GVK Bio und Biological E innegehabt. Vor seiner aktuellen Rolle bei Extrovis leitete Srini die HR-Funktion bei Solara Active Pharma.",
+  leader14Experience: "25+ Jahre",
+  leader14Education: "HR & Organisationsentwicklung",
+  
+  leader15Name: "Rajesh Naik",
+  leader15Position: "ED – Betrieb, RLFC",
+  leader15Description: "Herr Rajesh Naik ist ein erfahrener Führer für pharmazeutische Betriebe mit über 26 Jahren Erfahrung in führenden Organisationen, einschließlich Dr. Reddy's Laboratories, GSK, Daiichi Sankyo (ehemals Daiichi-Ranbaxy), Piramal Enterprises, Teva, Biocon und Zydus Life Sciences. Ein Absolvent des Chemieingenieurwesens vom Jawaharlal Nehru Engineering College, Aurangabad, und ein Executive Business Management-Programm (CXO) - Indian Institute of Management Kozhikode. </br> </br>\n Er bringt tiefgreifende Expertise in technisch-kommerziellen Operationen mit, umfassend Fertigung, Supply Chain Management, Engineering und Projekte, EHS, Projektmanagement für neue Produktentwicklung, operative Exzellenz und technische Dienstleistungen (Prozessingenieurwesen). Rajesh hat eine entscheidende Rolle bei der Steigerung der operativen Effizienz, Compliance und nachhaltigen Fertigungspraktiken an mehreren Standorten gespielt. Er berichtet an den Geschäftsführer & CEO und führt ein strukturiertes Team einschließlich Produktion, technische Dienstleistungen, Lager und PPIC-Funktionen, gewährleistet Exzellenz im Liefermanagement, regulatorische Compliance und Rentabilität.\n",
+  leader15Experience: "26+ Jahre",
+  leader15Education: "",
+  
+  leader16Name: "Dr. Ramasubramanian S",
+  leader16Position: "F&E-Leiter – RLFC",
+  leader16Description: "Dr. Ramasubramanian Shanmuganathan ist ein erfolgreicher F&E-Führer in der Pharmaindustrie mit über 29 Jahren Erfahrung in führenden Organisationen, einschließlich AstraZeneca, Syngene, Cadila Pharma, Jubilant Chemsys, Innovassynth Technologies, Recon, Sanmar Speciality Chemicals, Piramal Healthcare und Sai Advantium. </br> </br> Er hat einen Doktortitel in Chemie von der Bharathiar University, Coimbatore, und bringt tiefgreifende wissenschaftliche Expertise bei der Förderung von Innovation, Pipeline-Entwicklung und Forschungsexzellenz mit. Während seiner Karriere hat Dr. Ramasubramanian eine Schlüsselrolle bei der Weiterentwicklung von F&E-Fähigkeiten, der Förderung wissenschaftlicher Innovation, operativer Exzellenz und dem Beitrag zum Wachstum robuster Produktpipelines im Pharmasektor gespielt.",
+  leader16Experience: "29+ Jahre",
+  leader16Education: "PhD, Pharmazeutische Wissenschaften",
+  
+  leader17Name: "Mathijs Steegstra",
+  leader17Position: "Globaler Leiter Wissenschaftliche Angelegenheiten, Extrovis",
+  leader17Description: "Mathijs Steegstra hat mehr als 20 Jahre in der Pharmaindustrie gearbeitet, immer in Qualitäts- und Regulierungsrollen, die die USA, Europa und MENA abdecken. Mit Erfahrung sowohl bei Innovatoren als auch bei Generika hat er RA-Infrastrukturen für neu gegründete Unternehmen eingerichtet und für etablierte Unternehmen optimiert. </br> </br>\n\nEr hat mehrere Marketingzulassungsgenehmigungen für verschiedene Produkttypen erhalten, von NCEs bis zu umgewidmeten Molekülen bis zu komplexen Generika. Er war verantwortlich für die Qualität mehrerer Standorte, einschließlich steriler Produktionsstandorte, und hat Sanierungsprojekte für mehrere Standorte durchgeführt. Ursprünglich aus den Niederlanden, studierte er Pharmazie an der Universität Groningen und hat einen Pharmazeutengrad, spezialisiert auf molekulare Pharmakologie.",
+  leader17Experience: "20+ Jahre",
+  leader17Education: "Pharmazie-Absolvent, Groningen",
+  
+  leader18Name: "Amit Tiwari",
+  leader18Position: "CMO – Extrovis",
+  leader18Description: "-",
+  leader18Experience: "",
+  leader18Education: "",
+  
+  leader19Name: "Danny Cracchiolo",
+  leader19Position: "Standortleiter - Kavis Pharma",
+  leader19Description: "Danny Cracchiolo ist der General Manager der Fertigungsstätte von Kavis Pharma in Sugar Land, Texas, wo er alle Aspekte der Standortbetriebe überwacht, einschließlich Fertigung, Qualität, regulatorische Compliance, Supply Chain, Engineering und finanzielle Leistung. Mit mehr als 25 Jahren Erfahrung im Pharmasektor hat Danny Teams über sterile, nicht-sterile, Spezial- und komplexe Produktplattformen geführt. </br> </br>\n\nDannys Karriere begann bei Parkedale (King) Pharmaceuticals, wo er Qualitätsoperationen und technische Prozesse unterstützte. Er stieg später durch Fertigungsführungsrollen bei JHP Pharmaceuticals und DPT Laboratories auf und erwarb breite Expertise in GMP-Fertigung, Compounding, Technologietransfer und operativer Exzellenz. Nachdem er mehrere operative Führungsrollen bei DPT innehatte, stieg Danny zum Director of Operations an der Sugar Land-Einrichtung auf. Nach dem Übergang des Standorts zu Kavis Pharma wurde Danny zum General Manager ernannt und setzte seine Führung der Standortbetriebe unter der neuen Unternehmensstruktur fort. </br> </br>\n\nDanny erwarb einen Bachelor of Science in Biochemie von der Oakland University. Er ist bekannt für seine umfangreiche Erfahrung in FDA-, OSHA- und EPA-Regulierungsanforderungen, Lean Manufacturing, Change Management und Organisationsentwicklung. Sein Führungsstil konzentriert sich auf den Aufbau hochleistungsfähiger Teams, die Stärkung der Verantwortlichkeit und die Förderung kontinuierlicher Verbesserung. Danny ist verpflichtet, sicherzustellen, dass die Sugar Land-Einrichtung kontinuierlich hochwertige pharmazeutische Produkte mit Zuverlässigkeit, Effizienz und einer starken Compliance-Kultur liefert.\n",
+  leader19Experience: "",
+  leader19Education: "",
+  
+  leader20Name: "Andrea Gazzaneo ",
+  leader20Position: "Globaler MSAT-Leiter - Latina Pharma",
+  leader20Description: "Andrea Gazzaneo hat mehr als 25 Jahre Erfahrung in F&E und Produktion, erworben in italienischen (Italfarmaco und Fidia Farmaceutici) und internationalen pharmazeutischen Unternehmen (Novartis, Pfizer, Corden Pharma) in pharmazeutischer Chemie (APIs, optisch aktive APIs, sterile und lyophilisierte APIs, Antibiotika, Impfstoffe, HPD), in Technologietransfer (sowohl im chemischen als auch pharmazeutischen Bereich), in Prozessskalierung, in Fertigung und Verpackung verschiedener pharmazeutischer Formen (Granulate und orale Feststoffe (steril und nicht-steril), Antibiotika, Impfstoffe (Bulkprodukt und fertige Dosierungsformen), HPD, gefriergetrocknete Produkte, injizierbare Produkte in flüssiger, fester, halbfester Form; Gazen (steril und nicht-steril), Salben (steril und nicht-steril), Cremes (steril und nicht-steril), Gele (steril und nicht-steril); vorgefüllte Spritzen, sterile Einzeldosis-Augentropfen, sterile Mehrfachdosis-Augentropfen, Arzneimittel für den veterinärmedizinischen Gebrauch, Medizinprodukte).",
+  leader20Experience: "",
+  leader20Education: "",
+  
+  leader21Name: "Krisztián Varga",
+  leader21Position: "Standortleiter – Pharma Pack",
+  leader21Description: "Krisztián bringt über zwei Jahrzehnte Führungserfahrung in den Bereichen Automobil, Elektronik, Chemie und kundenspezifische Fertigung mit. Mit Abschlüssen in Maschinenbau, Wirtschaftswissenschaften und einem MBA hat er seine Karriere auf der Führung komplexer Projekte, der Gestaltung und Umstrukturierung von Organisationen und der Förderung von Lean-basierter operativer Exzellenz aufgebaut. Sein Hintergrund umfasst die Verwaltung von Produktionseinheiten, die Förderung von End-to-End-Prozessverbesserungen und die Führung sowohl kleiner operativer und Büroteams als auch großer internationaler Fertigungsabteilungen. </br> </br>\n\nEr trat Pharma Pack Hungary Kft. im Jahr 2020 mit einem klaren Mandat bei, eine GDP/GMP-konforme, flexible und langfristig nachhaltige pharmazeutische Organisation aufzubauen. Seitdem hat er seine pharmazeutische Expertise durch aktive Teilnahme an inländischen und internationalen GDP/GMP-Audits, Behördeninspektionen und der Einrichtung einer neuen Fertigungsstätte gestärkt, die er weiterhin erweitert und optimiert.",
+  leader21Experience: "",
+  leader21Education: "",
+  
+  leader22Name: "Dr. Suryanarayana Regulagadda",
+  leader22Position: "Globaler Leiter Analytische Wissenschaften - Extrovis",
+  leader22Description: "Dr. Suryanarayana Regulagadda kommt mit mehr als zwei Jahrzehnten Erfahrung in der Pharmaindustrie in Analytischer Forschung & Entwicklung. Seine Expertise umfasst ein breites Spektrum von Peptiden und komplexen Molekülen, die Optimierung von Laboroperationen, die Gewährleistung robuster Methodenentwicklung und -validierung und die Vorreiterrolle bei der Technologieadoption im regulatorischen Rahmen, die USFDA-, MHRA- und ENVISA-Entwicklungen in APIs und Formulierungen bedient. Surya ist ein Postgraduierter in Chemie – er arbeitete mit Eugia Pharma, Alembic, Dr Reddy's, Concord Laboratories, Qualitest Pharmaceuticals in den USA. Bei Extrovis leitet Surya das Portfolio für analytische Entwicklung & Dienstleistungen für die Gruppe.",
+  leader22Experience: "",
+  leader22Education: "",
+  
+  leader23Name: "Maharshi Maitra",
+  leader23Position: "COS - Refex Group",
+  leader23Description: "-",
+  leader23Experience: "",
+  leader23Education: "",
+  
+  leader24Name: "Dr. Mallikarjuna Rao",
+  leader24Position: "Leiter – Indien-Operationen, Extrovis",
+  leader24Description: "-",
+  leader24Experience: "",
+  leader24Education: "",
 };
-
