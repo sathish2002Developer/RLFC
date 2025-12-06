@@ -208,14 +208,14 @@ const HeroSlider = ({ slides: propSlides }: HeroSliderProps) => {
                 style={{ transitionDelay: index === currentSlide ? '200ms' : '0ms' }}>
                   {slide.title}
                 </h1>
-                {slide.subtitle && (
+                {/* {slide.subtitle && (
                   <p className={`mt-3 sm:mt-4 text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-montserrat transition-all duration-800 ease-out ${
                     index === currentSlide ? 'transform scale-100 opacity-100' : 'transform scale-90 opacity-0'
                   }`}
                   style={{ transitionDelay: index === currentSlide ? '400ms' : '0ms' }}>
                     {slide.subtitle}
                   </p>
-                )}
+                )} */}
               </div>
             </div>
           </div>

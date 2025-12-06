@@ -1,9 +1,10 @@
 
 import { Link } from 'react-router-dom';
-import Rlfc from "../../images/RLFC-Logo.jpg"
-import Extrovis from "../../images/Extrovis.png"
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+  
   return (
        <footer className="bg-gray-900 text-white relative overflow-hidden">
       {/* Background Pattern */}
@@ -23,7 +24,7 @@ const Footer = () => {
       {/* Quick Links */}
       <div className="w-full md:w-1/3 space-y-6" style={{ paddingLeft: '100px' }}>
         <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
-          Quick Links
+          {t("footerQuickLinks")}
           <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-blue rounded-full"></div>
         </h3>
         <ul className="space-y-4">
@@ -34,7 +35,7 @@ const Footer = () => {
               className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
             >
               <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-              About RLS
+              {t("footerAboutRLS")}
             </Link>
           </li>
           <li>
@@ -44,7 +45,7 @@ const Footer = () => {
               className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
             >
               <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-              Our Journey
+              {t("footerOurJourney")}
             </Link>
           </li>
           <li>
@@ -54,7 +55,7 @@ const Footer = () => {
               className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
             >
               <i className="ri-arrow-right-s-line text-refex-blue mr-2 group-hover:text-white transition-colors duration-200"></i>
-              Leadership Team
+              {t("footerLeadershipTeam")}
             </Link>
           </li>
           {/* <li>
@@ -72,7 +73,7 @@ const Footer = () => {
               className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-200 cursor-pointer font-montserrat text-sm flex items-center group"
             >
               <i className="ri-arrow-right-s-line text-refex-orange mr-2 group-hover:text-white transition-colors duration-200"></i>
-              Contact Us
+              {t("footerContactUs")}
             </Link>
           </li>
         </ul>
@@ -81,7 +82,7 @@ const Footer = () => {
       {/* Connect With Us */}
       <div className="w-full md:w-1/3 space-y-6">
         <h3 className="text-xl font-bold text-white font-montserrat mb-6 relative">
-          Connect With Us
+          {t("footerConnectWithUs")}
           <div className="absolute -bottom-2 left-0 w-12 h-1 bg-refex-green rounded-full"></div>
         </h3>
         <div className="flex flex-wrap gap-3">
@@ -129,20 +130,20 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-400 text-sm font-montserrat flex items-center">
               <i className="ri-copyright-line mr-1"></i>
-              2025 Refex Life Sciences. All rights reserved.
+              {t("footerAllRightsReserved")}
             </div>
             <div className="flex items-center space-x-8">
               <Link
                 to="https://sites.google.com/refex.co.in/privacy/home"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 cursor-pointer font-montserrat hover:underline"
               >
-                Privacy Policy
+                {t("footerPrivacyPolicy")}
               </Link>
               <Link
                 to="https://sites.google.com/refex.co.in/term/home"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 cursor-pointer font-montserrat hover:underline"
               >
-                Terms of Service
+                {t("footerTermsOfService")}
               </Link>
             </div>
           </div>

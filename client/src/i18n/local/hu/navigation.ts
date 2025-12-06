@@ -2,7 +2,7 @@ export default {
   home: "Kezdőlap",
   aboutUs: "Rólunk",
   capabilities: "Képességek",
-  esg: "ESG",
+  esg: "Fenntarthatóság",
   careers: "Karrier",
   contact: "Kapcsolat",
   ourJourney: "Utazásunk",

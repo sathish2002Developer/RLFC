@@ -2,7 +2,7 @@ export default {
   home: "Home",
   aboutUs: "About Us",
   capabilities: "Capabilities",
-  esg: "ESG",
+  esg: "Sustainability",
   careers: "Careers",
   contact: "Contact",
   ourJourney: "Our Journey",

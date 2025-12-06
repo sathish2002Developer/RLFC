@@ -42,7 +42,6 @@ export default function Header() {
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex space-x-8 items-center">
-          <LanguageSelector />
           {navItems.map((item) => {
   const isActive = currentPath === item.href;
   const linkClass = `font-semibold text-sm transition-all duration-300 cursor-pointer whitespace-nowrap ${
@@ -121,7 +120,7 @@ export default function Header() {
     </Link>
   );
 })}
-
+          <LanguageSelector />
           </nav>
 
           {/* Mobile Menu Button */}

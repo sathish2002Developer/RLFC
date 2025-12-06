@@ -208,18 +208,19 @@ export default function Home() {
       image: imag4,
       order: 4,
       isActive: true
+    },
+    {
+      title: t("heroSlide5Title"),
+      subtitle: t("heroSlide5Subtitle"),
+      image: "https://readdy.ai/api/search-image?query=Group%20of%20pharmaceutical%20companies%20working%20together%20corporate%20partnership%20collaboration%20business%20network%20modern%20professional%20office%20building%20exterior%20with%20multiple%20company%20logos&width=1200&height=600&seq=group-companies-5&orientation=landscape",
+      order: 5,
+      isActive: true
     }
   ], [t, currentLang]);
 
-  // API: Load hero slides from server (only for English)
+  // API: Load hero slides from server (always fetch for all languages)
   const [apiSlides, setApiSlides] = useState<any[]>([]);
   useEffect(() => {
-    if (!isEnglish) {
-      // Don't fetch API data for non-English languages
-      setApiSlides([]);
-      return;
-    }
-    
     const load = async () => {
       try {
         const res = await fetch('https://refexlifesciences.com/api/cms/home/slides');
@@ -234,22 +235,14 @@ export default function Home() {
     const handler = () => load();
     window.addEventListener('heroSlidesChanged', handler);
     return () => window.removeEventListener('heroSlidesChanged', handler);
-  }, [isEnglish]);
+  }, []);
 
-  // API: Load offerings, statistics, regulatory from server (only for English)
+  // API: Load offerings, statistics, regulatory from server (always fetch for all languages)
   const [offeringsApi, setOfferingsApi] = useState<any[]>([]);
   const [statisticsApi, setStatisticsApi] = useState<any[]>([]);
   const [regulatoryApi, setRegulatoryApi] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!isEnglish) {
-      // Don't fetch API data for non-English languages
-      setOfferingsApi([]);
-      setStatisticsApi([]);
-      setRegulatoryApi([]);
-      return;
-    }
-
     const loadAll = async () => {
       try {
         console.log('🔄 Loading API data for English...');
@@ -303,16 +296,16 @@ export default function Home() {
       }
     };
     loadAll();
-  }, [isEnglish]);
+  }, []);
 
   // Static translated data for non-English languages
-  const getStaticStatistics = () => [
+  const getStaticStatistics = useMemo(() => [
     {
       id: 'stat-1',
       title: t("statScientistsTitle"),
       value: 200,
       description: t("statScientistsDescription"),
-      image: "https://readdy.ai/api/search-image?query=Professional%20pharmaceutical%20scientists%20and%20researchers%20working%20in%20modern%20laboratory&width=400&height=300",
+      image: t("statScientistsImage"),
       color: "#2879b6",
       order: 1,
       isActive: true
@@ -322,7 +315,7 @@ export default function Home() {
       title: t("statProductsTitle"),
       value: 150,
       description: t("statProductsDescription"),
-      image: "https://readdy.ai/api/search-image?query=Comprehensive%20portfolio%20of%20high-quality%20pharmaceutical%20products&width=400&height=300",
+      image: t("statProductsImage"),
       color: "#7dc244",
       order: 2,
       isActive: true
@@ -332,12 +325,12 @@ export default function Home() {
       title: t("statMarketsTitle"),
       value: 80,
       description: t("statMarketsDescription"),
-      image: "https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20markets%20and%20international%20healthcare%20distribution&width=400&height=300",
+      image: t("statMarketsImage"),
       color: "#ee6a31",
       order: 3,
       isActive: true
     }
-  ];
+  ], [t, currentLang]);
 
   const getStaticOfferings = () => [
     {
@@ -463,18 +456,31 @@ export default function Home() {
     }
   ];
 
-  // Filter and sort data - use API for English, static for other languages
+  // Filter and sort data - always use API images, but translated text for non-English
   const heroSlides = useMemo(() => {
-    if (isEnglish) {
-      // English: Use API data
-      return (apiSlides.length > 0 ? apiSlides : adminData.heroSlides)
-        .filter(slide => slide.isActive)
-        .sort((a, b) => a.order - b.order);
-    } else {
-      // Non-English: Use static translated slides
-      return defaultSlides;
+    const apiData = (apiSlides.length > 0 ? apiSlides : adminData.heroSlides)
+      .filter(slide => slide.isActive)
+      .sort((a, b) => a.order - b.order);
+    
+    if (apiData.length > 0) {
+      // Use API images, but translated text for non-English
+      if (!isEnglish) {
+        return apiData.map((slide, index) => {
+          const defaultSlide = defaultSlides[index] || defaultSlides[0];
+          return {
+            ...slide,
+            title: defaultSlide?.title || slide.title,
+            subtitle: defaultSlide?.subtitle || slide.subtitle,
+            // Keep API image
+            image: slide.image
+          };
+        });
+      }
+      return apiData;
     }
-  }, [apiSlides, adminData.heroSlides, isEnglish]);
+    // Fallback to default slides if no API data
+    return defaultSlides;
+  }, [apiSlides, adminData.heroSlides, isEnglish, defaultSlides]);
   
   const offerings = useMemo(() => {
     if (isEnglish) {
@@ -489,16 +495,33 @@ export default function Home() {
   }, [offeringsApi, adminData.offerings, isEnglish, currentLang, t]);
   
   const statistics = useMemo(() => {
-    if (isEnglish) {
-      // English: Use API data
-      return (statisticsApi.length > 0 ? statisticsApi : adminData.statistics)
-        .filter(stat => stat.isActive)
-        .sort((a, b) => a.order - b.order);
-    } else {
-      // Non-English: Use static translated data
-      return getStaticStatistics();
+    const apiData = (statisticsApi.length > 0 ? statisticsApi : adminData.statistics)
+      .filter(stat => stat.isActive)
+      .sort((a, b) => a.order - b.order);
+    
+    if (apiData.length > 0) {
+      // Always use API images, but translated text for non-English
+      if (!isEnglish) {
+        const staticStats = getStaticStatistics;
+        return apiData.map((stat, index) => {
+          const staticStat = staticStats[index];
+          if (staticStat) {
+            return {
+              ...stat,
+              title: staticStat.title,
+              description: staticStat.description,
+              // Keep API image
+              image: stat.image
+            };
+          }
+          return stat;
+        });
+      }
+      return apiData;
     }
-  }, [statisticsApi, adminData.statistics, isEnglish, currentLang, t]);
+    // Fallback to static data if no API data
+    return isEnglish ? [] : getStaticStatistics;
+  }, [statisticsApi, adminData.statistics, isEnglish, currentLang, t, getStaticStatistics]);
   
   // Get static regulatory approvals for non-English languages
   const getStaticRegulatoryApprovals = () => {

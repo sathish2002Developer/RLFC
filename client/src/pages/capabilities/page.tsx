@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAdminAuth } from '../../contexts/AdminContext';
 import Header from '../../components/feature/Header';
@@ -98,6 +98,35 @@ const Capabilities = () => {
     .filter((facility: any) => facility.isActive)
     .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
 
+  // Get translated API R&D points for non-English languages
+  const apiRDPoints = useMemo(() => {
+    if (isEnglish && (capabilitiesData.research?.apiCard?.points || data?.capabilitiesResearch?.apiCard?.points)) {
+      return capabilitiesData.research?.apiCard?.points || data?.capabilitiesResearch?.apiCard?.points || [];
+    }
+    return [
+      { title: t("capabilitiesApiRDPoint1Title"), description: t("capabilitiesApiRDPoint1Description") },
+      { title: t("capabilitiesApiRDPoint2Title"), description: t("capabilitiesApiRDPoint2Description") },
+      { title: t("capabilitiesApiRDPoint3Title"), description: t("capabilitiesApiRDPoint3Description") },
+      { title: t("capabilitiesApiRDPoint4Title"), description: t("capabilitiesApiRDPoint4Description") },
+      { title: t("capabilitiesApiRDPoint5Title"), description: t("capabilitiesApiRDPoint5Description") },
+      { title: t("capabilitiesApiRDPoint6Title"), description: t("capabilitiesApiRDPoint6Description") },
+      { title: t("capabilitiesApiRDPoint7Title"), description: t("capabilitiesApiRDPoint7Description") },
+    ];
+  }, [isEnglish, capabilitiesData.research?.apiCard?.points, data?.capabilitiesResearch?.apiCard?.points, t, currentLang]);
+
+  // Get translated FDF R&D points for non-English languages
+  const fdfRDPoints = useMemo(() => {
+    if (isEnglish && (capabilitiesData.research?.fdfCard?.points || data?.capabilitiesResearch?.fdfCard?.points)) {
+      return capabilitiesData.research?.fdfCard?.points || data?.capabilitiesResearch?.fdfCard?.points || [];
+    }
+    return [
+      { title: t("capabilitiesFdfRDPoint1Title"), description: t("capabilitiesFdfRDPoint1Description") },
+      { title: t("capabilitiesFdfRDPoint2Title"), description: t("capabilitiesFdfRDPoint2Description") },
+      { title: t("capabilitiesFdfRDPoint3Title"), description: t("capabilitiesFdfRDPoint3Description") },
+      { title: t("capabilitiesFdfRDPoint4Title"), description: t("capabilitiesFdfRDPoint4Description") },
+    ];
+  }, [isEnglish, capabilitiesData.research?.fdfCard?.points, data?.capabilitiesResearch?.fdfCard?.points, t, currentLang]);
+
   const getColorClasses = (color: string) => {
     const colorMap = {
       'refex-blue': {
@@ -124,7 +153,6 @@ const Capabilities = () => {
     };
     return colorMap[color as keyof typeof colorMap] || colorMap['refex-blue'];
   };
-  const isImageUrl = (value: string) => /^https?:\/\//i.test(value);
 
   return (
     <div className="min-h-screen bg-white">
@@ -146,14 +174,15 @@ const Capabilities = () => {
               data-aos-duration="1000"
               data-aos-delay="400"
             >
-              <span className="block">{isEnglish && capabilitiesData.hero?.title ? capabilitiesData.hero.title : (isEnglish && data?.capabilitiesHero?.title ? data.capabilitiesHero.title : t("capabilitiesHeroTitle"))}</span>
-              {(isEnglish && (capabilitiesData.hero?.subtitle || data?.capabilitiesHero?.subtitle)) && (
-                <span className="block mt-1">{capabilitiesData.hero?.subtitle || data.capabilitiesHero.subtitle}</span>
-              )}
+              <span className="block">{isEnglish && (capabilitiesData.hero?.title || data?.capabilitiesHero?.title) ? (capabilitiesData.hero?.title || data.capabilitiesHero.title) : t("capabilitiesHeroTitle")}</span>
+              {(isEnglish && (capabilitiesData.hero?.subtitle || data?.capabilitiesHero?.subtitle)) || (!isEnglish && t("capabilitiesHeroSubtitle")) ? (
+                <span className="block mt-1">{isEnglish && (capabilitiesData.hero?.subtitle || data?.capabilitiesHero?.subtitle) ? (capabilitiesData.hero?.subtitle || data.capabilitiesHero.subtitle) : t("capabilitiesHeroSubtitle")}</span>
+              ) : null}
             </h1>
-            {/* {(() => {
-              const desc = capabilitiesData.hero?.description || data?.capabilitiesHero?.description || '';
-              const subDesc = capabilitiesData.hero?.subDescription || data?.capabilitiesHero?.subDescription || '';
+            {(() => {
+              const desc = isEnglish && (capabilitiesData.hero?.description || data?.capabilitiesHero?.description) 
+                ? (capabilitiesData.hero?.description || data?.capabilitiesHero?.description) 
+                : (!isEnglish ? t("capabilitiesHeroDescription") : '');
               return (
                 <>
                   {desc && (
@@ -166,19 +195,9 @@ const Capabilities = () => {
                       {desc}
                     </p>
                   )}
-                  {subDesc && (
-                    <p
-                      className="text-base text-white/80 max-w-5xl mx-auto font-montserrat"
-                      data-aos="fade-up"
-                      data-aos-duration="1000"
-                      data-aos-delay="800"
-                    >
-                      {subDesc}
-                    </p>
-                  )}
                 </>
               );
-            })()} */}
+            })()}
           </div>
         </div>
       </section>
@@ -587,7 +606,7 @@ const Capabilities = () => {
                   </div>
 
                   <div className="space-y-4">
-                    {((capabilitiesData.research?.apiCard?.points || data?.capabilitiesResearch?.apiCard?.points) || []).map((point: any, index: number) => (
+                    {apiRDPoints.map((point: any, index: number) => (
                       <div key={index} className="flex items-start gap-3">
                         <div className={`w-2 h-2 bg-[${capabilitiesData.research?.apiCard?.color || data?.capabilitiesResearch?.apiCard?.color || '#2879b6'}] rounded-full mt-2 flex-shrink-0`}></div>
                         <div>
@@ -614,7 +633,7 @@ const Capabilities = () => {
                   </div>
 
                   <div className="space-y-4">
-                    {((capabilitiesData.research?.fdfCard?.points || data?.capabilitiesResearch?.fdfCard?.points) || []).map((point: any, index: number) => (
+                    {fdfRDPoints.map((point: any, index: number) => (
                       <div key={index} className="flex items-start gap-3">
                         <div className={`w-2 h-2 bg-[${capabilitiesData.research?.fdfCard?.color || data?.capabilitiesResearch?.fdfCard?.color || '#7dc244'}] rounded-full mt-2 flex-shrink-0`}></div>
                         <div>
@@ -634,11 +653,11 @@ const Capabilities = () => {
                  data-aos-duration="1000">
               <div className="max-w-4xl mx-auto">
                 <div className={`w-20 h-20 bg-gradient-to-br from-[${data?.capabilitiesResearch?.fdfCard?.color || '#7dc244'}] to-[${data?.capabilitiesResearch?.fdfCard?.color || '#6bb83a'}] rounded-2xl flex items-center justify-center mx-auto mb-6`}>
-                  <i className={`${data?.capabilitiesResearch?.promise?.icon || 'ri-lightbulb-line'} text-3xl text-white`}></i>
+                  <i className={`${capabilitiesData.research?.promise?.icon || data?.capabilitiesResearch?.promise?.icon || 'ri-lightbulb-line'} text-3xl text-white`}></i>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-montserrat">{isEnglish && data?.capabilitiesResearch?.promise?.title ? data.capabilitiesResearch.promise.title : t("capabilitiesRDPromiseTitle")}</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-montserrat">{isEnglish && (capabilitiesData.research?.promise?.title || data?.capabilitiesResearch?.promise?.title) ? (capabilitiesData.research?.promise?.title || data.capabilitiesResearch.promise.title) : t("capabilitiesRDPromiseTitle")}</h3>
                 <p className="text-lg text-gray-600 leading-relaxed font-montserrat">
-                  {isEnglish && data?.capabilitiesResearch?.promise?.description ? data.capabilitiesResearch.promise.description : t("capabilitiesRDPromiseDescription")}
+                  {isEnglish && (capabilitiesData.research?.promise?.description || data?.capabilitiesResearch?.promise?.description) ? (capabilitiesData.research?.promise?.description || data.capabilitiesResearch.promise.description) : t("capabilitiesRDPromiseDescription")}
                 </p>
               </div>
             </div>

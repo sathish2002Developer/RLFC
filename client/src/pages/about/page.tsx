@@ -1,7 +1,8 @@
 
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import  journeyImage from "../../images/jou.png"
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
@@ -14,23 +15,30 @@ import { useAdminAuth } from '../../contexts/AdminContext';
 import User from "../../images/images.png"
 
   const About = () => {
+    const { t, i18n } = useTranslation();
     const location = useLocation();
+    const currentLang = i18n.language || 'en';
+    const isEnglish = currentLang === 'en';
     const [activeTab, setActiveTab] = useState('journey');
   const [selectedLeader, setSelectedLeader] = useState<any>(null);
   const [pendingTargetTab, setPendingTargetTab] = useState<string | null>(null);
-  const [currentJourneyHeading, setCurrentJourneyHeading] = useState('Our Journey');
   const { data } = useAdminAuth();
+  const [currentJourneyHeading, setCurrentJourneyHeading] = useState('');
+  
+  // Update journey heading when language changes
+  useEffect(() => {
+    setCurrentJourneyHeading(t("ourJourney"));
+  }, [t, i18n.language]);
 
   // API data for About page
   const [aboutApi, setAboutApi] = useState<any>({ hero: null, visionMission: null, sections: [], leadership: [], values: [], journey: [], aboutJourney: null });
   const [isLoading, setIsLoading] = useState(true);
 
   // Journey carousel headings for each image
-  const journeyHeadings = [
-    `Refex Life Science's Journey`,
-    `Refex's Journey`,
- 
-  ];
+  const journeyHeadings = useMemo(() => [
+    t("refexJourney"),
+    t("refexJourneyShort"),
+  ], [t]);
 
   // Callback function for carousel slide changes
   const handleJourneySlideChange = (index: number) => {
@@ -249,29 +257,29 @@ import User from "../../images/images.png"
               data-aos="fade-up"
               data-aos-duration="1000"
             >
-              <span className="block">{(aboutApi as any)?.hero?.title || data.aboutHero?.title || 'About RLS'}</span>
+              <span className="block">{isEnglish && ((aboutApi as any)?.hero?.title || data.aboutHero?.title) ? ((aboutApi as any)?.hero?.title || data.aboutHero?.title) : t("aboutRLS")}</span>
               {/* <span className="block mt-1">Sciences</span> */}
             </h1>
-            {(aboutApi as any)?.hero?.subtitle || data.aboutHero?.subtitle ? (
+            {(isEnglish && ((aboutApi as any)?.hero?.subtitle || data.aboutHero?.subtitle)) || (!isEnglish && t("aboutHeroSubtitle")) ? (
             <p
               className="text-base text-white max-w-4xl mx-auto font-montserrat mb-2 md:text-lg "
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="200"
-                dangerouslySetInnerHTML={{ __html:(aboutApi as any)?.hero?.subtitle || data.aboutHero.subtitle} }
+                dangerouslySetInnerHTML={{ __html: isEnglish && ((aboutApi as any)?.hero?.subtitle || data.aboutHero?.subtitle) ? ((aboutApi as any)?.hero?.subtitle || data.aboutHero.subtitle) : t("aboutHeroSubtitle")} }
               
             >
            
             </p>
             ) : null}
-            {(aboutApi as any)?.hero?.description || data.aboutHero?.description ? (
+            {(isEnglish && ((aboutApi as any)?.hero?.description || data.aboutHero?.description)) || (!isEnglish && t("aboutHeroDescription")) ? (
              
             <p
               className="text-base text-white max-w-4xl mx-auto font-montserrat md:text-lg"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="400"
-               dangerouslySetInnerHTML={{ __html:(aboutApi as any)?.hero?.description || data.aboutHero.description} }
+               dangerouslySetInnerHTML={{ __html: isEnglish && ((aboutApi as any)?.hero?.description || data.aboutHero?.description) ? ((aboutApi as any)?.hero?.description || data.aboutHero.description) : t("aboutHeroDescription")} }
             >
             
             </p>
@@ -346,7 +354,7 @@ import User from "../../images/images.png"
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 text-gray-600">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#2879b6]"></div>
-              <span className="font-montserrat">Loading content...</span>
+              <span className="font-montserrat">{t("loadingContent")}</span>
             </div>
           </div>
         </div>
@@ -367,8 +375,8 @@ import User from "../../images/images.png"
                 }`}
               >
                 <i className="ri-roadmap-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Our Journey</span>
-                <span className="sm:hidden">Journey</span>
+                <span className="hidden sm:inline">{t("ourJourney")}</span>
+                <span className="sm:hidden">{t("journey")}</span>
               </button>
 
               <button
@@ -380,8 +388,8 @@ import User from "../../images/images.png"
                 }`}
               >
                 <i className="ri-eye-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Our Vision & Mission</span>
-                <span className="sm:hidden">Vision</span>
+                <span className="hidden sm:inline">{t("ourVisionMission")}</span>
+                <span className="sm:hidden">{t("vision")}</span>
               </button>
                 
 
@@ -394,8 +402,8 @@ import User from "../../images/images.png"
                 }`}
               >
                 <i className="ri-team-line mr-1 md:mr-2"></i>
-                <span className="hidden sm:inline">Leadership Team</span>
-                <span className="sm:hidden">Leadership</span>
+                <span className="hidden sm:inline">{t("leadershipTeam")}</span>
+                <span className="sm:hidden">{t("leadership")}</span>
               </button>
 
            
@@ -415,12 +423,12 @@ import User from "../../images/images.png"
               >
                 { currentJourneyHeading}
               </h2>
-                {currentJourneyHeading  === "Refex's Journey" ?
+                {currentJourneyHeading === t("refexJourneyShort") || (isEnglish && currentJourneyHeading === "Refex's Journey") ?
                 <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
-                {(aboutApi as any)?.aboutJourney?.summary || 'From pioneering refrigerants to transforming healthcare – a roadmap of innovation, growth, and strategic evolution with emphasis on pharmaceutical excellence.'}
+                {isEnglish && (aboutApi as any)?.aboutJourney?.summary ? (aboutApi as any)?.aboutJourney?.summary : t("journeyDescription2")}
               </p>:
                  <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed hover:text-gray-800 transition-colors duration-300 font-montserrat">
-                 As an ambitious and leading global force, our journey is one of science, innovation, and human progress.
+                 {t("journeyDescription1")}
               </p>}
             </div>
 
@@ -446,7 +454,6 @@ import User from "../../images/images.png"
                   showDots={true}
                   showArrows={true}
                   onSlideChange={handleJourneySlideChange}
-                  height="h-80"
                 />
               </div>
             </div>
@@ -457,7 +464,7 @@ import User from "../../images/images.png"
       {/* Vision Section */}
       <section id="vision" className=" bg-white relative overflow-hidden">
          <h2 className="text-3xl py-3 text-center md:text-4xl font-bold mb-4 text-gray-800 font-montserrat">
-         Our Vision & Our Mission
+         {t("ourVisionMission")}
         </h2>
          <section className="py-2 bg-white relative overflow-hidden">
                 <div className="absolute inset-0">
@@ -522,7 +529,7 @@ import User from "../../images/images.png"
                             data-aos="fade-up"
                             data-aos-duration="800"
                             data-aos-delay="700"
-                          >{visionMission?.visionTitle || 'Our Vision'}</h3>
+                          >{isEnglish && visionMission?.visionTitle ? visionMission.visionTitle : t("ourVision")}</h3>
                         </div>
                         
                         <div 
@@ -532,7 +539,7 @@ import User from "../../images/images.png"
                           data-aos-delay="800"
                         >
                           <p className="text-base lg:text-lg text-gray-700 leading-relaxed font-montserrat">
-                            {visionMission?.visionDescription || 'To transform global healthcare by building an innovation driven, integrated pharmaceutical platform from India, delivering affordable, accessible and life changing drugs.'}
+                            {isEnglish && visionMission?.visionDescription ? visionMission.visionDescription : t("visionDescription")}
                           </p>
                         </div>
                         
@@ -602,26 +609,18 @@ import User from "../../images/images.png"
                             className="text-2xl lg:text-3xl font-bold text-gray-800 font-montserrat"
                             data-aos="fade-up"
                             data-aos-duration="800"
-                          >{visionMission?.missionTitle || 'Our Mission'}</h3>
+                          >{isEnglish && visionMission?.missionTitle ? visionMission.missionTitle : t("ourMission")}</h3>
                         </div>
                         
                         <div className="space-y-4 lg:space-y-6">
-                          {(visionMission?.missionPoints || [
+                          {((isEnglish && visionMission?.missionPoints && visionMission.missionPoints.length > 0) ? visionMission.missionPoints : [
                             {
-                              title: "Build a future-ready integrated pharma platform",
-                              description: "Delivering high-quality APIs and complex generic formulations across CNS, respiratory, and high-barrier specialty therapies"
+                              title: t("missionPoint1Title"),
+                              description: t("missionPoint1Description")
                             },
                             {
-                              title: "Leverage technology innovation in R&D and manufacturing",
-                              description: "Accelerating drug development cycles with AI-enabled research and continuous flow chemistry technology"
-                            },
-                            {
-                              title: "Deepen global footprint",
-                              description: "Expand our reach across 80+ markets with local presence, regional insights, and responsive supply chains to serve global customers effectively"
-                            },
-                            {
-                              title: "Sustainability through Green Chemistry",
-                              description: "Implement water-positive initiatives, reduce carbon footprint, and build ESG-focused operations as a core pillar of our excellence"
+                              title: t("missionPoint2Title"),
+                              description: t("missionPoint2Description")
                             }
                           ]).map((point: any, index: number) => (
                             <div 
@@ -656,9 +655,9 @@ import User from "../../images/images.png"
                       data-aos-duration="1000"
                       data-aos-delay="200"
                     >
-                      <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 font-montserrat">Our Core Values</h3>
+                      <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 font-montserrat">{t("ourCoreValues")}</h3>
                       <p className="text-base lg:text-lg text-gray-600 max-w-3xl mx-auto font-montserrat">
-                        The fundamental principles that guide our actions and decisions
+                        {t("coreValuesDescription")}
                       </p>
                     </div>
 
@@ -675,10 +674,10 @@ import User from "../../images/images.png"
                           </div>
                           <div>
                             <h4 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4 font-montserrat">
-                              Innovation
+                              {t("innovation")}
                             </h4>
                             <p className="text-gray-600 leading-relaxed font-montserrat text-sm lg:text-base">
-                            To become a leader in global healthcare by building an innovation-driven, integrated pharmaceutical platform, delivering affordable, accessible, and life-saving drugs.
+                            {t("innovationDescription")}
                             </p>
                           </div>
                         </div>
@@ -696,11 +695,10 @@ import User from "../../images/images.png"
                           </div>
                           <div>
                             <h4 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4 font-montserrat">
-                              Integrate
+                              {t("integrate")}
                             </h4>
                             <p className="text-gray-600 leading-relaxed font-montserrat text-sm lg:text-base">
-                              Build a fully integrated, backward linked supply chain delivering consistent,
-                              world class standards.
+                              {t("integrateDescription")}
                             </p>
                           </div>
                         </div>
@@ -718,11 +716,10 @@ import User from "../../images/images.png"
                           </div>
                           <div>
                             <h4 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4 font-montserrat">
-                              Improve
+                              {t("improve")}
                             </h4>
                             <p className="text-gray-600 leading-relaxed font-montserrat text-sm lg:text-base">
-                              Leverage the amalgamation of AI and advanced research to shorten development
-                              timelines, enhance efficiency and deliver solutions faster.
+                              {t("improveDescription")}
                             </p>
                           </div>
                         </div>
@@ -740,11 +737,10 @@ import User from "../../images/images.png"
                           </div>
                           <div>
                             <h4 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4 font-montserrat">
-                              Impact
+                              {t("impact")}
                             </h4>
                             <p className="text-gray-600 leading-relaxed font-montserrat text-sm lg:text-base">
-                              Drive affordability and global reach, ensuring life changing therapies are
-                              within every patient's reach.
+                              {t("impactDescription")}
                             </p>
                           </div>
                         </div>
@@ -775,7 +771,7 @@ import User from "../../images/images.png"
         data-aos-duration="1000"
       >
         <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center font-montserrat">
-          Management Team
+          {t("managementTeam")}
         </h2>
         {/* <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-montserrat">
           Experienced leaders driving strategic growth and operational excellence across all business verticals
@@ -1004,7 +1000,7 @@ import User from "../../images/images.png"
                   data-aos-delay="600"
                  
                 >
-                Refex’s journey of excellence began two decades ago, guided by learning, resilience, and agility. From refrigerant gases to Renewables, MedTech, Green Mobility, Airports, Pharmaceuticals, and Ash Utilisation & Coal Handling, we have expanded our horizons multifold.
+                {t("footerJourneyText")}
                 </p>
            
               <div 
@@ -1018,7 +1014,7 @@ import User from "../../images/images.png"
                 data-aos-delay="800"
               >
                 
-                <span className="font-montserrat">{ 'To know more'}</span>
+                <span className="font-montserrat">{t("toKnowMore")}</span>
               </div>
             </div>
           </div>
