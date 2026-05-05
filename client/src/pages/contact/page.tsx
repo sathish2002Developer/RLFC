@@ -1,11 +1,12 @@
 
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 import { useAdminAuth } from '../../contexts/AdminContext';
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 // Type declarations for external libraries
 declare global {
@@ -14,6 +15,33 @@ declare global {
     grecaptcha: any;
     onRecaptchaSuccess: (token: string) => void;
   }
+}
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function useEmailValidation(value: string, required: boolean) {
+  const error = useMemo(() => {
+    const trimmed = value.trim();
+    if (required && !trimmed) return 'Email is required';
+    if (!trimmed) return undefined;
+    return EMAIL_REGEX.test(trimmed) ? undefined : 'Enter a valid email address';
+  }, [required, value]);
+
+  return { error };
+}
+
+function usePhoneValidation(valueE164: string, required: boolean) {
+  const error = useMemo(() => {
+    const trimmed = valueE164.trim();
+    if (required && !trimmed) return 'Enter a valid phone number';
+    if (!trimmed) return undefined;
+
+    const parsed = parsePhoneNumberFromString(trimmed.startsWith('+') ? trimmed : `+${trimmed}`);
+    if (!parsed || !parsed.isValid()) return 'Enter a valid phone number';
+    return undefined;
+  }, [required, valueE164]);
+
+  return { error };
 }
 
 const Contact = () => {
@@ -28,6 +56,10 @@ const Contact = () => {
     countryCode: '+91',
     company: '',
     message: ''
+  });
+  const [touched, setTouched] = useState<{ email: boolean; phone: boolean }>({
+    email: false,
+    phone: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -74,10 +106,8 @@ const Contact = () => {
     return /^[a-zA-Z\s\-']+$/.test(name);
   };
 
-  const validatePhone = (phone: string) => {
-    // Only allow digits
-    return /^\d*$/.test(phone);
-  };
+  const emailValidation = useEmailValidation(formData.email, true);
+  const phoneValidation = usePhoneValidation(formData.phone, true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -87,21 +117,27 @@ const Contact = () => {
       return; // Don't update if invalid
     }
     
-    if (name === 'phone' && value && !validatePhone(value)) {
-      return; // Don't update if invalid
-    }
-    
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
 
+  const handleEmailBlur = () => setTouched(prev => ({ ...prev, email: true }));
+  const handlePhoneBlur = () => setTouched(prev => ({ ...prev, phone: true }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+
+    setTouched({ email: true, phone: true });
+
+    if (emailValidation.error || phoneValidation.error) {
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validate reCAPTCHA
     if (!recaptchaToken) {
@@ -139,6 +175,7 @@ const Contact = () => {
           company: '',
           message: ''
         });
+        setTouched({ email: false, phone: false });
         setRecaptchaToken('');
         // Reset reCAPTCHA
         if (window.grecaptcha) {
@@ -374,11 +411,15 @@ const Contact = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      onBlur={handleEmailBlur}
                       required
                       autoComplete="off"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
                       placeholder={t("contactFormEmailPlaceholder")}
                     />
+                    {touched.email && emailValidation.error && (
+                      <p className="mt-1 text-xs text-refex-orange font-montserrat">{emailValidation.error}</p>
+                    )}
                   </div>
                 </div>
 
@@ -393,14 +434,25 @@ const Contact = () => {
     {t("contactFormPhoneLabel")}
   </label>
   <PhoneInput
+    country="in"
+    value={(formData.phone || '').replace(/^\+/, '')}
+    onChange={(value: string) => {
+      const next = value ? (value.startsWith('+') ? value : `+${value}`) : '';
+      setFormData(prev => ({ ...prev, phone: next }));
+    }}
+    inputProps={{
+      name: 'phone',
+      required: true,
+      onBlur: handlePhoneBlur
+    }}
     placeholder={t("contactFormPhonePlaceholder")}
-    value={formData.phone}
-    onChange={(value) => setFormData(prev => ({ ...prev, phone: value || '' }))}
-    defaultCountry="IN"
-    international
-    countryCallingCodeEditable={false}
-    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat"
+    containerClass="!w-full"
+    inputClass="!w-full !h-auto !py-3 !pl-12 !pr-4 !border !border-gray-300 !rounded-lg focus:!ring-2 focus:!ring-refex-blue focus:!border-transparent !transition-all !duration-200 !text-sm !font-montserrat"
+    buttonClass="!border !border-gray-300 !rounded-l-lg"
   />
+  {touched.phone && phoneValidation.error && (
+    <p className="mt-1 text-xs text-refex-orange font-montserrat">{phoneValidation.error}</p>
+  )}
 </div>
                   
                   <div>
