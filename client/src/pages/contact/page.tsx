@@ -1,8 +1,16 @@
 
-import { useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from '@headlessui/react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
+import { SubmissionSuccessOverlay } from '../../components/feature/SubmissionSuccessOverlay';
 import { useAdminAuth } from '../../contexts/AdminContext';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -44,6 +52,111 @@ function usePhoneValidation(valueE164: string, required: boolean) {
   return { error };
 }
 
+type IndiaCityRow = {
+  label: string;
+  name: string;
+  stateCode: string;
+  stateName: string;
+};
+
+const TOP_CITY_FIRST_NAMES = [
+  'Mumbai',
+  'Delhi',
+  'New Delhi',
+  'Bengaluru',
+  'Bangalore',
+  'Hyderabad',
+  'Ahmedabad',
+  'Chennai',
+  'Kolkata',
+  'Pune',
+  'Jaipur',
+  'Surat',
+  'Lucknow',
+  'Kanpur',
+  'Nagpur',
+  'Indore',
+  'Thane',
+  'Bhopal',
+  'Visakhapatnam',
+  'Patna',
+  'Vadodara',
+  'Ghaziabad',
+  'Ludhiana',
+  'Coimbatore',
+];
+
+const MAX_COMBO_OPTIONS = 150;
+
+const PRODUCT_OPTIONS = ['Modepro', 'RLFC', 'Extrovis'] as const;
+
+function levenshtein(a: string, b: string): number {
+  const m = a.length;
+  const n = b.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+    }
+  }
+  return dp[m][n];
+}
+
+function isSubsequence(s: string, t: string): boolean {
+  let i = 0;
+  for (let j = 0; j < t.length && i < s.length; j++) {
+    if (t[j] === s[i]) i++;
+  }
+  return i === s.length;
+}
+
+function matchScore(query: string, label: string): number {
+  const q = query.trim().toLowerCase();
+  const l = label.toLowerCase();
+  if (!q.length) return 0;
+  if (l === q) return 10000;
+  if (l.startsWith(q)) return 8000 + Math.max(0, 200 - l.length);
+  const idx = l.indexOf(q);
+  if (idx !== -1) return 6000 - idx * 15;
+  if (isSubsequence(q, l)) return 4000 - levenshtein(q, l.slice(0, Math.min(64, l.length)));
+  const cityPart = l.split(',')[0].trim();
+  const d = levenshtein(q, cityPart.slice(0, Math.min(cityPart.length, 32)));
+  if (d <= Math.max(2, Math.floor(q.length / 3))) return 2000 - d * 100;
+  const d2 = levenshtein(q.slice(0, 24), l.slice(0, 48));
+  if (d2 <= Math.max(3, Math.floor(q.length / 2))) return 800 - d2 * 50;
+  return -1;
+}
+
+function rankCitiesWhenEmpty(list: IndiaCityRow[]): IndiaCityRow[] {
+  const pri = (label: string) => {
+    const cityPart = label.split(',')[0].trim().toLowerCase();
+    const i = TOP_CITY_FIRST_NAMES.findIndex((t) => {
+      const tl = t.toLowerCase();
+      return cityPart === tl || cityPart.startsWith(tl) || tl.startsWith(cityPart);
+    });
+    return i === -1 ? 999 : i;
+  };
+  return [...list].sort((a, b) => {
+    const pa = pri(a.label);
+    const pb = pri(b.label);
+    if (pa !== pb) return pa - pb;
+    return a.label.localeCompare(b.label);
+  });
+}
+
+function filterAndRankCities(query: string, list: IndiaCityRow[]): IndiaCityRow[] {
+  const q = query.trim();
+  if (!q) return rankCitiesWhenEmpty(list);
+  const scored = list
+    .map((row) => ({ row, score: matchScore(q, row.label) }))
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score || a.row.label.localeCompare(b.row.label));
+  return scored.map((x) => x.row);
+}
+
 const Contact = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'en';
@@ -54,16 +167,27 @@ const Contact = () => {
     email: '',
     phone: '',
     countryCode: '+91',
+    city: '',
+    product: '',
     company: '',
     message: ''
   });
-  const [touched, setTouched] = useState<{ email: boolean; phone: boolean }>({
+  const [touched, setTouched] = useState<{ email: boolean; phone: boolean; city: boolean }>({
     email: false,
-    phone: false
+    phone: false,
+    city: false
   });
+  const [indiaCities, setIndiaCities] = useState<IndiaCityRow[]>([]);
+  const [citiesLoading, setCitiesLoading] = useState(true);
+  const [cityQuery, setCityQuery] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle');
+  const [successOverlayOpen, setSuccessOverlayOpen] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState<string>('');
+
+  const handleSuccessOverlayDone = useCallback(() => {
+    setSuccessOverlayOpen(false);
+  }, []);
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -80,6 +204,27 @@ const Contact = () => {
         easing: 'ease-out'
       });
     }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setCitiesLoading(true);
+        const res = await fetch('/api/geo/india-cities');
+        const data = await res.json();
+        if (!cancelled && data.success && Array.isArray(data.cities)) {
+          setIndiaCities(data.cities);
+        }
+      } catch {
+        if (!cancelled) setIndiaCities([]);
+      } finally {
+        if (!cancelled) setCitiesLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Load reCAPTCHA script
@@ -109,7 +254,19 @@ const Contact = () => {
   const emailValidation = useEmailValidation(formData.email, true);
   const phoneValidation = usePhoneValidation(formData.phone, true);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const filteredCities = useMemo(
+    () => filterAndRankCities(cityQuery, indiaCities).slice(0, MAX_COMBO_OPTIONS),
+    [cityQuery, indiaCities]
+  );
+
+  const cityError = useMemo(() => {
+    if (!formData.city.trim()) return 'City is required';
+    return undefined;
+  }, [formData.city]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     
     // Apply validation based on field type
@@ -125,15 +282,16 @@ const Contact = () => {
 
   const handleEmailBlur = () => setTouched(prev => ({ ...prev, email: true }));
   const handlePhoneBlur = () => setTouched(prev => ({ ...prev, phone: true }));
+  const handleCityBlur = () => setTouched(prev => ({ ...prev, city: true }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    setTouched({ email: true, phone: true });
+    setTouched({ email: true, phone: true, city: true });
 
-    if (emailValidation.error || phoneValidation.error) {
+    if (emailValidation.error || phoneValidation.error || cityError) {
       setSubmitStatus('error');
       setIsSubmitting(false);
       return;
@@ -166,16 +324,19 @@ const Contact = () => {
       });
 
       if (response.ok) {
-        setSubmitStatus('success');
+        setSuccessOverlayOpen(true);
         setFormData({
           name: '',
           email: '',
           phone: '',
           countryCode: '+91',
+          city: '',
+          product: '',
           company: '',
           message: ''
         });
-        setTouched({ email: false, phone: false });
+        setCityQuery('');
+        setTouched({ email: false, phone: false, city: false });
         setRecaptchaToken('');
         // Reset reCAPTCHA
         if (window.grecaptcha) {
@@ -193,6 +354,9 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {successOverlayOpen && (
+        <SubmissionSuccessOverlay onDone={handleSuccessOverlayDone} />
+      )}
       <Header />
       
       {/* Hero Section */}
@@ -472,7 +636,106 @@ const Contact = () => {
                   </div>
                 </div>
 
+                <div
+                  className="relative z-50"
+                  data-aos="fade-left"
+                  data-aos-duration="800"
+                  data-aos-delay="250"
+                >
+                  <label
+                    htmlFor="city-combobox"
+                    className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat"
+                  >
+                    City *
+                  </label>
+                  <input type="hidden" name="city" value={formData.city} required readOnly />
+                  <Combobox
+                    value={formData.city}
+                    onChange={(val) => {
+                      setFormData((prev) => ({ ...prev, city: val ?? '' }));
+                      setCityQuery('');
+                    }}
+                    onClose={() => setCityQuery('')}
+                  >
+                    <div className="relative z-50">
+                      <ComboboxInput
+                        id="city-combobox"
+                        autoComplete="off"
+                        displayValue={() => formData.city}
+                        onChange={(e) => setCityQuery(e.target.value)}
+                        onBlur={handleCityBlur}
+                        placeholder={
+                          citiesLoading ? 'Loading cities…' : 'Search or select your city'
+                        }
+                        disabled={citiesLoading}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat pr-10 disabled:bg-gray-50 disabled:text-gray-500"
+                      />
+                      <ComboboxButton
+                        type="button"
+                        className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
+                      >
+                        <i className="ri-arrow-down-s-line text-lg" aria-hidden />
+                      </ComboboxButton>
+                      <ComboboxOptions className="absolute z-[200] mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-300 bg-white py-1 shadow-xl ring-1 ring-black/5 focus:outline-none empty:invisible">
+                        {citiesLoading ? (
+                          <div className="px-4 py-2 text-sm text-gray-500 font-montserrat">
+                            Loading cities…
+                          </div>
+                        ) : filteredCities.length === 0 ? (
+                          <div className="px-4 py-2 text-sm text-gray-500 font-montserrat">
+                            No cities match your search.
+                          </div>
+                        ) : (
+                          filteredCities.map((c) => (
+                            <ComboboxOption
+                              key={`${c.stateCode}-${c.name}-${c.label}`}
+                              value={c.label}
+                              className="cursor-pointer px-4 py-2 text-sm font-montserrat text-gray-800 data-[focus]:bg-refex-blue/10 data-[selected]:font-semibold"
+                            >
+                              {c.label}
+                            </ComboboxOption>
+                          ))
+                        )}
+                      </ComboboxOptions>
+                    </div>
+                  </Combobox>
+                  {touched.city && cityError && (
+                    <p className="mt-1 text-xs text-refex-orange font-montserrat">{cityError}</p>
+                  )}
+                </div>
+
+                <div
+                  data-aos="fade-left"
+                  data-aos-duration="800"
+                  data-aos-delay="275"
+                >
+                  <label
+                    htmlFor="product"
+                    className="block text-sm font-semibold text-gray-700 mb-2 font-montserrat"
+                  >
+                    Products *
+                  </label>
+                  <select
+                    id="product"
+                    name="product"
+                    value={formData.product}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-refex-blue focus:border-transparent transition-all duration-200 text-sm font-montserrat bg-white"
+                  >
+                    <option value="" disabled>
+                      Select a product
+                    </option>
+                    {PRODUCT_OPTIONS.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div 
+                  className="relative z-0"
                   data-aos="fade-left"
                   data-aos-duration="800"
                   data-aos-delay="300"
@@ -498,19 +761,6 @@ const Contact = () => {
                 </div>
 
                 {/* Submit Status Messages */}
-                {submitStatus === 'success' && (
-                  <div 
-                    className="bg-green-50 border border-refex-green rounded-lg p-4"
-                    data-aos="fade-up" 
-                    data-aos-duration="500"
-                  >
-                    <div className="flex items-center">
-                      <i className="ri-check-circle-line text-refex-green text-xl mr-3"></i>
-                      <p className="text-refex-green font-montserrat">{t("contactFormSuccess")}</p>
-                    </div>
-                  </div>
-                )}
-
                 {submitStatus === 'error' && (
                   <div 
                     className="bg-red-50 border border-refex-orange rounded-lg p-4"

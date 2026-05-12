@@ -127,6 +127,27 @@ const Footer = () => {
       {/* Bottom Footer */}
       <div className="w-full px-6 lg:px-8 py-8 relative z-10">
         <div className="max-w-7xl mx-auto">
+          <p className="text-center text-gray-500 text-xs font-montserrat mb-6 max-w-4xl mx-auto leading-relaxed">
+            Location data (India cities/states) is from the{' '}
+            <a
+              href="https://github.com/dr5hn/countrystatecity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white underline underline-offset-2"
+            >
+              CountryStateCity
+            </a>{' '}
+            database, © Open Database License (
+            <a
+              href="https://opendatacommons.org/licenses/odbl/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white underline underline-offset-2"
+            >
+              ODbL
+            </a>
+            ).
+          </p>
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-400 text-sm font-montserrat flex items-center">
               <i className="ri-copyright-line mr-1"></i>

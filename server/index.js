@@ -152,12 +152,15 @@ app.post('/api/upload/image', uploadImage.single('image'), (req, res) => {
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.use("/api/geo", require("./routes/geo"));
+app.use("/api", require("./routes/contact_form"));
+
 app.all("/api/*", (req, res) => {
   return status.responseStatus(res, 404, "Endpoint Not Found");
 });
 
 // Serve static files from the 'client/dist' directory
-app.use(express.static(path.join(__dirname, "./dist")));
+app.use(express.static(path.join(__dirname, "./out")));
 app.use(history());
 
 app.get("*", (req, res) => {

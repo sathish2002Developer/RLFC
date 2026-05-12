@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 
+const PLACEHOLDER_SMTP_USER = 'your-email@gmail.com';
+
 class EmailService {
   constructor() {
     // Create transporter using SMTP configuration
@@ -17,10 +19,31 @@ class EmailService {
     });
   }
 
+  /** True when real SMTP credentials are set (not placeholders). */
+  isSmtpConfigured() {
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    if (!user || !pass) return false;
+    if (user === PLACEHOLDER_SMTP_USER) return false;
+    return true;
+  }
+
   // Send contact form email
   async sendContactFormEmail(formData) {
+    if (!this.isSmtpConfigured()) {
+      console.warn(
+        '[email] SMTP not configured (set SMTP_HOST, SMTP_USER, SMTP_PASS). Skipping notification email.'
+      );
+      return {
+        success: true,
+        messageId: null,
+        skipped: true,
+        message: 'Email skipped — SMTP not configured',
+      };
+    }
+
     try {
-      const { name, email, phone, company, message, recaptchaToken } = formData;
+      const { name, email, phone, city, product, company, message, recaptchaToken } = formData;
 
       // Email content
       const mailOptions = {
@@ -51,6 +74,16 @@ class EmailService {
                 <div style="margin-bottom: 20px;">
                   <strong style="color: #333; display: inline-block; width: 120px;">Phone:</strong>
                   <span style="color: #666;">${phone || 'Not provided'}</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                  <strong style="color: #333; display: inline-block; width: 120px;">City:</strong>
+                  <span style="color: #666;">${city || 'Not provided'}</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                  <strong style="color: #333; display: inline-block; width: 120px;">Product:</strong>
+                  <span style="color: #666;">${product || 'Not provided'}</span>
                 </div>
                 
                 <div style="margin-bottom: 20px;">
@@ -97,6 +130,8 @@ class EmailService {
           Name: ${name}
           Email: ${email}
           Phone: ${phone || 'Not provided'}
+          City: ${city || 'Not provided'}
+          Product: ${product || 'Not provided'}
           Company: ${company || 'Not provided'}
           
           Message:
@@ -125,8 +160,26 @@ class EmailService {
   }
 
   // Send auto-reply to customer
-  async sendAutoReply(customerEmail, customerName) {
+  async sendAutoReply(customerEmail, customerName, city = '', product = '') {
+    if (!this.isSmtpConfigured()) {
+      console.warn('[email] SMTP not configured; skipping customer auto-reply.');
+      return {
+        success: true,
+        skipped: true,
+        message: 'Auto-reply skipped — SMTP not configured',
+      };
+    }
+
     try {
+      const cityLineHtml = city
+        ? `<p style="color: #666; font-size: 15px; line-height: 1.6;"><strong style="color: #333;">City:</strong> ${city}</p>`
+        : '';
+      const productLineHtml = product
+        ? `<p style="color: #666; font-size: 15px; line-height: 1.6;"><strong style="color: #333;">Product:</strong> ${product}</p>`
+        : '';
+      const cityLineText = city ? `\nCity: ${city}` : '';
+      const productLineText = product ? `\nProduct: ${product}` : '';
+
       const mailOptions = {
         from: process.env.SMTP_USER || 'your-email@gmail.com',
         to: customerEmail,
@@ -143,7 +196,8 @@ class EmailService {
                 <p style="color: #333; font-size: 16px; line-height: 1.6;">
                   Dear ${customerName},
                 </p>
-                
+                ${cityLineHtml}
+                ${productLineHtml}
                 <p style="color: #666; font-size: 15px; line-height: 1.6;">
                   Thank you for reaching out to Refex Life Sciences. We have received your inquiry and our team will review it carefully.
                 </p>
@@ -183,7 +237,32 @@ class EmailService {
               </p>
             </div>
           </div>
-        `
+        `,
+        text: `
+Thank you for contacting Refex Life Sciences
+
+Dear ${customerName},${cityLineText}${productLineText}
+
+Thank you for reaching out to Refex Life Sciences. We have received your inquiry and our team will review it carefully.
+
+We typically respond to all inquiries within 24 hours during business days. If your inquiry is urgent, please call us directly at +91-44-43405900.
+
+What happens next?
+- Our team will review your inquiry
+- We'll assign it to the appropriate department
+- You'll receive a detailed response within 24 hours
+- If needed, we'll schedule a follow-up call
+
+In the meantime, feel free to explore our website to learn more about our pharmaceutical services and capabilities.
+
+Best regards,
+The Refex Life Sciences Team
+
+---
+Refex Life Sciences | Transforming Healthcare Through Innovation
+2nd Floor, No.313, Refex Towers, Sterling Road, Valluvar Kottam High Road,
+Nungambakkam, Chennai – 600034, Tamil Nadu, India
+        `.trim(),
       };
 
       const result = await this.transporter.sendMail(mailOptions);
