@@ -34,7 +34,7 @@ import User from "../../images/images.png"
     }
     // If relative path, prepend API base URL
     if (imagePath.startsWith('/')) {
-      return `https://refexlifesciences.com${imagePath}`;
+      return `https://refexls.com${imagePath}`;
     }
     return imagePath;
   };

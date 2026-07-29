@@ -19,7 +19,7 @@ const Sustainability = () => {
     }
     // If relative path, prepend API base URL
     if (imagePath.startsWith('/')) {
-      return `https://refexlifesciences.com${imagePath}`;
+      return `https://refexls.com${imagePath}`;
     }
     return imagePath;
   };
@@ -58,7 +58,7 @@ const Sustainability = () => {
   useEffect(() => {
     const fetchSustainability = async () => {
       try {
-        const res = await fetch("https://refexlifesciences.com/api/cms/sustainability", {
+        const res = await fetch("https://refexls.com/api/cms/sustainability", {
           credentials: "include",
         });
         if (res.ok) {

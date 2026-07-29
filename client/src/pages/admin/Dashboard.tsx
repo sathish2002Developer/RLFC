@@ -344,7 +344,7 @@ export default function AdminDashboard() {
   });
   const fetchCapabilities = async () => {
     try {
-      const res = await fetch('https://refexlifesciences.com/api/cms/capabilities');
+      const res = await fetch('https://refexls.com/api/cms/capabilities');
       if (res.ok) {
         const json = await res.json();
         setCapabilitiesApi(json.data || json);
@@ -1009,7 +1009,7 @@ export default function AdminDashboard() {
       if (activeCapabilitiesSection === 'cap-facilities' && item?.id) {
         (async () => {
           try {
-            await fetch('https://refexlifesciences.com/api/cms/capabilities/facilities/' + item.id, {
+            await fetch('https://refexls.com/api/cms/capabilities/facilities/' + item.id, {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json', ...authHeaders() as any }
             });
@@ -1314,7 +1314,7 @@ export default function AdminDashboard() {
                 body: JSON.stringify(payload)
               });
             } else if ((editingItem as any)?.id) {
-              await fetch(`https://refexlifesciences.com/api/cms/capabilities/facilities/${(editingItem as any).id}`, {
+              await fetch(`https://refexls.com/api/cms/capabilities/facilities/${(editingItem as any).id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', ...authHeaders() as any },
                 body: JSON.stringify(payload)

@@ -223,7 +223,7 @@ export default function Home() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('https://refexlifesciences.com/api/cms/home/slides');
+        const res = await fetch('https://refexls.com/api/cms/home/slides');
         if (res.ok) {
           const json = await res.json();
           const rows = Array.isArray(json?.data) ? json.data : json; // controller returns rows as data
